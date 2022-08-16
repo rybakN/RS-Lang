@@ -14,7 +14,7 @@ const baseConfig = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
             {
-              test: /\.tsx?$/,
+              test: /\.ts$/,
               loader: 'ts-loader',
             },
             {
@@ -27,7 +27,7 @@ const baseConfig = {
         ],
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js'],
+        extensions: ['.ts', '.js'],
     },
     output: {
         filename: 'index.js',
