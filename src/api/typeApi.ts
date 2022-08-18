@@ -1,11 +1,18 @@
 export interface CreateUserBody {
+    name: string
     email: string
     password: string
 }
 
 export interface CreateUserResponse {
+    name: string
     id: string
     email: string
+}
+
+export interface SingInRequestBody {
+    email: string
+    password: string
 }
 
 export interface SingInResponse {
@@ -13,6 +20,7 @@ export interface SingInResponse {
     token: string
     refreshToken: string
     userId: string
+    name: string
 }
 
 export interface Word {
