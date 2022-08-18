@@ -1,0 +1,23 @@
+body{
+  margin: 0 auto;
+  max-width: 1440px;
+  background-color: yellowgreen;
+}
+
+h1 {
+  font-family: 'Kanit', sans-serif;
+  font-size: 70px;
+}
+
+header{
+  padding: 20px;
+  background-image: url("../pictures/header-background1.png")
+}
+
+header span{
+  font-family: 'Josefin Sans', sans-serif;
+  font-style: italic;
+  font-size: 30px;
+}
+
+
