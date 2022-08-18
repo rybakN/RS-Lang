@@ -86,7 +86,7 @@ async function callRegistration() {
     password: pass,
   }
   try {let response = await Api.createUser(body);
-    if (!response.name) { 
+    if (!response.name) {
       alert('регистрация не удалась');
     } else {
         const signInBody:SingInRequestBody = {
@@ -103,10 +103,10 @@ async function callRegistration() {
         location.reload();
       }
     console.log(response);
-  } catch (err) { 
-    alert('пользователь с такими данными уже есть') 
-  };  
-  
+  } catch (err) {
+    alert('пользователь с такими данными уже есть')
+  };
+
 }
 async function callAuth():Promise<void> {
   const emailInput:HTMLInputElement = document.querySelector('#InputEmail');
