@@ -1,4 +1,5 @@
-
+import { Api } from "../api/api";
+import { CreateUserBody } from "../api/typeApi";
 export function registration():void {
   removePopUp();
   const backBlack = document.createElement('div');
@@ -77,6 +78,11 @@ async function callRegistration():Promise<void> {
   const email = emailInput.value;
   const passInput:HTMLInputElement = document.querySelector('#InputPassword');
   const pass = passInput.value;
+  const body:CreateUserBody = {
+    email: email,
+    password: pass
+  }
+  Api.createUser(body);
 }
 async function callAuth():Promise<void> {
   
