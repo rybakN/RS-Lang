@@ -1,0 +1,40 @@
+.popUp {
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: burlywood;
+  padding: 15px;
+}
+.authLink{
+  cursor: pointer;
+}
+.form-control {
+  height: 30px;
+}
+.form-group {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.authButton {
+  cursor: pointer;
+  margin-top: 15px;
+  padding: 5px 0px 5px 0px;
+  width: 90%;
+  transform: translate(5%, 0);
+}
+.backBlack {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.438);
+}
