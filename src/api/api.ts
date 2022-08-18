@@ -24,7 +24,6 @@ export class Api {
             body: JSON.stringify(user)
         });
         const createUserResponse: CreateUserResponse = await rawResponse.json();
-        console.log(createUserResponse);
         return createUserResponse;
     }
 
@@ -38,21 +37,18 @@ export class Api {
             body: JSON.stringify(user),
         });
         const singInResponse: SingInResponse = await rawResponse.json();
-        console.log(singInResponse);
         return singInResponse;
     }
 
     static async getWords(groupNum: number, pageNum: number): Promise<Word[]> {
         const rawResponse = await fetch(this.baseLink + `words?group=${groupNum}&page=${pageNum}`);
         const getWordsResponse: Word[] = await rawResponse.json();
-        console.log(getWordsResponse);
         return getWordsResponse;
     }
 
     static async getWord(wordId: string): Promise<Word> {
         const rawResponse = await fetch(this.baseLink + `words/${wordId}`);
         const getWordResponse: Word = await rawResponse.json();
-        console.log(getWordResponse);
         return getWordResponse;
     }
 
@@ -66,7 +62,6 @@ export class Api {
             },
         });
         const getUserResponse: CreateUserResponse = await rawResponse.json();
-        console.log(getUserResponse);
         return getUserResponse;
     }
 
@@ -81,7 +76,6 @@ export class Api {
             body: JSON.stringify(requestBody),
         });
         const updateUserResponse: CreateUserResponse = await rawResponse.json();
-        console.log(updateUserResponse);
         return updateUserResponse;
     }
 
@@ -106,7 +100,6 @@ export class Api {
             },
         });
         const getNewUserTokenResponse: GetNewToken = await rawResponse.json();
-        console.log(getNewUserTokenResponse);
         return getNewUserTokenResponse;
     }
 
@@ -120,7 +113,6 @@ export class Api {
             },
         });
         const getUserWordsResponse: CreateUserWordResponse[] = await rawResponse.json();
-        console.log(getUserWordsResponse);
         return getUserWordsResponse;
     }
 
@@ -135,7 +127,6 @@ export class Api {
             body: JSON.stringify(requestBody),
         });
         const createUserWordResponse: CreateUserWordResponse = await rawResponse.json();
-        console.log(createUserWordResponse);
         return createUserWordResponse;
     }
 
@@ -149,7 +140,6 @@ export class Api {
             },
         });
         const getUserWordByIdResponse: CreateUserWordResponse = await rawResponse.json();
-        console.log(getUserWordByIdResponse);
         return getUserWordByIdResponse;
     }
 
@@ -164,7 +154,6 @@ export class Api {
             body: JSON.stringify(requestBody),
         });
         const updateUserWordResponse: CreateUserWordResponse = await rawResponse.json();
-        console.log(updateUserWordResponse);
         return updateUserWordResponse;
     }
 
@@ -197,7 +186,6 @@ export class Api {
             },
         });
         const getUserAggregateWordResponse: GetUserAggregateWordResponse = await rawResponse.json();
-        console.log(getUserAggregateWordResponse);
         return getUserAggregateWordResponse;
     }
 
@@ -211,7 +199,6 @@ export class Api {
             },
         });
         const getUserAggregateWordByIdResponse: Array<UserWord> = await rawResponse.json();
-        console.log(getUserAggregateWordByIdResponse);
         return getUserAggregateWordByIdResponse;
     }
 
@@ -225,7 +212,6 @@ export class Api {
             },
         });
         const getUserStatisticResponse: UserStatisticResponse = await rawResponse.json();
-        console.log(getUserStatisticResponse);
         return getUserStatisticResponse;
     }
 
@@ -240,7 +226,6 @@ export class Api {
             body: JSON.stringify(requestBody),
         });
         const upsetUserStatisticResponse: UserStatisticResponse = await rawResponse.json();
-        console.log(upsetUserStatisticResponse);
         return upsetUserStatisticResponse;
     }
 
@@ -254,7 +239,6 @@ export class Api {
             },
         });
         const getUserSettingsResponse: UserSettingsResponse = await rawResponse.json();
-        console.log(getUserSettingsResponse);
         return getUserSettingsResponse;
     }
 
@@ -269,7 +253,6 @@ export class Api {
             body: JSON.stringify(requestBody),
         });
         const upsertUserSettingsResponse: UserSettingsResponse = await rawResponse.json();
-        console.log(upsertUserSettingsResponse);
         return upsertUserSettingsResponse;
     }
 
