@@ -76,3 +76,32 @@ input::placeholder{
 .authorization button:hover{
   background-color: #a15ba1;
 }
+
+.sections-buttons{
+  display: flex;
+  margin: 0 auto;
+  width: 708px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.section-button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 2px dashed;
+  width: 300px;
+}
+
+.section-button img{
+  width: 100px;
+}
+
+.description-section{
+  font-size: 20px;
+}
+
+.section-button h2{
+  font-family: 'Kanit', sans-serif;
+}
