@@ -1,0 +1,78 @@
+body{
+  margin: 0 auto;
+  max-width: 1440px;
+  background-color: yellowgreen;
+}
+
+h1 {
+  font-family: 'Kanit', sans-serif;
+  font-size: 70px;
+}
+
+header{
+  padding: 20px;
+  background-image: url("./pictures/header-background1.png")
+}
+
+header span{
+  font-family: 'Josefin Sans', sans-serif;
+  font-style: italic;
+  font-size: 30px;
+}
+
+
+main{
+  padding: 20px;
+}
+
+p{
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+main > p,
+.authorization > p,
+.sections-buttons-and-title > p,
+.team > p,
+.authorization p{
+  text-align: center;
+  font-size: 40px;
+}
+
+.authorization p{
+  margin: 20px 0;
+}
+
+.authorization{
+  padding: 20px;
+  display: flex;
+  margin: 0 auto;
+  width: 355px;
+  flex-direction: column;
+  border: 2px dashed;
+}
+
+input{
+  font-size: 30px;
+  font-family: 'Josefin Sans', sans-serif;
+  color: yellowgreen;
+  margin-bottom: 40px;
+}
+
+input::placeholder{
+  font-family: 'Josefin Sans', sans-serif;
+  color: gray;
+}
+
+.authorization button{
+  border: none;
+  background-color: violet;
+  width: 200px;
+  height: 70px;
+  font-size: 35px;
+  font-family: 'Josefin Sans', sans-serif;
+  transition: 0.5s;
+}
+
+.authorization button:hover{
+  background-color: #a15ba1;
+}
