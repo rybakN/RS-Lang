@@ -23,6 +23,13 @@ const baseConfig = {
               options: {
                 name: 'pictures/[name].[ext]',
               },
+            },
+            {
+              test: /\.ico$/i,
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+              },
             }
         ],
     },
