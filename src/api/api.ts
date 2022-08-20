@@ -9,7 +9,7 @@ import {
     GetUserAggregateWordResponse,
     UserWord,
     StatisticRequestBody,
-    UserStatisticResponse, UserSettingsResponse, SettingsRequestBody, Filter,
+    UserStatisticResponse, UserSettingsResponse, SettingsRequestBody, Filter, SingInRequestBody,
 } from './typeApi';
 
 export class Api {
@@ -27,7 +27,7 @@ export class Api {
         return createUserResponse;
     }
 
-    static async singIn(user: CreateUserBody): Promise<SingInResponse> {
+    static async singIn(user: SingInRequestBody): Promise<SingInResponse> {
         const rawResponse = await fetch(this.baseLink + 'signin', {
             method: 'POST',
             headers: {

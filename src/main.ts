@@ -1,3 +1,2 @@
-import { auth } from "./components/auth";
-
-auth();
+import { auth, registration } from "./components/auth";
+registration();
