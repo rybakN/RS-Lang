@@ -10,6 +10,8 @@ h1 {
 }
 
 header{
+  display: flex;
+  justify-content: space-between;
   padding: 20px;
   background-image: url("./pictures/header-background.png")
 }
@@ -20,6 +22,22 @@ header span{
   font-size: 30px;
 }
 
+.sign-in-or-log-in-button{
+  position: fixed;
+  right: 20px;
+  border: none;
+  background-color: violet;
+  width: 290px;
+  height: 70px;
+  font-size: 35px;
+  font-family: 'Josefin Sans', sans-serif;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.sign-in-or-log-in-button:hover{
+  background-color: #a15ba1;
+}
 
 main{
   padding: 20px;
@@ -51,7 +69,7 @@ main > p,
   border: 2px dashed;
 }
 
-input{
+.authorization input{
   font-size: 30px;
   font-family: 'Josefin Sans', sans-serif;
   color: yellowgreen;
@@ -61,20 +79,6 @@ input{
 input::placeholder{
   font-family: 'Josefin Sans', sans-serif;
   color: gray;
-}
-
-.authorization button{
-  border: none;
-  background-color: violet;
-  width: 200px;
-  height: 70px;
-  font-size: 35px;
-  font-family: 'Josefin Sans', sans-serif;
-  transition: 0.5s;
-}
-
-.authorization button:hover{
-  background-color: #a15ba1;
 }
 
 .sections-buttons{
