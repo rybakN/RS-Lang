@@ -1,0 +1,45 @@
+aside{
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  background-color:blueviolet
+}
+
+aside p{
+  margin: 0;
+  color: white;
+  text-align: center;
+  font-family: 'Kanit', sans-serif;
+  font-size: 40px;
+  margin-bottom: 40px;
+}
+
+aside ul{
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+aside li{
+  /* list-style: none; */
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+aside ::marker{
+  color: white;
+  font-size: 36px;
+}
+
+aside a{
+  font-size: 30px;
+  text-decoration: none;
+  transition: 0.3s;
+  color: white;
+}
+
+aside a:hover{
+  color: black;
+}
