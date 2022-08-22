@@ -1,3 +1,4 @@
+import './auth.css';
 import { Api } from "../api/api";
 import { CreateUserBody, SingInRequestBody } from "../api/typeApi";
 export async function registration() {
