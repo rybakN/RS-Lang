@@ -1,0 +1,31 @@
+.difficultLevel {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    width: 30px;
+    border-radius: 25px;
+}
+.levelHolder {
+    display: flex;
+    gap:5px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#level1{
+    background-color: cadetblue;
+}
+#level2{
+    background-color: rgb(61, 204, 109);
+}
+#level3{
+    background-color: rgb(204, 171, 61);
+}
+#level4{
+    background-color: rgb(204, 61, 61);
+}
+#level5{
+    background-color: rgb(82, 61, 204);
+}
+#level6{
+    background-color: rgb(204, 61, 128);
+}
