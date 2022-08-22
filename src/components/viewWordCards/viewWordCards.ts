@@ -1,16 +1,24 @@
 import { Api } from '../../api/api';
-import { Word } from '../../api/typeApi';
+import { Filter, Word } from '../../api/typeApi';
+import { getCardsHTML } from './typeViewWordCards';
+import { HandlerCombiner } from './wordCardBtnHandler/handlerCombiner';
 
-export async function viewWordCards(containerId: string, groupNum: number, pageNum: number): Promise<void> {
-    const containerCards: string = await getCardsHTML(groupNum, pageNum);
-    document.getElementById(containerId).innerHTML = containerCards;
+export async function viewWordCards(containerId: string, groupNum: number, pageNum: number, filter?: Filter): Promise<void> {
+    const { id, containerHTML } = await getCardsHTML(groupNum, pageNum);
+    document.getElementById(containerId).innerHTML = containerHTML;
+    addWordCardListener(id);
 }
 
-async function getCardsHTML(groupNum: number, pageNum: number): Promise<string> {
+async function getCardsHTML(groupNum: number, pageNum: number, filter?: Filter): Promise<getCardsHTML> {
     let containerHTML: string = '';
+    const id: string[] = [];
     const response: Word[] = await Api.getWords(groupNum, pageNum);
-    response.forEach((item: Word) => containerHTML += getCard(item));
-    return containerHTML;
+    response.forEach((item: Word) => {
+        containerHTML += getCard(item);
+        id.push(item.id);
+        localStorage.setItem(item.id, JSON.stringify(item));
+    });
+    return { id, containerHTML };
 }
 
 function getCard(item: Word): string {
@@ -51,4 +59,16 @@ function getCard(item: Word): string {
         </div>
     </div>`;
 
+}
+
+function addWordCardListener(id: string[]) {
+    id.forEach((item: string) => {
+        (document.getElementById(item) as HTMLElement).addEventListener('click', (e: MouseEvent) => {
+            const btnName: string = (e.target as HTMLElement).dataset.name;
+            if (btnName) {
+                const handler = new HandlerCombiner();
+                handler.handler(btnName, item);
+            }
+        })
+    })
 }
