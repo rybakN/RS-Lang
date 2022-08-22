@@ -263,10 +263,12 @@ export class Api {
         groupNum?: number
     ): string {
         let link: string;
+        let filterLink = '';
+        if (filter != undefined) filterLink = JSON.stringify(filter.condition);
         if (groupNum == undefined) {
-            link = `page=${pageNum}&wordsPerPage=${wordsPerPage}&filter=${JSON.stringify(filter.condition)}`;
+            link = `page=${pageNum}&wordsPerPage=${wordsPerPage}&filter=${filterLink}`;
         } else {
-            link = `group=${groupNum}&page=${pageNum}&wordsPerPage=${wordsPerPage}&filter=${JSON.stringify(filter.condition)}`;
+            link = `group=${groupNum}&page=${pageNum}&wordsPerPage=${wordsPerPage}&filter=${filterLink}`;
         }
         return link;
     }

@@ -1,5 +1,5 @@
 export interface CreateUserBody {
-    name: string
+    name?: string
     email: string
     password: string
 }
@@ -58,8 +58,7 @@ export interface CreateUserWordResponse {
 }
 
 export interface CreateUserWordOption {
-    testFieldString: string
-    testFieldBoolean: boolean
+    learning: boolean
 }
 
 export type GetUserAggregateWordResponse = Root2[]
