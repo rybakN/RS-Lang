@@ -12,6 +12,10 @@ export default function createHeader(title: string, isTitle: boolean) {
       <div></div>
       <div></div>
     </div>
-    <button class="sign-in-or-log-in-button">Sign in / Log in</button>
+    ${localStorage.getItem('userName') ? `<div class="user-information"><button class="log-out">Log out</button>
+    <p>Name: ${localStorage.getItem('userName')}</p>
+    <p>Email: ${localStorage.getItem('userEmail')}</p>
+    </div>
+    ` : '<button class="sign-in-or-log-in-button">Sign in / Log in</button>'}
   </header>${document.body.innerHTML}`
 }

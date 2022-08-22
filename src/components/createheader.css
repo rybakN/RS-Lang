@@ -2,7 +2,8 @@ header{
   display: flex;
   justify-content: space-between;
   padding: 20px;
-  background-image: url("../pictures/header-background.png")
+  background-image: url("../pictures/header-background.png");
+  background-repeat: no-repeat;
 }
 
 header span{
@@ -13,10 +14,11 @@ header span{
 
 .gamburger-menu {
   display: flex;
-  position: relative;
+  position: fixed;
   flex-direction: column;
   justify-content: space-between;
-  margin: 20px 20px 0px 0px;
+  right: 20px;
+  top: 20px;
   width: 30px;
   height: 22px;
   transition: all 0.5s;
@@ -25,14 +27,25 @@ header span{
   height: 2px;
   background-color: #F1CDB3;
 }
+
 .gamburger-menu.active {
   transform: rotate(90deg);
 }
 
+.user-information{
+  margin: 80px 0 0 0;
+}
+
+.log-out{
+  margin-bottom: 40px;
+}
+
 .sign-in-or-log-in-button{
-  position: fixed;
-  top: 100px;
-  right: 20px;
+  margin: 80px 0 0 0;
+}
+
+.sign-in-or-log-in-button,
+.log-out{
   border: none;
   background-color: violet;
   width: 290px;
