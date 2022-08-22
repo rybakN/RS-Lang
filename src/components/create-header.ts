@@ -7,6 +7,11 @@ export default function createHeader(title: string, isTitle: boolean) {
       <div><span>One of the best online textbooks for learning english :)</span></div>
       ` : ''}
     </div>
+    <div class="gamburger-menu">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <button class="sign-in-or-log-in-button">Sign in / Log in</button>
   </header>${document.body.innerHTML}`
 }

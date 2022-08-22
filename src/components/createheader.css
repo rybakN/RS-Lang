@@ -11,8 +11,27 @@ header span{
   font-size: 30px;
 }
 
+.gamburger-menu {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 20px 20px 0px 0px;
+  width: 30px;
+  height: 22px;
+  transition: all 0.5s;
+}
+.gamburger-menu>div {
+  height: 2px;
+  background-color: #F1CDB3;
+}
+.gamburger-menu.active {
+  transform: rotate(90deg);
+}
+
 .sign-in-or-log-in-button{
   position: fixed;
+  top: 100px;
   right: 20px;
   border: none;
   background-color: violet;
