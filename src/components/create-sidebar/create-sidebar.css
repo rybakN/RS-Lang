@@ -1,10 +1,14 @@
 aside{
   position: fixed;
-  right: 0;
+  right: -300px;
   top: 0;
   width: 300px;
   height: 100vh;
   background-color:blueviolet
+}
+
+aside.active{
+  right: 0;
 }
 
 aside p{
