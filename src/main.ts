@@ -7,7 +7,7 @@ import './pictures/dictionary.png';
 import './pictures/favicon.png';
 import './pictures/profile-picture.jpg';
 import './pictures/git-logo.png';
-import { registration, logOut } from './components/auth/auth';
+import { registration, logOut } from './components/auth';
 import createHeader from './components/create-header/create-header';
 
 createHeader('Rs Lang', true);
