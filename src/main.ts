@@ -7,7 +7,6 @@ import './pictures/dictionary.png';
 import './pictures/favicon.png';
 import './pictures/profile-picture.jpg';
 import './pictures/git-logo.png';
-import './components/create-sidebar/create-sidebar.css';
 import createSideBar from './components/create-sidebar/create-sidebar';
 
 createSideBar();
