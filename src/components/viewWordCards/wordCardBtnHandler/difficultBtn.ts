@@ -30,6 +30,10 @@ export  class DifficultBtn implements BtnHandler {
             wordCard.classList.add('bg-danger');
         }
 
-        this.toggleBtnName.toggleBtnName(wordCard, 'difficult', 'easy');
+        wordCard.querySelectorAll('button').forEach((item: HTMLButtonElement) => {
+            if (item.dataset.name == 'difficult') item.disabled = true;
+        })
+
+        wordCard.parentElement.classList.remove('bg-success');
     }
 }
