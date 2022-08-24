@@ -7,4 +7,3 @@ import './pictures/dictionary.png';
 import './pictures/favicon.png';
 import './pictures/profile-picture.jpg';
 import './pictures/git-logo.png';
-import { registration } from './components/auth';
