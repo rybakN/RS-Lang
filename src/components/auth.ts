@@ -1,7 +1,6 @@
-import './auth.css';
 import { Api } from "../api/api";
-import { CreateUserBody, SingInRequestBody } from "../api/typeApi";
-export async function registration() {
+import { CreateUserBody } from "../api/typeApi";
+export function registration():void {
   removePopUp();
   const backBlack = document.createElement('div');
   document.body.appendChild(backBlack);
@@ -12,24 +11,24 @@ export async function registration() {
   popUp.classList.add('popUp');
   popUp.innerHTML = regPopUpHTML;
   const registrationButton = document.querySelector('#registrationButton');
-  registrationButton.addEventListener('click', () => { callRegistration() })
+  registrationButton.addEventListener('click', callRegistration)
   const toAuth = document.querySelector('#toAuth');
   toAuth.addEventListener('click', auth)
 }
-export async function auth() {
+export function auth():void {
   removePopUp();
   const backBlack = document.createElement('div');
   document.body.appendChild(backBlack);
   backBlack.classList.add('backBlack');
-  backBlack.addEventListener('click',() => removePopUp());
+  backBlack.addEventListener('click',removePopUp);
   const popUp = document.createElement('div');
   document.body.appendChild(popUp);
   popUp.classList.add('popUp');
   popUp.innerHTML = authPopUpHTML;
   const authButton = document.querySelector('#authButton');
-  authButton.addEventListener('click',() => callAuth())
+  authButton.addEventListener('click', callAuth)
   const toReg = document.querySelector('#toReg');
-  toReg.addEventListener('click', registration);
+  toReg.addEventListener('click', registration)
   }
 const regPopUpHTML = `
   <h2>Зарегистрироваться</h2>
@@ -46,7 +45,7 @@ const regPopUpHTML = `
       <label for="InputPassword">Password</label>
       <input type="password" class="form-control" id="InputPassword" placeholder="Password">
     </div>
-    <div class="authButton" id="registrationButton">Submit</div>
+    <button type="submit" class="authButton" id="registrationButton">Submit</button>
   </form>
   <p id="toAuth" class="authLink">Авторизоваться</p>
 `
@@ -61,19 +60,18 @@ const authPopUpHTML = `
       <label for="InputPassword">Password</label>
       <input type="password" class="form-control" id="InputPassword" placeholder="Password">
     </div>
-    <div class="authButton" id="authButton">Submit</div>
+    <button type="submit" class="authButton" id="authButton">Submit</button>
   </form>
   <p id="toReg" class="authLink">Зарегистрироваться</p>
 `
 
-export function logOut() {
-  localStorage.removeItem("userId");
-  localStorage.removeItem('userName');
-  localStorage.removeItem('userToken');
-  localStorage.removeItem('userRefreshToken');
-  location.reload();
+function logIn():void {
+
 }
-async function callRegistration() {
+function logOut():void {
+
+}
+async function callRegistration():Promise<void> {
   const nameInput:HTMLInputElement = document.querySelector('#InputName');
   const name = nameInput.value;
   const emailInput:HTMLInputElement = document.querySelector('#InputEmail');
@@ -81,53 +79,13 @@ async function callRegistration() {
   const passInput:HTMLInputElement = document.querySelector('#InputPassword');
   const pass = passInput.value;
   const body:CreateUserBody = {
-    name: name,
     email: email,
-    password: pass,
+    password: pass
   }
-  try {let response = await Api.createUser(body);
-    if (!response.name) {
-      alert('регистрация не удалась');
-    } else {
-        const signInBody:SingInRequestBody = {
-          email: email,
-          password: pass,
-        }
-        const signInResp = await Api.singIn(signInBody);
-        localStorage.setItem('userId',signInResp.userId);
-        localStorage.setItem('userName',signInResp.name);
-        localStorage.setItem('userToken',signInResp.token);
-        localStorage.setItem('userRefreshToken',signInResp.refreshToken);
-        alert('Регистрация завершена успешна!');
-        removePopUp();
-        location.reload();
-      }
-    console.log(response);
-  } catch (err) {
-    alert('пользователь с такими данными уже есть')
-  };
-
+  Api.createUser(body);
 }
 async function callAuth():Promise<void> {
-  const emailInput:HTMLInputElement = document.querySelector('#InputEmail');
-  const email = emailInput.value;
-  const passInput:HTMLInputElement = document.querySelector('#InputPassword');
-  const pass = passInput.value;
-  const signInBody:SingInRequestBody = {
-    email: email,
-    password: pass,
-  }
-  try {
-    const signInResp = await Api.singIn(signInBody);
-      if(signInResp.name) {
-        localStorage.setItem('userId',signInResp.userId);
-        localStorage.setItem('userName',signInResp.name);
-        localStorage.setItem('userToken',signInResp.token);
-        localStorage.setItem('userRefreshToken',signInResp.refreshToken);
-      } else { alert('Что-то пошло не так') };
-  } catch {alert('Что-то пошло не так')}
-  removePopUp();
-  location.reload();
+
 }
 function removePopUp() {
   if (document.querySelector('.popUp')){
@@ -135,4 +93,5 @@ function removePopUp() {
     document.querySelector('.backBlack').remove();
   }
 }
+
 
