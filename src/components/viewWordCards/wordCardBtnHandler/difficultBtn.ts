@@ -24,7 +24,7 @@ export  class DifficultBtn implements BtnHandler {
             await Api.updateUserWord(userId, token, wordId, requestBody);
             wordCard.classList.remove('bg-success');
             wordCard.classList.add('bg-danger');
-            this.toggleBtnName.toggleBtnName(wordCard, 'restore', 'learning');
+            this.toggleBtnName.toggleBtnName(wordCard, 'restore', 'learned');
         } else {
             await Api.createUserWord(userId, token, wordId, requestBody);
             wordCard.classList.add('bg-danger');
