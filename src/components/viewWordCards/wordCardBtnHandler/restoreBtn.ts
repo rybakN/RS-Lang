@@ -3,8 +3,8 @@ import { Api } from '../../../api/api';
 import { CreateUserWord } from '../../../api/typeApi';
 import { ToggleBtnName } from './toggleBtnName';
 
-export  class EasyBtn implements BtnHandler {
-    static btnName = 'easy';
+export  class RestoreBtn implements BtnHandler {
+    static btnName = 'restore';
     toggleBtnName: ToggleBtnName;
     constructor(toggleBtnName: ToggleBtnName) {
         this.toggleBtnName = toggleBtnName;
@@ -12,17 +12,10 @@ export  class EasyBtn implements BtnHandler {
     async handle(wordId: string): Promise<void> {
         const userId: string = localStorage.getItem('userId');
         const token: string = localStorage.getItem('userToken');
-        const requestBody: CreateUserWord = {
-            difficulty: 'easy',
-            optional: {
-                learning: false,
-            }
-        }
-        await Api.updateUserWord(userId, token, wordId, requestBody);
+
         await Api.deleteUserWordById(userId, token, wordId);
         const wordCard: HTMLElement = document.getElementById(`${wordId}`);
-        wordCard.classList.remove('bg-danger');
-
-        this.toggleBtnName.toggleBtnName(wordCard, 'easy', 'difficult');
+        wordCard.classList.remove('bg-success');
+        this.toggleBtnName.toggleBtnName(wordCard, 'restore', 'learned');
     }
 }

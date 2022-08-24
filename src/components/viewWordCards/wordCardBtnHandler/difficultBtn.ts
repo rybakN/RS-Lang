@@ -1,9 +1,14 @@
 import { BtnHandler } from './typeBtnHandler';
 import { Api } from '../../../api/api';
 import { CreateUserWord } from '../../../api/typeApi';
+import { ToggleBtnName } from './toggleBtnName';
 
 export  class DifficultBtn implements BtnHandler {
     static btnName = 'difficult';
+    toggleBtnName: ToggleBtnName;
+    constructor(toggleBtnName: ToggleBtnName) {
+        this.toggleBtnName = toggleBtnName;
+    }
     async handle(wordId: string): Promise<void> {
         const userId: string = localStorage.getItem('userId');
         const token: string = localStorage.getItem('userToken');
@@ -13,19 +18,18 @@ export  class DifficultBtn implements BtnHandler {
                 learning: false,
             }
         }
-        await Api.createUserWord(userId, token, wordId, requestBody);
+
         const wordCard: HTMLElement = document.getElementById(`${wordId}`);
         if (wordCard.classList.contains('bg-success')) {
+            await Api.updateUserWord(userId, token, wordId, requestBody);
             wordCard.classList.remove('bg-success');
             wordCard.classList.add('bg-danger');
+            this.toggleBtnName.toggleBtnName(wordCard, 'restore', 'learning');
         } else {
+            await Api.createUserWord(userId, token, wordId, requestBody);
             wordCard.classList.add('bg-danger');
         }
-        wordCard.querySelectorAll('button').forEach((item: HTMLElement) => {
-            if (item.dataset.name === 'difficult') {
-                item.dataset.name = 'easy';
-                item.innerText = 'Easy';
-            }
-        })
+
+        this.toggleBtnName.toggleBtnName(wordCard, 'difficult', 'easy');
     }
 }

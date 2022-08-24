@@ -115,7 +115,7 @@ export interface SettingsRequestBody {
 export class UserWordFilter {
     "userWord.difficulty": string;
     "userWord.optional.testFieldBoolean": boolean;
-    "userWord.optional.testFieldString": string;
+    "userWord.optional.learning": boolean;
 }
 
 export class OrCondition {
