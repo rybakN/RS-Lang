@@ -4,7 +4,8 @@ aside{
   top: 0;
   width: 300px;
   height: 100vh;
-  background-color:blueviolet
+  background-color:blueviolet;
+  z-index: 1;
 }
 
 aside.active{
