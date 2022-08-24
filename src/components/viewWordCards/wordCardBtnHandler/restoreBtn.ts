@@ -17,5 +17,7 @@ export  class RestoreBtn implements BtnHandler {
         const wordCard: HTMLElement = document.getElementById(`${wordId}`);
         wordCard.classList.remove('bg-success');
         this.toggleBtnName.toggleBtnName(wordCard, 'restore', 'learned');
+
+        wordCard.parentElement.classList.remove('bg-success');
     }
 }

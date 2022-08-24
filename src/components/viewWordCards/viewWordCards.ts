@@ -6,6 +6,7 @@ import { HandlerCombiner } from './wordCardBtnHandler/handlerCombiner';
 export async function viewWordCards(containerId: string, groupNum: number, pageNum: number, filter?: FilterViewWordCard): Promise<void> {
     const { id, containerHTML } = await getCardsHTML(groupNum, pageNum, filter);
     document.getElementById(containerId).innerHTML = containerHTML;
+    paintBgContainerAllCards(containerId);
     addWordCardListener(id);
 }
 
@@ -15,10 +16,18 @@ async function getCardsHTML(groupNum: number, pageNum: number, filter?: string):
     const id: string[] = [];
     const userId = localStorage.getItem('userId');
 
-    if (userId != null) {
+    if (userId != null && wordsPerPage === 3600) {
         const newFilter: Filter = getFilter(filter);
         const token = localStorage.getItem('userToken');
         const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage, newFilter);
+        response[0].paginatedResults.forEach((item: UserWord) => {
+            containerHTML += templateCardPageDifficult(item);
+            id.push(item._id);
+            localStorage.setItem(item._id, JSON.stringify(item));
+        })
+    } else if (userId != null && wordsPerPage != 3600) {
+        const token = localStorage.getItem('userToken');
+        const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage);
         response[0].paginatedResults.forEach((item: UserWord) => {
             containerHTML += templateCardAuth(item);
             id.push(item._id);
@@ -38,11 +47,11 @@ async function getCardsHTML(groupNum: number, pageNum: number, filter?: string):
 
 function templateCardAuth(item: UserWord): string {
     let bgCard = '';
-    let difficultBtn = 'Difficult';
+    let difficultBtn = '';
     let learningBtn = 'Learned';
     if (item.userWord != undefined && item.userWord.difficulty === 'hard') {
         bgCard = 'bg-danger';
-        difficultBtn = 'Easy';
+        difficultBtn = 'disabled="disabled"';
     } else if (item.userWord != undefined && item.userWord.optional.learning === true) {
         bgCard = 'bg-success';
         learningBtn = 'Restore';
@@ -75,8 +84,47 @@ function templateCardAuth(item: UserWord): string {
                 </div>
                 <div class="row">
                     <div class="d-grid gap-2 d-md-block">
-                        <button class="btn btn-primary" type="button" data-name="${difficultBtn.toLowerCase()}" data-wordid="${item._id}">${difficultBtn}</button>
+                        <button class="btn btn-primary" type="button" ${difficultBtn} data-name="difficult" data-wordid="${item._id}">Difficult</button>
                         <button class="btn btn-primary" type="button" data-name="${learningBtn.toLowerCase()}" data-wordid="${item._id}">${learningBtn}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+}
+
+function templateCardPageDifficult(item: UserWord): string {
+    return `<div class="container p-2 mt-2 border border-danger wordCard bg-danger rounded-4 border-3" id="${item._id}">
+        <div class="row">
+            <div class="col-3 overflow-hidden d-flex justify-content-center m-auto">
+                <img class="m-auto" src="https://rs-lang-team-116.herokuapp.com/${item.image}">
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col">
+                        <b>${item.word} </b><span>${item.transcription} - ${item.wordTranslate}</span>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item._id}">Listen</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">${item.textMeaning}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">${item.textMeaningTranslate}</div>
+                </div>
+                <div class="row">
+                    <div class="col">${item.textExample}</div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">${item.textExampleTranslate}</div>
+                </div>
+                <div class="row">
+                    <div class="d-grid gap-2 d-md-block">
+                        <button class="btn btn-primary" type="button" data-name="easy" data-wordid="${item._id}">Easy</button>
+                        <button class="btn btn-primary" type="button" data-name="learned" data-wordid="${item._id}">Learned</button>
                     </div>
                 </div>
             </div>
@@ -153,4 +201,17 @@ function learnedFilter(): Filter {
     const orCondition = new OrCondition([userWord]);
     const filter = new Filter(orCondition);
     return filter;
+}
+
+function paintBgContainerAllCards(containerId: string): void {
+    let learnedWordCounter = 0;
+    const containerWordCards: HTMLElement = document.getElementById(containerId);
+    for (let i = 0; i < containerWordCards.children.length; i += 1) {
+        if (containerWordCards.children[i].classList.contains('bg-success')) learnedWordCounter += 1;
+    }
+    if (learnedWordCounter === containerWordCards.children.length) {
+        containerWordCards.classList.add('bg-success');
+        containerWordCards.classList.add('bg-opacity-25');
+    }
+
 }

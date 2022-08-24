@@ -20,9 +20,10 @@ export  class EasyBtn implements BtnHandler {
         }
         await Api.updateUserWord(userId, token, wordId, requestBody);
         await Api.deleteUserWordById(userId, token, wordId);
-        const wordCard: HTMLElement = document.getElementById(`${wordId}`);
-        wordCard.classList.remove('bg-danger');
-
-        this.toggleBtnName.toggleBtnName(wordCard, 'easy', 'difficult');
+        document.getElementById(`${wordId}`).remove();
+        // wordCard.remove();
+        // wordCard.classList.remove('bg-danger');
+        //
+        // this.toggleBtnName.toggleBtnName(wordCard, 'easy', 'difficult');
     }
 }
