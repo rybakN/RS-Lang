@@ -4,35 +4,37 @@ import { FilterViewWordCard, getCardsHTML } from './typeViewWordCards';
 import { HandlerCombiner } from './wordCardBtnHandler/handlerCombiner';
 
 export async function viewWordCards(containerId: string, groupNum: number, pageNum: number, filter?: FilterViewWordCard): Promise<void> {
-    const { id, containerHTML } = await getCardsHTML(groupNum, pageNum, filter);
+    const { id, containerHTML } = await getWordCardsHTML(groupNum, pageNum, filter);
     document.getElementById(containerId).innerHTML = containerHTML;
     paintBgContainerAllCards(containerId);
     addWordCardListener(id);
 }
 
-async function getCardsHTML(groupNum: number, pageNum: number, filter?: string): Promise<getCardsHTML> {
+async function getWordCardsHTML(groupNum: number, pageNum: number, filter?: string): Promise<getCardsHTML> {
     let containerHTML: string = '';
     let wordsPerPage = filter == FilterViewWordCard.difficult ? 3600 : 20;
     const id: string[] = [];
     const userId = localStorage.getItem('userId');
 
-    if (userId != null && wordsPerPage === 3600) {
-        const newFilter: Filter = getFilter(filter);
-        const token = localStorage.getItem('userToken');
-        const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage, newFilter);
-        response[0].paginatedResults.forEach((item: UserWord) => {
-            containerHTML += templateCardPageDifficult(item);
-            id.push(item._id);
-            localStorage.setItem(item._id, JSON.stringify(item));
-        })
-    } else if (userId != null && wordsPerPage != 3600) {
-        const token = localStorage.getItem('userToken');
-        const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage);
-        response[0].paginatedResults.forEach((item: UserWord) => {
-            containerHTML += templateCardAuth(item);
-            id.push(item._id);
-            localStorage.setItem(item._id, JSON.stringify(item));
-        })
+    if (userId != null) {
+        if (wordsPerPage === 3600) {
+            const newFilter: Filter = getFilter(filter);
+            const token = localStorage.getItem('userToken');
+            const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage, newFilter);
+            response[0].paginatedResults.forEach((item: UserWord) => {
+                containerHTML += templateCardPageDifficult(item);
+                id.push(item._id);
+                localStorage.setItem(item._id, JSON.stringify(item));
+            })
+        } else {
+            const token = localStorage.getItem('userToken');
+            const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage);
+            response[0].paginatedResults.forEach((item: UserWord) => {
+                containerHTML += templateCardAuth(item);
+                id.push(item._id);
+                localStorage.setItem(item._id, JSON.stringify(item));
+            })
+        }
     } else {
         const response: Word[] = await Api.getWords(groupNum, pageNum);
         response.forEach((item: Word) => {
@@ -191,16 +193,14 @@ function difficultFilter(): Filter {
     const userWord = new UserWordFilter();
     userWord['userWord.difficulty'] = 'hard';
     const orCondition = new OrCondition([userWord]);
-    const filter = new Filter(orCondition);
-    return filter;
+    return new Filter(orCondition);
 }
 
 function learnedFilter(): Filter {
     const userWord = new UserWordFilter();
     userWord['userWord.optional.learning'] = true;
     const orCondition = new OrCondition([userWord]);
-    const filter = new Filter(orCondition);
-    return filter;
+    return new Filter(orCondition);
 }
 
 function paintBgContainerAllCards(containerId: string): void {

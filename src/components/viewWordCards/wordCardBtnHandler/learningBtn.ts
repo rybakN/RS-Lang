@@ -21,10 +21,6 @@ export  class LearningBtn implements BtnHandler {
         const wordCard: HTMLElement = document.getElementById(`${wordId}`);
         let learnedWordsCounter: number = 0;
 
-        wordCard.querySelectorAll('button').forEach((item: HTMLButtonElement) => {
-            if (item.dataset.name === 'easy') wordCard.remove();
-        })
-
         if (wordCard.classList.contains('bg-danger')) {
             await Api.updateUserWord(userId, token, wordId, requestBody);
             wordCard.classList.remove('bg-danger');
@@ -44,6 +40,9 @@ export  class LearningBtn implements BtnHandler {
             wordCard.parentElement.classList.add('bg-success');
             wordCard.parentElement.classList.add('bg-opacity-25');
         }
+        wordCard.querySelectorAll('button').forEach((item: HTMLButtonElement) => {
+            if (item.dataset.name === 'easy') wordCard.remove();
+        })
     }
 
 }
