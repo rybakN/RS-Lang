@@ -71,6 +71,7 @@ export function logOut() {
   localStorage.removeItem('userName');
   localStorage.removeItem('userToken');
   localStorage.removeItem('userRefreshToken');
+  localStorage.removeItem('userEmail');
   location.reload();
 }
 async function callRegistration() {
@@ -95,6 +96,7 @@ async function callRegistration() {
         }
         const signInResp = await Api.singIn(signInBody);
         localStorage.setItem('userId',signInResp.userId);
+        localStorage.setItem('userEmail',body.email);
         localStorage.setItem('userName',signInResp.name);
         localStorage.setItem('userToken',signInResp.token);
         localStorage.setItem('userRefreshToken',signInResp.refreshToken);
@@ -121,6 +123,7 @@ async function callAuth():Promise<void> {
     const signInResp = await Api.singIn(signInBody);
       if(signInResp.name) {
         localStorage.setItem('userId',signInResp.userId);
+        localStorage.setItem('userEmail',signInBody.email);
         localStorage.setItem('userName',signInResp.name);
         localStorage.setItem('userToken',signInResp.token);
         localStorage.setItem('userRefreshToken',signInResp.refreshToken);

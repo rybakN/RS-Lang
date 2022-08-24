@@ -1,0 +1,84 @@
+header{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-image: url("../../pictures/header-background.png");
+  background-repeat: no-repeat;
+}
+
+header span{
+  font-family: 'Josefin Sans', sans-serif;
+  font-style: italic;
+  font-size: 30px;
+}
+
+.gamburger-menu {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  justify-content: space-between;
+  right: 20px;
+  top: 20px;
+  width: 55px;
+  height: 55px;
+  z-index: 2;
+}
+.gamburger-menu>div {
+  position: absolute;
+  width: 55px;
+  height: 5px;
+  background-color: #F1CDB3;
+  transition: all 0.3s;
+}
+
+.gamburger-menu div:nth-of-type(2) {
+  top: calc(50% - 4px);
+}
+
+.gamburger-menu div:nth-of-type(3) {
+  top: calc(50% + 20px);
+}
+
+.gamburger-menu.active {
+  height: 5px;
+}
+
+.gamburger-menu.active div:nth-of-type(1) {
+  top: calc(50% + 9px);
+  transform: rotate(-45deg);
+}
+.gamburger-menu.active div:nth-of-type(2) {
+  top: calc(50% + 9px);
+  transform: rotate(45deg);
+}
+.gamburger-menu.active div:nth-of-type(3) {
+  display: none;
+}
+
+.user-information{
+  margin: 80px 0 0 0;
+}
+
+.log-out{
+  margin-bottom: 40px;
+}
+
+.sign-in-or-log-in-button{
+  margin: 80px 0 0 0;
+}
+
+.sign-in-or-log-in-button,
+.log-out{
+  border: none;
+  background-color: violet;
+  width: 290px;
+  height: 70px;
+  font-size: 35px;
+  font-family: 'Josefin Sans', sans-serif;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.sign-in-or-log-in-button:hover{
+  background-color: #a15ba1;
+}

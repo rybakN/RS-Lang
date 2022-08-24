@@ -9,36 +9,6 @@ h1 {
   font-size: 70px;
 }
 
-header{
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  background-image: url("./pictures/header-background.png")
-}
-
-header span{
-  font-family: 'Josefin Sans', sans-serif;
-  font-style: italic;
-  font-size: 30px;
-}
-
-.sign-in-or-log-in-button{
-  position: fixed;
-  right: 20px;
-  border: none;
-  background-color: violet;
-  width: 290px;
-  height: 70px;
-  font-size: 35px;
-  font-family: 'Josefin Sans', sans-serif;
-  transition: 0.5s;
-  cursor: pointer;
-}
-
-.sign-in-or-log-in-button:hover{
-  background-color: #a15ba1;
-}
-
 main{
   padding: 20px;
 }
