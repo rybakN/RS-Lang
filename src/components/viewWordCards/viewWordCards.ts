@@ -11,13 +11,14 @@ export async function viewWordCards(containerId: string, groupNum: number, pageN
 
 async function getCardsHTML(groupNum: number, pageNum: number, filter?: string): Promise<getCardsHTML> {
     let containerHTML: string = '';
+    let wordsPerPage = filter == FilterViewWordCard.difficult ? 3600 : 20;
     const id: string[] = [];
     const userId = localStorage.getItem('userId');
 
     if (userId != null) {
         const newFilter: Filter = getFilter(filter);
         const token = localStorage.getItem('userToken');
-        const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, 20, newFilter);
+        const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage, newFilter);
         response[0].paginatedResults.forEach((item: UserWord) => {
             containerHTML += templateCardAuth(item);
             id.push(item._id);
@@ -46,7 +47,7 @@ function templateCardAuth(item: UserWord): string {
         bgCard = 'bg-success';
         learningBtn = 'Restore';
     }
-    return `<div class="container p-2 mt-2 border border-danger wordCard ${bgCard}" id="${item._id}">
+    return `<div class="container p-2 mt-2 border border-danger wordCard ${bgCard} rounded-4 border-3" id="${item._id}">
         <div class="row">
             <div class="col-3 overflow-hidden d-flex justify-content-center m-auto">
                 <img class="m-auto" src="https://rs-lang-team-116.herokuapp.com/${item.image}">
@@ -85,7 +86,7 @@ function templateCardAuth(item: UserWord): string {
 }
 
 function templateCard(item: Word): string {
-    return `<div class="container p-2 mt-2 border border-danger wordCard" id="${item.id}">
+    return `<div class="container p-2 mt-2 border border-danger wordCard rounded-4 border-3" id="${item.id}">
         <div class="row">
             <div class="col-3 overflow-hidden d-flex justify-content-center m-auto">
                 <img class="m-auto" src="https://rs-lang-team-116.herokuapp.com/${item.image}">
