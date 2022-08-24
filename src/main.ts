@@ -9,7 +9,10 @@ import './pictures/profile-picture.jpg';
 import './pictures/git-logo.png';
 import { registration, logOut } from './components/auth';
 import createHeader from './components/create-header/create-header';
+import './components/create-sidebar/create-sidebar.css';
+import createSideBar from './components/create-sidebar/create-sidebar';
 
+createSideBar();
 createHeader('Rs Lang', true);
 
 let  ENTEREXITBUTTON: Element;
