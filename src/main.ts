@@ -8,7 +8,3 @@ import './pictures/favicon.png';
 import './pictures/profile-picture.jpg';
 import './pictures/git-logo.png';
 import { registration } from './components/auth';
-
-const SINGBUTTON = document.querySelector('.sign-in-or-log-in-button');
-
-SINGBUTTON.addEventListener('click', registration);
