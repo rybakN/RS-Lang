@@ -19,17 +19,40 @@ header span{
   justify-content: space-between;
   right: 20px;
   top: 20px;
-  width: 30px;
-  height: 22px;
-  transition: all 0.5s;
+  width: 55px;
+  height: 55px;
+  z-index: 2;
 }
 .gamburger-menu>div {
-  height: 2px;
+  position: absolute;
+  width: 55px;
+  height: 5px;
   background-color: #F1CDB3;
+  transition: all 0.3s;
+}
+
+.gamburger-menu div:nth-of-type(2) {
+  top: calc(50% - 4px);
+}
+
+.gamburger-menu div:nth-of-type(3) {
+  top: calc(50% + 20px);
 }
 
 .gamburger-menu.active {
-  transform: rotate(90deg);
+  height: 5px;
+}
+
+.gamburger-menu.active div:nth-of-type(1) {
+  top: calc(50% + 9px);
+  transform: rotate(-45deg);
+}
+.gamburger-menu.active div:nth-of-type(2) {
+  top: calc(50% + 9px);
+  transform: rotate(45deg);
+}
+.gamburger-menu.active div:nth-of-type(3) {
+  display: none;
 }
 
 .user-information{

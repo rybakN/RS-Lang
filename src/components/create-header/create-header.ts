@@ -1,6 +1,6 @@
 import './createheader.css';
 
-export default function createHeader(title: string, isTitle: boolean) {
+export default function createHeader(title: string, isTitle: boolean): void {
   document.body.innerHTML = `  <header>
     <div class="title-with-description">
       <h1>${title}</h1>${isTitle ? `
@@ -17,5 +17,9 @@ export default function createHeader(title: string, isTitle: boolean) {
     <p>Email: ${localStorage.getItem('userEmail')}</p>
     </div>
     ` : '<button class="sign-in-or-log-in-button">Sign in / Log in</button>'}
-  </header>${document.body.innerHTML}`
+  </header>${document.body.innerHTML}`;
+  document.querySelector('.gamburger-menu').addEventListener('click', () => {
+    document.querySelector('aside').classList.toggle('active');
+    document.querySelector('.gamburger-menu').classList.toggle('active');
+  })
 }
