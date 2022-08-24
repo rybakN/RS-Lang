@@ -1,9 +1,14 @@
 import { BtnHandler } from './typeBtnHandler';
 import { Api } from '../../../api/api';
 import { CreateUserWord } from '../../../api/typeApi';
+import { ToggleBtnName } from './toggleBtnName';
 
 export  class LearningBtn implements BtnHandler {
-    static btnName = 'learning';
+    static btnName = 'learned';
+    toggleBtnName: ToggleBtnName;
+    constructor(toggleBtnName: ToggleBtnName) {
+        this.toggleBtnName = toggleBtnName;
+    }
     async handle(wordId: string): Promise<void> {
         const userId: string = localStorage.getItem('userId');
         const token: string = localStorage.getItem('userToken');
@@ -13,24 +18,18 @@ export  class LearningBtn implements BtnHandler {
                 learning: true,
             }
         }
-        await Api.getUserWordById(userId, token, wordId).then((result) => {
-            if (result.difficulty === 'hard') {
-                Api.deleteUserWordById(userId, token, wordId);
-            }
-        });
-        await Api.createUserWord(userId, token, wordId, requestBody);
         const wordCard: HTMLElement = document.getElementById(`${wordId}`);
+
         if (wordCard.classList.contains('bg-danger')) {
+            await Api.updateUserWord(userId, token, wordId, requestBody);
             wordCard.classList.remove('bg-danger');
             wordCard.classList.add('bg-success');
+            this.toggleBtnName.toggleBtnName(wordCard, 'easy', 'difficult');
         } else {
+            await Api.createUserWord(userId, token, wordId, requestBody);
             wordCard.classList.add('bg-success');
         }
-        wordCard.querySelectorAll('button').forEach((item: HTMLElement) => {
-            if (item.dataset.name === 'learning') {
-                item.dataset.name = 'restore';
-                item.innerText = 'Restore';
-            }
-        })
+        this.toggleBtnName.toggleBtnName(wordCard, 'learned', 'restore');
     }
+
 }

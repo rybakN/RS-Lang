@@ -1,22 +1,23 @@
 import { Api } from '../../api/api';
-import { Filter, GetUserAggregateWordResponse, UserWord, Word } from '../../api/typeApi';
-import { getCardsHTML } from './typeViewWordCards';
+import { Filter, GetUserAggregateWordResponse, OrCondition, UserWord, UserWordFilter, Word } from '../../api/typeApi';
+import { FilterViewWordCard, getCardsHTML } from './typeViewWordCards';
 import { HandlerCombiner } from './wordCardBtnHandler/handlerCombiner';
 
-export async function viewWordCards(containerId: string, groupNum: number, pageNum: number, filter?: Filter): Promise<void> {
-    const { id, containerHTML } = await getCardsHTML(groupNum, pageNum);
+export async function viewWordCards(containerId: string, groupNum: number, pageNum: number, filter?: FilterViewWordCard): Promise<void> {
+    const { id, containerHTML } = await getCardsHTML(groupNum, pageNum, filter);
     document.getElementById(containerId).innerHTML = containerHTML;
     addWordCardListener(id);
 }
 
-async function getCardsHTML(groupNum: number, pageNum: number, filter?: Filter): Promise<getCardsHTML> {
+async function getCardsHTML(groupNum: number, pageNum: number, filter?: string): Promise<getCardsHTML> {
     let containerHTML: string = '';
     const id: string[] = [];
     const userId = localStorage.getItem('userId');
-    console.log(userId);
+
     if (userId != null) {
+        const newFilter: Filter = getFilter(filter);
         const token = localStorage.getItem('userToken');
-        const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, 20);
+        const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, 20, newFilter);
         response[0].paginatedResults.forEach((item: UserWord) => {
             containerHTML += templateCardAuth(item);
             id.push(item._id);
@@ -37,7 +38,7 @@ async function getCardsHTML(groupNum: number, pageNum: number, filter?: Filter):
 function templateCardAuth(item: UserWord): string {
     let bgCard = '';
     let difficultBtn = 'Difficult';
-    let learningBtn = 'Learning';
+    let learningBtn = 'Learned';
     if (item.userWord != undefined && item.userWord.difficulty === 'hard') {
         bgCard = 'bg-danger';
         difficultBtn = 'Easy';
@@ -126,4 +127,29 @@ function addWordCardListener(id: string[]) {
             }
         })
     })
+}
+
+function getFilter(filter: string): Filter {
+    switch (filter) {
+        case 'difficult':
+            return difficultFilter();
+        case 'learned':
+            return learnedFilter();
+    }
+}
+
+function difficultFilter(): Filter {
+    const userWord = new UserWordFilter();
+    userWord['userWord.difficulty'] = 'hard';
+    const orCondition = new OrCondition([userWord]);
+    const filter = new Filter(orCondition);
+    return filter;
+}
+
+function learnedFilter(): Filter {
+    const userWord = new UserWordFilter();
+    userWord['userWord.optional.learning'] = true;
+    const orCondition = new OrCondition([userWord]);
+    const filter = new Filter(orCondition);
+    return filter;
 }
