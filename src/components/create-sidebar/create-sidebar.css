@@ -6,6 +6,7 @@ aside{
   height: 100vh;
   background-color:blueviolet;
   z-index: 1;
+  transition: 0.3s;
 }
 
 aside.active{
