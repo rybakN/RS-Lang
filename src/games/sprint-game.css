@@ -1,9 +1,17 @@
 .difficultLevel {
     display: flex;
-    align-content: center;
+    align-items: center;
     justify-content: center;
-    width: 30px;
-    border-radius: 25px;
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: 200ms;
+    font-weight: bolder;
+}
+.difficultLevel:hover {
+    transition: 200ms;
+    box-shadow: inset 3px 5px;
 }
 .levelHolder {
     display: flex;
@@ -28,4 +36,71 @@
 }
 #level6{
     background-color: rgb(204, 61, 128);
+}
+.wrong {
+    background-color: brown;
+    font-size: large;
+    font-weight: bolder;
+    width: 200px;
+    height:50px;
+    margin: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:200ms;
+    cursor: pointer;
+    user-select: none;   
+}
+.wrong:hover {
+    transition:200ms;
+    box-shadow: inset 3px 5px;
+}
+.right {
+    margin: 35px;
+    background-color: rgb(101, 165, 42);
+    font-size: large;
+    font-weight: bolder;
+    width: 200px;
+    height:50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:200ms;
+    cursor: pointer;
+    user-select: none;   
+}
+.right:hover {
+    transition:200ms;
+    box-shadow: inset 3px 5px;
+}
+.gameHolder {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    align-items: center;
+}
+.clock {
+    font-size: 35px;
+    font-family: 'Kanit', sans-serif;
+    width: 150px;
+    height: 150px;
+    border-radius: 150px;
+    background-color: rgb(196, 150, 240);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;   
+}
+.word {
+    font-size: 25px;
+    font-family: 'Kanit', sans-serif;
+    padding: 10px;
+}
+.wordTranslate {
+    font-size: 25px;
+    padding: 10px;
+    font-family: 'Kanit', sans-serif;
 }

@@ -5,7 +5,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const baseConfig = {
-    entry: path.resolve(__dirname, './src/main.ts'),
+    entry:{
+      main: path.resolve(__dirname, './src/main.ts'),
+      sprintGame: path.resolve(__dirname, './src/games/sprint-game.ts'),
+      sprint: path.resolve(__dirname, './src/pages/games/sprint.ts'),
+    },
     mode: 'development',
     module: {
         rules: [
@@ -37,17 +41,23 @@ const baseConfig = {
         extensions: ['.ts', '.js'],
     },
     output: {
-        filename: 'index.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
+            chunks: ["index"],
         }),
+        new HtmlWebpackPlugin({
+          template: path.resolve(__dirname, './src/pages/games/sprint.html'),
+          filename: 'sprint.html',
+          chunks: ["sprint"],
+      }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-          filename: 'style.css',
+          filename: '[name].css',
         }),
     ],
 };
