@@ -11,7 +11,7 @@ export class ListenBtn implements BtnHandler {
     }
     handle(wordId: string): void {
         const { audioWordUrl, audioMeaningUrl, audioExampleUrl } = this.getAudioUrl(wordId);
-        let audioContainer: HTMLElement = document.querySelector('.audio');
+        let audioContainer: HTMLElement = document.querySelector('.audioWordCard');
         let audio: HTMLAudioElement = new Audio(`https://rs-lang-team-116.herokuapp.com/${audioWordUrl}`);
         const wordCard: HTMLElement = document.getElementById(`${wordId}`);
 
@@ -21,13 +21,13 @@ export class ListenBtn implements BtnHandler {
             this.changeAudioTeg(audioContainer, audio);
         } else {
             const containerAudio = document.createElement('div');
-            containerAudio.classList.add('audio');
+            containerAudio.classList.add('audioWordCard');
             containerAudio.append(audio);
             document.body.append(containerAudio);
         }
 
         this.toggleBtnName.toggleBtnName(wordCard, 'listen', 'stop Listen');
-        audioContainer = document.querySelector('.audio');
+        audioContainer = document.querySelector('.audioWordCard');
         audio.play().then();
         audio.addEventListener('ended', () => {
             audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${audioMeaningUrl}`);
@@ -37,6 +37,10 @@ export class ListenBtn implements BtnHandler {
                 audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${audioExampleUrl}`);
                 this.changeAudioTeg(audioContainer, audio);
                 audio.play().then();
+                audio.addEventListener('ended', () => {
+                    this.changeActiveBtnStopListen();
+                    audioContainer.remove();
+                })
             })
         })
     }
