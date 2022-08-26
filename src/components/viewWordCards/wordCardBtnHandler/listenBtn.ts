@@ -1,15 +1,22 @@
 import { BtnHandler } from './typeBtnHandler';
 import { Word } from '../../../api/typeApi';
 import { GetAudioUrl } from '../typeViewWordCards';
+import { ToggleBtnName } from './utilsWordCard/toggleBtnName';
 
 export class ListenBtn implements BtnHandler {
     static btnName = 'listen';
+    toggleBtnName: ToggleBtnName;
+    constructor(toggleBtnName: ToggleBtnName) {
+        this.toggleBtnName = toggleBtnName;
+    }
     handle(wordId: string): void {
         const { audioWordUrl, audioMeaningUrl, audioExampleUrl } = this.getAudioUrl(wordId);
         let audioContainer: HTMLElement = document.querySelector('.audio');
         let audio: HTMLAudioElement = new Audio(`https://rs-lang-team-116.herokuapp.com/${audioWordUrl}`);
+        const wordCard: HTMLElement = document.getElementById(`${wordId}`);
 
         if (audioContainer) {
+            this.changeActiveBtnStopListen();
             (audioContainer.childNodes.item(0) as HTMLAudioElement).pause();
             this.changeAudioTeg(audioContainer, audio);
         } else {
@@ -18,6 +25,8 @@ export class ListenBtn implements BtnHandler {
             containerAudio.append(audio);
             document.body.append(containerAudio);
         }
+
+        this.toggleBtnName.toggleBtnName(wordCard, 'listen', 'stop Listen');
         audioContainer = document.querySelector('.audio');
         audio.play().then();
         audio.addEventListener('ended', () => {
@@ -50,5 +59,15 @@ export class ListenBtn implements BtnHandler {
             }
         })
         return { audioWordUrl, audioMeaningUrl, audioExampleUrl };
+    }
+
+    private changeActiveBtnStopListen() {
+        let stopBtn: HTMLButtonElement;
+        document.querySelectorAll('button').forEach((item: HTMLButtonElement) => {
+            if (item.dataset.name == 'stop Listen') {
+                item.dataset.name = 'listen';
+                item.innerText = 'Listen';
+            }
+        })
     }
 }
