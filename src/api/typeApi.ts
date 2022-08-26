@@ -59,6 +59,13 @@ export interface CreateUserWordResponse {
 
 export interface CreateUserWordOption {
     learning: boolean
+    statistic?: CorrectIncorrectAnswer
+}
+
+export interface CorrectIncorrectAnswer {
+    row: number
+    correct: number
+    incorrect: number
 }
 
 export type GetUserAggregateWordResponse = Root2[]
@@ -93,12 +100,17 @@ export interface TotalCount {
 export interface UserStatisticResponse {
     id: string
     learnedWords: number
-    optional?: any
+    optional?: OptionStatistic
 }
 
 export interface StatisticRequestBody {
     learnedWords: number
-    optional?: any
+    optional: OptionStatistic
+}
+
+export interface OptionStatistic {
+    games: string
+    learnedWordsByDays: string
 }
 
 export interface UserSettingsResponse {
