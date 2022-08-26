@@ -104,3 +104,30 @@
     padding: 10px;
     font-family: 'Kanit', sans-serif;
 }
+.popUp {
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: burlywood;
+    padding: 15px;
+  }
+  .backBlack {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.438);
+  }
+  .wrongWord{
+    display: flex;
+  }
+  .musicPlay{
+    width:25px;
+    height:25px;
+  }

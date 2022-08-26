@@ -58,8 +58,9 @@ export interface CreateUserWordResponse {
 }
 
 export interface CreateUserWordOption {
-    testFieldString: string
-    testFieldBoolean: boolean
+    testFieldString?: string
+    testFieldBoolean?: boolean
+    learned?: boolean
 }
 
 export type GetUserAggregateWordResponse = Root2[]
@@ -115,8 +116,8 @@ export interface SettingsRequestBody {
 
 export class UserWordFilter {
     "userWord.difficulty": string;
-    "userWord.optional.testFieldBoolean": boolean;
-    "userWord.optional.testFieldString": string;
+    "userWord.optional.testFieldBoolean"?: boolean;
+    "userWord.optional.testFieldString"?: string;
 }
 
 export class OrCondition {

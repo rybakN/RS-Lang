@@ -1,6 +1,13 @@
 import { Api } from "../api/api"
 import './sprint-game.css';
-import { Word } from "../api/typeApi";
+import '../pictures/audio.png'
+import { Word,Filter,AndCondition,UserWordFilter } from "../api/typeApi";
+
+let rightCount = 0;
+let wrongCount = 0;
+let rightWords = new Set<string>();
+let wrongWords = new Set<string>();
+let thisGameWords;
 function getRandomNumber(max:number):number{
     let number = Math.round(Math.random() * (max - 1) + 1);
     return number
@@ -20,6 +27,21 @@ const levelHolder = `
         <div class="difficultLevel" id="level6">6</div>
     </div>
 `
+let wrongWordsList='';
+async function createWrongWordsList(){
+    let numberList = 0;
+    for (let value of wrongWords){
+        numberList+=1;
+        const word:Word = await Api.getWord(value)
+        wrongWordsList+=`
+        <div class="wrongWord">
+            <img class="musicPlay" id="wrongMusic${numberList.toString()}" src="./pictures/audio.png">
+            <p class ="wrongWordEng">${word.word}</p>
+            <p class ="wrongWordRus">${word.wordTranslate}</p>
+        </div>
+        `
+    }
+}
 
 export function createLevelsChoose(parent:HTMLElement){
     const container = document.createElement('div');
@@ -60,6 +82,12 @@ export function createLevelsChoose(parent:HTMLElement){
 
 export async function createSprintGame(group:number, page:number, parent:HTMLElement) {
     const words = await Api.getWords(group, page);
+    thisGameWords = words;
+    let userWords;
+    if (localStorage.getItem('userToken')) {
+    userWords = await Api.getUserWords(localStorage.getItem('userId'), localStorage.getItem('userToken'));
+    console.log(userWords);
+    }
     if (sixtyFourty()) {
         const number = getRandomNumber(20)-1;
         createWords(words,parent,number,number);
@@ -76,12 +104,14 @@ clock.classList.add('clock');
 let time:number = 60;
 parent.appendChild(clock);
 clock.innerHTML = time.toString();
-setInterval(() => {
+const interval = setInterval(() => {
     time -= 1;
     clock.innerHTML = time.toString();
     if (time <= 0) {
         parent.innerHTML = '';
         clock.remove();
+        resultPopUp();
+        clearInterval(interval);
     }
 }, 1000)
 }
@@ -115,6 +145,13 @@ function createWords(words:Word[], parent:HTMLElement, numberWord:number, number
         right.classList.add('right');
         right.innerHTML = 'Right';
         right.addEventListener('click', () => {
+            if (numberWord !== numberWordTranslate) {
+                wrongCount+=1;
+                wrongWords.add(words[numberWord].id);
+            } else {
+                rightCount+=1;
+                rightWords.add(words[numberWord].id);
+            }
             word.remove();
             wordTranslate.remove();
             right.remove();
@@ -130,6 +167,13 @@ function createWords(words:Word[], parent:HTMLElement, numberWord:number, number
         wrong.classList.add('wrong');
         wrong.innerHTML = 'Wrong';
         wrong.addEventListener('click', () => {
+            if (numberWord === numberWordTranslate) {
+                wrongCount+=1;
+                wrongWords.add(words[numberWord].id);
+            } else {
+                rightCount+=1;
+                rightWords.add(words[numberWord].id);
+            }
             word.remove();
             wordTranslate.remove();
             right.remove();
@@ -144,3 +188,28 @@ function createWords(words:Word[], parent:HTMLElement, numberWord:number, number
         buttonsHolder.appendChild(right);
         buttonsHolder.appendChild(wrong);
 }
+
+export async function resultPopUp() {
+    const backBlack = document.createElement('div');
+    document.body.appendChild(backBlack);
+    backBlack.classList.add('backBlack');
+    const popUp = document.createElement('div');
+    document.body.appendChild(popUp);
+    popUp.classList.add('popUp');
+    await createWrongWordsList();
+    let result = `
+        <div class = "wrongWords">
+        <h3>Неправильно угадано: ${wrongCount} слов.</h3>
+        ${wrongWordsList}
+        </div>
+    `
+    popUp.innerHTML = result;
+    let numberList = 0;
+    for (let value of wrongWords){
+        numberList +=1;
+        const word:Word = await Api.getWord(value);
+        let audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${word.audio}`);
+        const audioButton = document.querySelector(`#wrongMusic${numberList.toString()}`);
+        audioButton.addEventListener('click', () => audio.play())
+    }
+  }
