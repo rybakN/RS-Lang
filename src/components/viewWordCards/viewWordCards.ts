@@ -24,7 +24,6 @@ async function getWordCardsHTML(groupNum: number, pageNum: number, filter?: stri
             response[0].paginatedResults.forEach((item: UserWord) => {
                 containerHTML += templateCardPageDifficult(item);
                 id.push(item._id);
-                localStorage.setItem(item._id, JSON.stringify(item));
             })
         } else {
             const token = localStorage.getItem('userToken');
@@ -32,7 +31,6 @@ async function getWordCardsHTML(groupNum: number, pageNum: number, filter?: stri
             response[0].paginatedResults.forEach((item: UserWord) => {
                 containerHTML += templateCardAuth(item);
                 id.push(item._id);
-                localStorage.setItem(item._id, JSON.stringify(item));
             })
         }
     } else {
@@ -40,7 +38,6 @@ async function getWordCardsHTML(groupNum: number, pageNum: number, filter?: stri
         response.forEach((item: Word) => {
             containerHTML += templateCard(item);
             id.push(item.id);
-            localStorage.setItem(item.id, JSON.stringify(item));
         });
     }
 
@@ -69,7 +66,7 @@ function templateCardAuth(item: UserWord): string {
                         <b>${item.word} </b><span>${item.transcription} - ${item.wordTranslate}</span>
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item._id}">Listen</button>
+                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item._id}" data-audio="${item.audio}" data-meaning="${item.audioMeaning}" data-example="${item.audioExample}">Listen</button>
                     </div>
                 </div>
                 <div class="row">
@@ -108,7 +105,7 @@ function templateCardPageDifficult(item: UserWord): string {
                         <b>${item.word} </b><span>${item.transcription} - ${item.wordTranslate}</span>
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item._id}">Listen</button>
+                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item._id}" data-audio="${item.audio}" data-meaning="${item.audioMeaning}" data-example="${item.audioExample}">Listen</button>
                     </div>
                 </div>
                 <div class="row">
@@ -147,7 +144,7 @@ function templateCard(item: Word): string {
                         <b>${item.word} </b><span>${item.transcription} - ${item.wordTranslate}</span>
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item.id}">Listen</button>
+                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item.id}" data-audio="${item.audio}" data-meaning="${item.audioMeaning}" data-example="${item.audioExample}">Listen</button>
                     </div>
                 </div>
                 <div class="row">

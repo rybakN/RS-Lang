@@ -1,12 +1,13 @@
 import { BtnHandler } from './typeBtnHandler';
 import { Word } from '../../../api/typeApi';
+import { GetAudioUrl } from '../typeViewWordCards';
 
 export class ListenBtn implements BtnHandler {
     static btnName = 'listen';
     handle(wordId: string): void {
+        const { audioWordUrl, audioMeaningUrl, audioExampleUrl } = this.getAudioUrl(wordId);
         let audioContainer: HTMLElement = document.querySelector('.audio');
-        const wordInfo: Word = JSON.parse(localStorage.getItem(wordId));
-        let audio: HTMLAudioElement = new Audio(`https://rs-lang-team-116.herokuapp.com/${wordInfo.audio}`);
+        let audio: HTMLAudioElement = new Audio(`https://rs-lang-team-116.herokuapp.com/${audioWordUrl}`);
 
         if (audioContainer) {
             (audioContainer.childNodes.item(0) as HTMLAudioElement).pause();
@@ -20,11 +21,11 @@ export class ListenBtn implements BtnHandler {
         audioContainer = document.querySelector('.audio');
         audio.play().then();
         audio.addEventListener('ended', () => {
-            audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${wordInfo.audioMeaning}`);
+            audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${audioMeaningUrl}`);
             this.changeAudioTeg(audioContainer, audio);
             audio.play().then();
             audio.addEventListener('ended', () => {
-                audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${wordInfo.audioExample}`);
+                audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${audioExampleUrl}`);
                 this.changeAudioTeg(audioContainer, audio);
                 audio.play().then();
             })
@@ -34,5 +35,20 @@ export class ListenBtn implements BtnHandler {
     private changeAudioTeg(audioContainer: HTMLElement, audio: HTMLAudioElement): void {
         (audioContainer as HTMLElement).innerHTML = '';
         audioContainer.append(audio);
+    }
+
+    private getAudioUrl(wordId: string): GetAudioUrl {
+        let audioWordUrl: string;
+        let audioMeaningUrl: string;
+        let audioExampleUrl: string;
+        const wordCard: HTMLElement = document.getElementById(wordId);
+        wordCard.querySelectorAll('button').forEach((item: HTMLButtonElement) =>{
+            if (item.dataset.name === 'listen') {
+                audioWordUrl = item.dataset.audio;
+                audioMeaningUrl = item.dataset.meaning;
+                audioExampleUrl = item.dataset.example;
+            }
+        })
+        return { audioWordUrl, audioMeaningUrl, audioExampleUrl };
     }
 }

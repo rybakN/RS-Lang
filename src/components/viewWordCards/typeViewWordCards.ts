@@ -7,3 +7,9 @@ export enum FilterViewWordCard {
     difficult = 'difficult',
     learned = 'learned',
 }
+
+export interface GetAudioUrl {
+    audioWordUrl: string
+    audioMeaningUrl: string
+    audioExampleUrl: string
+}
