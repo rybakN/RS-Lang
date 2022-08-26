@@ -3,31 +3,28 @@ import { Api } from '../../../api/api';
 import { CreateUserWord, StatisticRequestBody, UserStatisticResponse, UserWord } from '../../../api/typeApi';
 import { ToggleBtnName } from './utilsWordCard/toggleBtnName';
 import { UpdateUserStatistic } from './utilsWordCard/updateUserStatistic';
+import { ParamCreateUserWordBody } from '../typeViewWordCards';
+import { CreateUserWordBody } from './utilsWordCard/createUserWordBody';
 
 export  class DifficultBtn implements BtnHandler {
     static btnName = 'difficult';
     toggleBtnName: ToggleBtnName;
     userStat: UpdateUserStatistic;
-    constructor(toggleBtnName: ToggleBtnName, updateUserStat: UpdateUserStatistic) {
+    userWordBody: CreateUserWordBody;
+    constructor(toggleBtnName: ToggleBtnName, updateUserStat: UpdateUserStatistic, userWordBody: CreateUserWordBody) {
         this.toggleBtnName = toggleBtnName;
         this.userStat = updateUserStat;
+        this.userWordBody = userWordBody;
     }
     async handle(wordId: string): Promise<void> {
+        const paramRequestBody: ParamCreateUserWordBody = {
+            difficulty: 'hard',
+            learning: false,
+        }
         const userId: string = localStorage.getItem('userId');
         const token: string = localStorage.getItem('userToken');
         const wordCard: HTMLElement = document.getElementById(`${wordId}`);
-        const response = await Api.getUserAggregateWordById(userId, token, wordId).then();
-        const requestBody: CreateUserWord = {
-            difficulty: 'hard',
-            optional: {
-                learning: false,
-                statistic: {
-                    row: 1,
-                    correct: 1,
-                    incorrect: response[0].userWord.optional.statistic.incorrect
-                }
-            }
-        }
+        const { response, requestBody } = await this.userWordBody.createBody(userId, token, wordId, paramRequestBody);
 
         if (wordCard.classList.contains('bg-success')) {
             await Api.updateUserWord(userId, token, wordId, requestBody);
@@ -35,7 +32,6 @@ export  class DifficultBtn implements BtnHandler {
             wordCard.classList.add('bg-danger');
             this.toggleBtnName.toggleBtnName(wordCard, 'restore', 'learned');
         } else {
-            const response = await Api.getUserAggregateWordById(userId, token, wordId);
             if (response[0]['userWord'] != undefined) {
                 await Api.updateUserWord(userId, token, wordId, requestBody);
                 wordCard.classList.add('bg-danger');
