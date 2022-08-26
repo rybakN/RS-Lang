@@ -1,7 +1,7 @@
 import { Api } from "../api/api"
 import './sprint-game.css';
 import '../pictures/audio.png'
-import { Word,Filter,AndCondition,UserWordFilter } from "../api/typeApi";
+import { Word,Filter,AndCondition,UserWordFilter, CreateUserWordResponse } from "../api/typeApi";
 
 let rightCount = 0;
 let wrongCount = 0;
@@ -38,6 +38,21 @@ async function createWrongWordsList(){
             <img class="musicPlay" id="wrongMusic${numberList.toString()}" src="./pictures/audio.png">
             <p class ="wrongWordEng">${word.word}</p>
             <p class ="wrongWordRus">${word.wordTranslate}</p>
+        </div>
+        `
+    }
+}
+let rightWordsList='';
+async function createRightWordsList(){
+    let numberList = 0;
+    for (let value of rightWords){
+        numberList+=1;
+        const word:Word = await Api.getWord(value)
+        rightWordsList+=`
+        <div class="rightWord">
+            <img class="musicPlay" id="wrongMusic${numberList.toString()}" src="./pictures/audio.png">
+            <p class ="rightWordEng">${word.word}</p>
+            <p class ="rightWordRus">${word.wordTranslate}</p>
         </div>
         `
     }
@@ -85,8 +100,18 @@ export async function createSprintGame(group:number, page:number, parent:HTMLEle
     thisGameWords = words;
     let userWords;
     if (localStorage.getItem('userToken')) {
-    userWords = await Api.getUserWords(localStorage.getItem('userId'), localStorage.getItem('userToken'));
-    console.log(userWords);
+        userWords = await Api.getUserWords(localStorage.getItem('userId'), localStorage.getItem('userToken'));
+        if (localStorage.getItem('page')){
+            for (let userWord of userWords){
+                if (userWord.optional.learning) {
+                    for (let j:number; j<=words.length; j+=1) {
+                        if (words[j].id = userWord.id) {
+                            words.splice(j,1);
+                        }
+                    }
+                }
+            }
+        }
     }
     if (sixtyFourty()) {
         const number = getRandomNumber(20)-1;
@@ -197,14 +222,22 @@ export async function resultPopUp() {
     document.body.appendChild(popUp);
     popUp.classList.add('popUp');
     await createWrongWordsList();
+    await createRightWordsList();
     let result = `
         <div class = "wrongWords">
-        <h3>Неправильно угадано: ${wrongCount} слов.</h3>
-        ${wrongWordsList}
+            <h3>Неправильно угадано: ${wrongCount} слов.</h3>
+            ${wrongWordsList}
         </div>
+        <div class = "rightWords">
+            <h3>Правильно угадано: ${rightCount} слов.</h3>
+            ${rightWordsList}
+        </div>
+        <div class="right" id="tryAgain"> Попробовать еще раз</div>
     `
     popUp.innerHTML = result;
     let numberList = 0;
+    const tryAgain = document.querySelector('#tryAgain');
+    tryAgain.addEventListener('click', () => location.reload())
     for (let value of wrongWords){
         numberList +=1;
         const word:Word = await Api.getWord(value);

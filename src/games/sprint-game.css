@@ -112,8 +112,11 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: burlywood;
+    background-color: rgb(255, 255, 255);
     padding: 15px;
+    gap:5px;
+    max-height: 90%;
+    overflow-y:scroll;
   }
   .backBlack {
     width: 100%;
@@ -126,6 +129,17 @@
   }
   .wrongWord{
     display: flex;
+    gap: 5px;
+    align-items: center;
+    color:rgb(153, 12, 12);
+    font-weight: bolder;
+  }
+  .rightWord{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color:darkgreen;
+    font-weight: bolder;
   }
   .musicPlay{
     width:25px;
