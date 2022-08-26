@@ -2,23 +2,28 @@ import { BtnHandler } from './typeBtnHandler';
 import { Api } from '../../../api/api';
 import { CreateUserWord, StatisticRequestBody, UserStatisticResponse, UserWord } from '../../../api/typeApi';
 import { ToggleBtnName } from './utilsWordCard/toggleBtnName';
+import { CreateUserWordBody } from './utilsWordCard/createUserWordBody';
+import { UpdateUserStatistic } from './utilsWordCard/updateUserStatistic';
+import { ParamCreateUserWordBody } from '../typeViewWordCards';
 
 export  class LearningBtn implements BtnHandler {
     static btnName = 'learned';
     toggleBtnName: ToggleBtnName;
-    constructor(toggleBtnName: ToggleBtnName) {
+    userWordBody: CreateUserWordBody;
+    constructor(toggleBtnName: ToggleBtnName, userWordBody: CreateUserWordBody) {
         this.toggleBtnName = toggleBtnName;
+        this.userWordBody = userWordBody;
     }
     async handle(wordId: string): Promise<void> {
+        const paramRequestBody: ParamCreateUserWordBody = {
+            difficulty: 'easy',
+            learning: true,
+        }
         const userId: string = localStorage.getItem('userId');
         const token: string = localStorage.getItem('userToken');
         const wordInfo: UserWord = JSON.parse(localStorage.getItem(wordId));
-        const requestBody: CreateUserWord = {
-            difficulty: 'easy',
-            optional: {
-                learning: true,
-            }
-        }
+        const { requestBody } = await this.userWordBody.createBody(userId, token, wordId, paramRequestBody);
+
         const wordCard: HTMLElement = document.getElementById(`${wordId}`);
         let learnedWordsCounter: number = 0;
 

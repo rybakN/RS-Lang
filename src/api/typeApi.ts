@@ -59,7 +59,7 @@ export interface CreateUserWordResponse {
 
 export interface CreateUserWordOption {
     learning: boolean
-    statistic: CorrectIncorrectAnswer
+    statistic?: CorrectIncorrectAnswer
 }
 
 export interface CorrectIncorrectAnswer {
