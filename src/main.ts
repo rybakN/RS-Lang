@@ -12,7 +12,7 @@ import createHeader from './components/create-header/create-header';
 import createSideBar from './components/create-sidebar/create-sidebar';
 import createFooter from './components/create-footer/create-footer'
 
-createSideBar();
+createSideBar('Main');
 createFooter("./pictures/rs_school_js.svg");
 createHeader('Rs Lang', true);
 
