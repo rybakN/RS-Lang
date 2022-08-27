@@ -1,5 +1,5 @@
 export interface CreateUserBody {
-    name: string
+    name?: string
     email: string
     password: string
 }
@@ -58,8 +58,14 @@ export interface CreateUserWordResponse {
 }
 
 export interface CreateUserWordOption {
-    testFieldString: string
-    testFieldBoolean: boolean
+    learning: boolean
+    statistic?: CorrectIncorrectAnswer
+}
+
+export interface CorrectIncorrectAnswer {
+    row: number
+    correct: number
+    incorrect: number
 }
 
 export type GetUserAggregateWordResponse = Root2[]
@@ -94,12 +100,17 @@ export interface TotalCount {
 export interface UserStatisticResponse {
     id: string
     learnedWords: number
-    optional?: any
+    optional?: OptionStatistic
 }
 
 export interface StatisticRequestBody {
     learnedWords: number
-    optional?: any
+    optional: OptionStatistic
+}
+
+export interface OptionStatistic {
+    games: string
+    learnedWordsByDays: string
 }
 
 export interface UserSettingsResponse {
@@ -116,7 +127,7 @@ export interface SettingsRequestBody {
 export class UserWordFilter {
     "userWord.difficulty": string;
     "userWord.optional.testFieldBoolean": boolean;
-    "userWord.optional.testFieldString": string;
+    "userWord.optional.learning": boolean;
 }
 
 export class OrCondition {
