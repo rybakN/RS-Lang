@@ -7,8 +7,6 @@ import './pictures/dictionary.png';
 import './pictures/favicon.png';
 import './pictures/profile-picture.jpg';
 import './pictures/git-logo.png';
-import { registration } from './components/auth';
+import createFooter from './components/create-footer/create-footer'
 
-const SINGBUTTON = document.querySelector('.sign-in-or-log-in-button');
-
-SINGBUTTON.addEventListener('click', registration);
+createFooter("./pictures/rs_school_js.svg")
