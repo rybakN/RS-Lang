@@ -33,6 +33,10 @@ aside li{
   font-family: 'Josefin Sans', sans-serif;
 }
 
+aside li.active{
+  text-decoration: underline;
+}
+
 aside ::marker{
   color: white;
   font-size: 36px;
