@@ -9,4 +9,4 @@ import './pictures/profile-picture.jpg';
 import './pictures/git-logo.png';
 import createSideBar from './components/create-sidebar/create-sidebar';
 
-createSideBar();
+createSideBar('Main');

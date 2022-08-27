@@ -33,18 +33,26 @@ aside li{
   font-family: 'Josefin Sans', sans-serif;
 }
 
+aside li.active{
+  text-decoration: underline;
+}
+
 aside ::marker{
   color: white;
   font-size: 36px;
 }
 
-aside a{
+aside li > a{
   font-size: 30px;
   text-decoration: none;
   transition: 0.3s;
   color: white;
 }
 
-aside a:hover{
+aside li > a:hover{
   color: black;
+}
+
+aside li.active > a:hover{
+  color: white;
 }
