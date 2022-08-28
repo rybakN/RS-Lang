@@ -17,12 +17,21 @@ p{
   font-family: 'Josefin Sans', sans-serif;
 }
 
+.word-cards-container{
+  box-shadow: rgb(0 0 0 / 100%) 0px 0px 10px;
+  background-color: white;
+  border-radius: 50px;
+  height: 500px;
+  width: 95%;
+  margin: 0 auto 10px;
+}
+
 .groups{
   position: fixed;
   box-shadow: rgb(0 0 0 / 50%) 0px 0px 10px;
   height: 15px;
   right: 20px;
-  bottom: 20px;
+  bottom: 95px;
   padding: 13px;
   overflow: hidden;
   border-radius: 40px;
