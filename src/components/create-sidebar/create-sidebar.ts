@@ -15,19 +15,19 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Miniga
  switch(currentPage){
   case 'Main':
     document.querySelector('nav li:nth-child(1)').classList.add('active');
-    (document.querySelector('nav a:nth-child(1)') as HTMLAnchorElement).href = ""
+    (document.querySelector('nav li:nth-child(1) > a') as HTMLAnchorElement).href = ""
     break;
   case 'Textbook':
     document.querySelector('nav li:nth-child(2)').classList.add('active');
-    (document.querySelector('nav a:nth-child(2)') as HTMLAnchorElement).href = ""
+    (document.querySelector('nav li:nth-child(2) > a') as HTMLAnchorElement).href = ""
     break;
   case 'Minigames':
     document.querySelector('nav li:nth-child(3)').classList.add('active');
-    (document.querySelector('nav a:nth-child(3)') as HTMLAnchorElement).href = ""
+    (document.querySelector('nav li:nth-child(3) > a') as HTMLAnchorElement).href = ""
     break;
   case 'Statistics':
     document.querySelector('nav li:nth-child(4)').classList.add('active');
-    (document.querySelector('nav a:nth-child(4)') as HTMLAnchorElement).href = ""
+    (document.querySelector('nav li:nth-child(4) > a') as HTMLAnchorElement).href = ""
     break;
  }
 }
