@@ -32,7 +32,7 @@ export async function auth() {
   toReg.addEventListener('click', registration);
   }
 const regPopUpHTML = `
-  <h2>Зарегистрироваться</h2>
+  <h2>Registration</h2>
   <form>
   <div class="form-group">
       <label for="InputName">Your name</label>
@@ -46,12 +46,12 @@ const regPopUpHTML = `
       <label for="InputPassword">Password</label>
       <input type="password" class="form-control" id="InputPassword" placeholder="Password">
     </div>
-    <div class="authButton" id="registrationButton">Submit</div>
+    <div class="authButton" id="registrationButton">Log in</div>
   </form>
-  <p id="toAuth" class="authLink">Авторизоваться</p>
+  <p id="toAuth" class="authLink">Sign in your account</p>
 `
 const authPopUpHTML = `
-  <h2>Войти</h2>
+  <h2>Sign in your account</h2>
   <form>
     <div class="form-group">
       <label for="InputEmail">Email address</label>
@@ -61,9 +61,9 @@ const authPopUpHTML = `
       <label for="InputPassword">Password</label>
       <input type="password" class="form-control" id="InputPassword" placeholder="Password">
     </div>
-    <div class="authButton" id="authButton">Submit</div>
+    <div class="authButton" id="authButton">Sign in</div>
   </form>
-  <p id="toReg" class="authLink">Зарегистрироваться</p>
+  <p id="toReg" class="authLink">Registration</p>
 `
 
 export function logOut() {
@@ -71,6 +71,7 @@ export function logOut() {
   localStorage.removeItem('userName');
   localStorage.removeItem('userToken');
   localStorage.removeItem('userRefreshToken');
+  localStorage.removeItem('userEmail');
   location.reload();
 }
 async function callRegistration() {
@@ -87,7 +88,7 @@ async function callRegistration() {
   }
   try {let response = await Api.createUser(body);
     if (!response.name) { 
-      alert('регистрация не удалась');
+      alert('Registration failed');
     } else {
         const signInBody:SingInRequestBody = {
           email: email,
@@ -95,16 +96,17 @@ async function callRegistration() {
         }
         const signInResp = await Api.singIn(signInBody);
         localStorage.setItem('userId',signInResp.userId);
+        localStorage.setItem('userEmail',body.email);
         localStorage.setItem('userName',signInResp.name);
         localStorage.setItem('userToken',signInResp.token);
         localStorage.setItem('userRefreshToken',signInResp.refreshToken);
-        alert('Регистрация завершена успешна!');
+        alert('Registration completed successfully!');
         removePopUp();
         location.reload();
       }
     console.log(response);
   } catch (err) { 
-    alert('пользователь с такими данными уже есть') 
+    alert('There is already a user with such data') 
   };  
   
 }
@@ -121,11 +123,12 @@ async function callAuth():Promise<void> {
     const signInResp = await Api.singIn(signInBody);
       if(signInResp.name) {
         localStorage.setItem('userId',signInResp.userId);
+        localStorage.setItem('userEmail',signInBody.email);
         localStorage.setItem('userName',signInResp.name);
         localStorage.setItem('userToken',signInResp.token);
         localStorage.setItem('userRefreshToken',signInResp.refreshToken);
-      } else { alert('Что-то пошло не так') };
-  } catch {alert('Что-то пошло не так')}
+      } else { alert('Something went wrong') };
+  } catch {alert('Something went wrong')}
   removePopUp();
   location.reload();
 }
