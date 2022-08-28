@@ -3,7 +3,11 @@ import '../../pictures/header-background.png';
 import '../../pictures/favicon.png';
 import { registration, logOut } from '../../components/auth';
 import createHeader from '../../components/create-header/create-header';
+import createSideBar from '../../components/create-sidebar/create-sidebar';
+import createFooter from '../../components/create-footer/create-footer'
 
+createSideBar('Textbook');
+createFooter("../../pictures/rs_school_js.svg");
 createHeader('Textbook', false);
 
 let  ENTEREXITBUTTON: Element;
