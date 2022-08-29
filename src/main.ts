@@ -25,5 +25,3 @@ else{
   ENTEREXITBUTTON = document.querySelector('.log-out');
   ENTEREXITBUTTON.addEventListener('click', logOut);
 }
-
-document.querySelector('aside li:nth-child(1)').classList.add('active');

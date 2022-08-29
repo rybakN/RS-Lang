@@ -5,7 +5,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const baseConfig = {
-    entry: path.resolve(__dirname, './src/main.ts'),
+    entry: {
+      'index': path.resolve(__dirname, './src/main.ts'),
+      'pages/textbook': path.resolve(__dirname, './src/pages/textbook/textbook.ts')
+    },
     mode: 'development',
     module: {
         rules: [
@@ -37,17 +40,24 @@ const baseConfig = {
         extensions: ['.ts', '.js'],
     },
     output: {
-        filename: 'index.js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].js',
+        path: path.resolve(__dirname, '../dist'),
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
+            chunks:['index'],
+        }),
+        new HtmlWebpackPlugin({
+          template: path.resolve(__dirname, './src/pages/textbook/textbook.html'),
+          filename: 'pages/textbook.html',
+          chunks:['pages/textbook']
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-          filename: 'style.css',
+          filename: '[name].css',
+          chunkFilename: "[id].css",
         }),
     ],
 };
