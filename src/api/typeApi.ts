@@ -38,6 +38,7 @@ export interface Word {
     textExampleTranslate: string
     textMeaningTranslate: string
     wordTranslate: string
+    statistic?: CorrectIncorrectAnswer 
 }
 
 export interface GetNewToken {

@@ -2,12 +2,17 @@ import { Api } from "../api/api"
 import './sprint-game.css';
 import '../pictures/audio.png'
 import { Word,Filter,AndCondition,UserWordFilter, CreateUserWordResponse } from "../api/typeApi";
-
+import '../audio/fail.mp3'
+import '../audio/success.mp3'
 let rightCount = 0;
 let wrongCount = 0;
 let rightWords = new Set<string>();
 let wrongWords = new Set<string>();
 let thisGameWords;
+const successAudio = new Audio('audio/success.mp3');
+const failAudio = new Audio('audio/fail.mp3')
+failAudio.preload="auto";
+successAudio.preload="auto";
 function getRandomNumber(max:number):number{
     let number = Math.round(Math.random() * (max - 1) + 1);
     return number
@@ -141,7 +146,7 @@ const interval = setInterval(() => {
 }, 1000)
 }
 
-function createWords(words:Word[], parent:HTMLElement, numberWord:number, numberWordTranslate:number) {
+async function createWords(words:Word[], parent:HTMLElement, numberWord:number, numberWordTranslate:number) {
         const word = document.createElement('div');
         word.classList.add('word');
         word.innerHTML = words[numberWord].word;
@@ -168,48 +173,23 @@ function createWords(words:Word[], parent:HTMLElement, numberWord:number, number
         wordTranslate.after(buttonsHolder)
         const right = document.createElement('div');
         right.classList.add('right');
-        right.innerHTML = 'Right';
-        right.addEventListener('click', () => {
-            if (numberWord !== numberWordTranslate) {
-                wrongCount+=1;
-                wrongWords.add(words[numberWord].id);
-            } else {
-                rightCount+=1;
-                rightWords.add(words[numberWord].id);
-            }
-            word.remove();
-            wordTranslate.remove();
-            right.remove();
-            wrong.remove();
-            const number1 = getRandomNumber(20)-1;
-            let number2;
-            if (sixtyFourty()) { number2 = number1 } else {
-                number2 = getRandomNumber(20)-1;
-            }
-            createWords(words, parent,number1,number2);
-        })
+        right.innerHTML = 'Right →';
+        right.addEventListener('click', () => rightClick(words, numberWord, numberWordTranslate, word, wordTranslate, right, wrong, parent) )
         const wrong = document.createElement('div');
         wrong.classList.add('wrong');
-        wrong.innerHTML = 'Wrong';
-        wrong.addEventListener('click', () => {
-            if (numberWord === numberWordTranslate) {
-                wrongCount+=1;
-                wrongWords.add(words[numberWord].id);
-            } else {
-                rightCount+=1;
-                rightWords.add(words[numberWord].id);
+        wrong.innerHTML = '← Wrong';
+        wrong.addEventListener('click', () => wrongClick(words, numberWord, numberWordTranslate, word, wordTranslate, right, wrong, parent))
+        
+        document.addEventListener('keydown', function keyboard(event) {
+            const keyCode = event.keyCode;
+            if (keyCode==39) {
+                rightClick(words, numberWord, numberWordTranslate, word, wordTranslate, right, wrong, parent);
+                
             }
-            word.remove();
-            wordTranslate.remove();
-            right.remove();
-            wrong.remove();
-            const number1 = getRandomNumber(20)-1;
-            let number2;
-            if (sixtyFourty()) { number2 = number1 } else {
-                number2 = getRandomNumber(20)-1;
+            if (keyCode==37) {
+                wrongClick(words, numberWord, numberWordTranslate, word, wordTranslate, right, wrong, parent)
             }
-            createWords(words, parent,number1,number2);
-        })
+        },{once:true})
         buttonsHolder.appendChild(right);
         buttonsHolder.appendChild(wrong);
 }
@@ -246,3 +226,117 @@ export async function resultPopUp() {
         audioButton.addEventListener('click', () => audio.play())
     }
   }
+
+async function wrongClick (
+    words:Word[], 
+    numberWord:number, 
+    numberWordTranslate:number,
+    word:HTMLDivElement,
+    wordTranslate:HTMLDivElement,
+    right:HTMLDivElement,
+    wrong:HTMLDivElement,
+    parent:HTMLElement,
+    ) {
+    if (numberWord === numberWordTranslate) {
+        failAudio.pause();
+        successAudio.pause();
+        failAudio.play();
+        wrongCount+=1;
+        wrongWords.add(words[numberWord].id);
+        if(words[numberWord].statistic) {
+            words[numberWord].statistic.incorrect += 1;
+            words[numberWord].statistic.row = 0;
+        } else {
+            words[numberWord].statistic = {
+                correct:0,
+                incorrect:1,
+                row:0
+            }
+        }
+    } else {
+        failAudio.pause();
+        successAudio.pause();
+        successAudio.play();
+        rightCount+=1;
+        rightWords.add(words[numberWord].id);
+        if(words[numberWord].statistic) {
+            words[numberWord].statistic.correct += 1;
+            words[numberWord].statistic.row += 1;
+        } else {
+            words[numberWord].statistic = {
+                correct:1,
+                incorrect:0,
+                row:1
+            }
+        }
+    }
+    word.remove();
+    wordTranslate.remove();
+    right.remove();
+    wrong.remove();
+    
+    console.log(words[numberWord].statistic);
+    const number1 = getRandomNumber(20)-1;
+    let number2;
+    if (sixtyFourty()) { number2 = number1 } else {
+        number2 = getRandomNumber(20)-1;
+    }
+    await createWords(words, parent,number1,number2);
+}
+async function rightClick (
+    words:Word[], 
+    numberWord:number, 
+    numberWordTranslate:number,
+    word:HTMLDivElement,
+    wordTranslate:HTMLDivElement,
+    right:HTMLDivElement,
+    wrong:HTMLDivElement,
+    parent:HTMLElement,
+    ) { 
+    if (numberWord !== numberWordTranslate) {
+        failAudio.pause();
+        successAudio.pause();
+        failAudio.play();
+        wrongCount+=1;
+        wrongWords.add(words[numberWord].id);
+        if(words[numberWord].statistic) {
+            words[numberWord].statistic.incorrect += 1;
+            words[numberWord].statistic.row = 0;
+        } else {
+            words[numberWord].statistic = {
+                correct:0,
+                incorrect:1,
+                row:0
+            }
+        }
+    } else {
+        failAudio.pause();
+        successAudio.pause();
+        successAudio.play();
+        rightCount+=1;
+        rightWords.add(words[numberWord].id);
+        if(words[numberWord].statistic) {
+            words[numberWord].statistic.correct += 1;
+            words[numberWord].statistic.row += 1;
+        } else {
+            words[numberWord].statistic = {
+                correct:1,
+                incorrect:0,
+                row:1
+            }
+        }
+    }
+    word.remove();
+    wordTranslate.remove();
+    right.remove();
+    wrong.remove();
+    
+    
+    console.log(words[numberWord].statistic);
+    const number1 = getRandomNumber(20)-1;
+    let number2;
+    if (sixtyFourty()) { number2 = number1 } else {
+        number2 = getRandomNumber(20)-1;
+    }
+    await createWords(words, parent,number1,number2);
+}
