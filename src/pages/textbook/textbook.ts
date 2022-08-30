@@ -1,11 +1,13 @@
-import { createLevelsChoose, } from "../../games/sprint-game";
-import { auth } from "../../components/auth"
+import './textbook.css';
+import '../../pictures/header-background.png';
+import '../../pictures/favicon.png';
 import { registration, logOut } from '../../components/auth';
 import createHeader from '../../components/create-header/create-header';
 import createSideBar from '../../components/create-sidebar/create-sidebar';
 import createFooter from '../../components/create-footer/create-footer'
+
 createSideBar('Textbook');
-createFooter("pictures/rs_school_js.svg");
+createFooter("../../pictures/rs_school_js.svg");
 createHeader('Textbook', false);
 
 let  ENTEREXITBUTTON: Element;
@@ -17,4 +19,3 @@ else{
   ENTEREXITBUTTON = document.querySelector('.log-out');
   ENTEREXITBUTTON.addEventListener('click', logOut);
 }
-createLevelsChoose(document.querySelector('.gameHolder'));

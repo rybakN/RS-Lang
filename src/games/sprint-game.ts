@@ -1,7 +1,7 @@
 import { Api } from "../api/api"
 import './sprint-game.css';
 import '../pictures/audio.png'
-import { Word,Filter,AndCondition,UserWordFilter, CreateUserWordResponse } from "../api/typeApi";
+import { Word,Filter,AndCondition,UserWordFilter, CreateUserWordResponse, CreateUserWord } from "../api/typeApi";
 import '../audio/fail.mp3'
 import '../audio/success.mp3'
 let rightCount = 0;
@@ -9,6 +9,7 @@ let wrongCount = 0;
 let rightWords = new Set<string>();
 let wrongWords = new Set<string>();
 let thisGameWords;
+let userWords;
 const successAudio = new Audio('audio/success.mp3');
 const failAudio = new Audio('audio/fail.mp3')
 failAudio.preload="auto";
@@ -103,7 +104,7 @@ export function createLevelsChoose(parent:HTMLElement){
 export async function createSprintGame(group:number, page:number, parent:HTMLElement) {
     const words = await Api.getWords(group, page);
     thisGameWords = words;
-    let userWords;
+
     if (localStorage.getItem('userToken')) {
         userWords = await Api.getUserWords(localStorage.getItem('userId'), localStorage.getItem('userToken'));
         if (localStorage.getItem('page')){
@@ -158,10 +159,10 @@ async function createWords(words:Word[], parent:HTMLElement, numberWord:number, 
         word.addEventListener('click', () => {
             word.remove();
             wordTranslate.remove();
-            const number1 = getRandomNumber(20)-1;
+            const number1 = getRandomNumber(20) - 1;
             let number2;
             if (sixtyFourty()) { number2 = number1 } else {
-                number2 = getRandomNumber(20)-1;
+                number2 = getRandomNumber(20) - 1;
             }
             createWords(words, parent, number1, number2);
         })
@@ -271,12 +272,12 @@ async function wrongClick (
         }
     }
     word.remove();
-    wordTranslate.remove();
+    wordTranslate.remove(); 
     right.remove();
     wrong.remove();
     
     console.log(words[numberWord].statistic);
-    const number1 = getRandomNumber(20)-1;
+    const number1 = getRandomNumber(20) - 1;
     let number2;
     if (sixtyFourty()) { number2 = number1 } else {
         number2 = getRandomNumber(20)-1;
@@ -339,4 +340,24 @@ async function rightClick (
         number2 = getRandomNumber(20)-1;
     }
     await createWords(words, parent,number1,number2);
+}
+
+async function sendStatistics(words:Word[],userWords:CreateUserWordResponse[]) {
+    for (let i = 0; i <=words.length; i++){
+        if (words[i].statistic) {
+            for (let j = 0; j <=words.length; j++) {
+                if (userWords[j].id == words[i].id) {
+                    if (userWords[j].optional.statistic) {
+                        let correct = userWords[j].optional.statistic.correct + words[i].statistic.correct;
+                        let incorrect = userWords[j].optional.statistic.incorrect + words[i].statistic.incorrect;
+                        let row;
+                        if (words[i].statistic.row === 0) {
+                            row = 0;
+                        } else { row = userWords[j].optional.statistic.incorrect + words[i].statistic.incorrect}
+                    }
+                }
+            }
+        }
+    }
+
 }

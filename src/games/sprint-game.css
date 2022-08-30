@@ -1,3 +1,14 @@
+body{
+    margin: 0 auto;
+    max-width: 1440px;
+    background-color: #9acd32;
+  }
+  
+  h1 {
+    font-family: 'Kanit', sans-serif;
+    font-size: 70px;
+  }
+  
 .difficultLevel {
     display: flex;
     align-items: center;
@@ -81,7 +92,13 @@
     justify-content: center;
     margin: 0 auto;
     align-items: center;
-}
+    box-shadow: rgb(0 0 0 / 100%) 0px 0px 10px;
+    background-color: white;
+    border-radius: 50px;
+    height: 500px;
+    width: 95%;
+    margin: 0 auto 10px;
+} 
 .clock {
     font-size: 35px;
     font-family: 'Kanit', sans-serif;
@@ -119,6 +136,7 @@
     overflow-y:scroll;
   }
   .backBlack {
+    z-index: 2;
     width: 100%;
     height: 100%;
     position: fixed;
