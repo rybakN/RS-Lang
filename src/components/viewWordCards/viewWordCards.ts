@@ -2,6 +2,7 @@ import { Api } from '../../api/api';
 import { Filter, GetUserAggregateWordResponse, OrCondition, UserWord, UserWordFilter, Word } from '../../api/typeApi';
 import { FilterViewWordCard, getCardsHTML } from './typeViewWordCards';
 import { HandlerCombiner } from './wordCardBtnHandler/handlerCombiner';
+import './viewWordCards.css';
 
 export async function viewWordCards(containerId: string, groupNum: number, pageNum: number, filter?: FilterViewWordCard): Promise<void> {
     const { id, containerHTML } = await getWordCardsHTML(groupNum, pageNum, filter);
