@@ -344,20 +344,66 @@ async function rightClick (
 
 async function sendStatistics(words:Word[],userWords:CreateUserWordResponse[]) {
     for (let i = 0; i <=words.length; i++){
+        let correct;
+        let incorrect;
+        let row;
+        let learning;
+        let userWord:CreateUserWord
+        let difficulty;
+        let isCreated = false;
         if (words[i].statistic) {
+            correct = words[i].statistic.correct;
+            incorrect = words[i].statistic.incorrect;
+            row =  words[i].statistic.incorrect;
+            difficulty ='easy';
             for (let j = 0; j <=words.length; j++) {
                 if (userWords[j].id == words[i].id) {
+                    learning = userWords[j].optional.learning;
+                    difficulty = userWords[j].difficulty;
+                    isCreated = true;
                     if (userWords[j].optional.statistic) {
-                        let correct = userWords[j].optional.statistic.correct + words[i].statistic.correct;
-                        let incorrect = userWords[j].optional.statistic.incorrect + words[i].statistic.incorrect;
-                        let row;
+                        correct += userWords[j].optional.statistic.correct;
+                        incorrect += userWords[j].optional.statistic.incorrect;
                         if (words[i].statistic.row === 0) {
                             row = 0;
-                        } else { row = userWords[j].optional.statistic.incorrect + words[i].statistic.incorrect}
+                            learning = false;
+                        } else { 
+                            row += words[i].statistic.incorrect;
+                            if (difficulty=='hard' && row>=5) {
+                                learning = true;
+                            }
+                            else if(difficulty=='easy' && row>=3) {
+                                learning = true;
+                            }
+                        }
+                    } else {
+                        if (difficulty=='hard' && row>=5) {
+                            learning = true;
+                        }
+                        else if(difficulty=='easy' && row>=3) {
+                            learning = true;
+                        } else if (row == 0) {
+                            learning = false;
+                        }
+                    }   
+                }
+            }
+            userWord = {
+                difficulty: difficulty,
+                optional: {
+                    learning: learning,
+                    statistic: {
+                        row: row,
+                        correct: correct,
+                        incorrect: incorrect,
                     }
                 }
             }
-        }
+            if (isCreated){
+                Api.updateUserWord(localStorage.getItem('userId'),localStorage.getItem('userToken'), words[i].id, userWord);
+            } else {
+                Api.createUserWord(localStorage.getItem('userId'),localStorage.getItem('userToken'), words[i].id, userWord);
+            }
+        }     
     }
-
 }

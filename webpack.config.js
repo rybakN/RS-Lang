@@ -32,7 +32,7 @@ const baseConfig = {
               test: /\.mp3$/,
               loader: 'file-loader',
               options: {
-                name: 'audio/[name].[ext]',
+                name: 'pages/audio/[name].[ext]',
               },
             },
             {

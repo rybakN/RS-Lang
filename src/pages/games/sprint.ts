@@ -18,4 +18,5 @@ else{
   ENTEREXITBUTTON.addEventListener('click', logOut);
 }
 createLevelsChoose(document.querySelector('.gameHolder'));
-console.log(new Date());
+let today = new Date();
+console.log(`${today.getDate()} ${today.getMonth()} ${today.getFullYear()}`);
