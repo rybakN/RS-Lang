@@ -18,3 +18,4 @@ else{
   ENTEREXITBUTTON.addEventListener('click', logOut);
 }
 createLevelsChoose(document.querySelector('.gameHolder'));
+console.log(new Date());
