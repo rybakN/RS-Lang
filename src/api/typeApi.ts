@@ -109,8 +109,10 @@ export interface StatisticRequestBody {
 }
 
 export interface OptionStatistic {
-    games: string
-    learnedWordsByDays: string
+    sprint: inGameStats
+    audio: inGameStats
+    learnedWordsByDays: Map<string, number>
+    newWordsByDays: Map<string, number>
 }
 
 export interface UserSettingsResponse {
@@ -149,4 +151,11 @@ export class Filter {
     constructor(condition: OrCondition | AndCondition) {
         this.condition = condition;
     }
+}
+
+export interface inGameStats {
+    accuracy: number;
+    date: string;
+    maxInRow: number;
+    newWords: number;
 }
