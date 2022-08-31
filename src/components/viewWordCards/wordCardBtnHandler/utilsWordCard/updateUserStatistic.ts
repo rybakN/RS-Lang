@@ -8,10 +8,7 @@ export class UpdateUserStatistic {
         response.learnedWords > 0 ? quantityLearnedWords = 1 : quantityLearnedWords = 0;
         const requestBodyStatistic: StatisticRequestBody = {
             learnedWords: response.learnedWords - quantityLearnedWords,
-            optional: {
-                learnedWordsByDays: response.optional.learnedWordsByDays,
-                games: response.optional.games,
-            }
+            optional: response.optional
         }
         Api.upsertUserStatistic(userId, token, requestBodyStatistic).then();
     }
