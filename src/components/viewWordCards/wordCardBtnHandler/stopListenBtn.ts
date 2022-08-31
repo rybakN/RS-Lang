@@ -10,9 +10,10 @@ export class StopListenBtn implements BtnHandler {
         this.toggleBtnName = toggleBtnName;
     }
     handle(wordId: string): void {
-        let audioContainer: HTMLElement = document.querySelector('.audio');
+        let audioContainer: HTMLElement = document.querySelector('.audioWordCard');
         (audioContainer.childNodes.item(0) as HTMLAudioElement).pause();
         const wordCard: HTMLElement = document.getElementById(`${wordId}`);
         this.toggleBtnName.toggleBtnName(wordCard, 'stop Listen', 'listen');
+        audioContainer.remove();
     }
 }
