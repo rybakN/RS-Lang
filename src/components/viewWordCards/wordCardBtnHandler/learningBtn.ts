@@ -64,10 +64,7 @@ export  class LearningBtn implements BtnHandler {
         const response: UserStatisticResponse = await Api.getUserStatistic(userId, token);
         const requestBodyStatistic: StatisticRequestBody = {
             learnedWords: response.learnedWords + 1,
-            optional: {
-                learnedWordsByDays: response.optional.learnedWordsByDays,
-                games: response.optional.games,
-            }
+            optional: response.optional,
         }
         Api.upsertUserStatistic(userId, token, requestBodyStatistic).then();
     }
