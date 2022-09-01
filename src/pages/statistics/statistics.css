@@ -26,7 +26,6 @@ p {
 .stats-container {
   display: flex;
   justify-content: center;
-  flex-shrink: revert;
   width: 95%;
   margin: 0 auto 10px;
 }
@@ -36,6 +35,7 @@ p {
 }
 
 .card {
+  width: 100%;
   padding: 0.2rem 0.5rem;
   background-color: white;
   border: 1px solid beige;
@@ -43,10 +43,38 @@ p {
   border-radius: 0.5rem;
   text-align: center;
   margin-left: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .count {
   font-family: 'Kanit', sans-serif;
   font-size: 80px;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.game-stats__item {
+  margin: auto 0.5rem;
+  display: block;
+  font-family: 'Kanit', sans-serif;
+  font-size: 30px;
+}
+
+.graphics {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.graphics > canvas {
+  max-width: 50%;
+}
+
+@media (max-width: 768px) {
+  .graphics > canvas {
+    max-width: 100%;
+  }
 }
