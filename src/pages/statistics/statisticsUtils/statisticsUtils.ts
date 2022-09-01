@@ -132,7 +132,7 @@ export class StatisticsPage {
                 datasets: [{
                     fill: 'start',
                     label: nameGraphics, // Название
-                    backgroundColor: 'rgb(255,0,50)', // Цвет закраски
+                    backgroundColor: 'rgba(255,0,50,0.2)', // Цвет закраски
                     borderColor: 'rgb(255,0,50)', // Цвет линии
                     data: allTimeLearnedWordsValue // Данные каждой точки графика
                 }]
@@ -142,7 +142,7 @@ export class StatisticsPage {
             options: {
                 elements: {
                     line: {
-                        tension: 0.3
+                        tension: 0.4
                     }
                 },
                 plugins: {
@@ -157,6 +157,9 @@ export class StatisticsPage {
                             }
                         }
                     }
+                },
+                interaction: {
+                    intersect: false
                 }
             }
         });
