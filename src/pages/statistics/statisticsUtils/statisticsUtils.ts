@@ -146,21 +146,53 @@ export class StatisticsPage {
                     }
                 },
                 plugins: {
+                    tooltip: {
+                        titleFont: {
+                            family: "'Kanit', sans-serif",
+                            size: 20
+                        },
+                        bodyFont: {
+                            family: "'Kanit', sans-serif",
+                            size: 20
+                        }
+                    },
+                    title: {
+                        display: true,
+                        fullSize: true,
+                        text: nameGraphics,
+                        color: 'black',
+                        font: {
+                            size: 40,
+                            family: "'Kanit', sans-serif"
+                        }
+                    },
                     legend: {
-                        labels: {
-                            usePointStyle: true,
-                            pointStyle: 'line',
-                            color: "black",
+                        display: false
+                    }
+                },
+                interaction: {
+                    intersect: false
+                },
+
+                scales: {
+                    xAxes: {
+                        ticks: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'black',
                             font: {
-                                size: 30,
+                                size: 27,
                                 family: "'Kanit', sans-serif"
                             }
                         }
                     }
                 },
-                interaction: {
-                    intersect: false
-                }
+                layout: {
+                    padding: 30
+                },
             }
         });
     }
