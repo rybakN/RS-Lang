@@ -17,33 +17,60 @@
     <div class="stats-container">
       <div class="card">
         <h2>Words were learned</h2>
-        <span class="count countLearned">0</span>
+        <span class="count countLearned" id="wordLearnedToDay">0</span>
       </div>
       <div class="card">
         <h2>New Words</h2>
-        <span class="count countLearned">0</span>
+        <span class="count countLearned" id="newWordToDay">0</span>
       </div>
       <div class="card">
         <h2>Accuracy</h2>
-        <span class="count countLearned">0%</span>
+        <span class="count countLearned" id="accuracy">0%</span>
       </div>
     </div>
 
     <div class="stats-container">
       <div class="card">
         <h2>Sprint</h2>
-        <span class="count countLearned">0</span>
+        <div class="game-stats">
+          <div>
+            <span class="game-stats__item" id="newWordToDaySprint">0</span>
+            <span class="game-stats__item"> new words</span>
+          </div>
+          <div>
+            <span class="game-stats__item" id="accuracySprint">0</span>
+            <span class="game-stats__item"> accuracy</span>
+          </div>
+          <div>
+            <span class="game-stats__item" id="inRowSprint">0</span>
+            <span class="game-stats__item"> in a row</span>
+          </div>
+        </div>
       </div>
       <div class="card">
         <h2>Audio challenge</h2>
-        <span class="count countLearned">0</span>
+        <div class="game-stats">
+          <div>
+            <span class="game-stats__item" id="newWordToDayAudio">0</span>
+            <span class="game-stats__item"> new words</span>
+          </div>
+          <div>
+            <span class="game-stats__item" id="accuracyAudio">0</span>
+            <span class="game-stats__item"> accuracy</span>
+          </div>
+          <div>
+            <span class="game-stats__item" id="inRowAudio">0</span>
+            <span class="game-stats__item"> in a row</span>
+          </div>
+        </div>
       </div>
     </div>
 
 
     <h2 class="today">All Time</h2>
-    <div>
-      <canvas id="myChart"></canvas>
+    <div class="graphics">
+      <canvas id="learned-words"></canvas>
+      <canvas id="new-words"></canvas>
     </div>
   </main>
 
