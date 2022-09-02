@@ -39,13 +39,13 @@ export class StatisticsPage {
 
         if (response.optional.sprint.date == toDay) {
             newWordToDaySprint = response.optional.sprint.newWords.toString();
-            accuracySprint = response.optional.sprint.accuracy.toString();
+            accuracySprint = Math.round(response.optional.sprint.accuracy).toString();
             inRowSprint = response.optional.sprint.maxInRow.toString();
 
         }
         if (response.optional.audio.date == toDay) {
             newWordToDayAudio = response.optional.audio.newWords.toString();
-            accuracyAudio = response.optional.audio.accuracy.toString();
+            accuracyAudio = Math.round(response.optional.audio.accuracy).toString();
             inRowAudio = response.optional.audio.maxInRow.toString();
         }
 
@@ -117,8 +117,16 @@ export class StatisticsPage {
 
     private drawGraphics(nameGraphics: string, id: string, response: Object, toDay: string): void {
         const { allTimeName, allTimeValue } = this.getStatsForGraphicsLearnedWords(response, toDay);
-        let allTimeLearnedWordsValue: number[] = allTimeValue;
-        let allTimeLearnedWordsName: string[] = allTimeName;
+        let allTimeLearnedWordsValue: number[] = [];
+        let allTimeLearnedWordsName: string[] = [];
+        if (nameGraphics == 'Learned Words') {
+            allTimeLearnedWordsValue = this.getKeyForGraphics(allTimeValue);
+            allTimeLearnedWordsName = allTimeName;
+        } else {
+            allTimeLearnedWordsValue = allTimeValue;
+            allTimeLearnedWordsName = allTimeName;
+        }
+
         let ctx = (document.getElementById(id) as HTMLCanvasElement).getContext('2d');
         let chart = new Chart(ctx, {
             // Тип графика
@@ -211,12 +219,15 @@ export class StatisticsPage {
         document.getElementById('inRowSprint').innerHTML = inRowSprint;
     }
 
-    private getKeyForGraphics(response: UserStatisticResponse): Set<string> {
-        const dataForGraphics: Object = {};
-        const keyContainer: Set<string> = new Set();
+    private getKeyForGraphics(allTimeValue: number[]): number[] {
+        const dataForGraphics: number[] = [];
 
-
-        return
+        let initialValue = 0;
+        allTimeValue.map(i => {
+            initialValue += i;
+            dataForGraphics.push(initialValue);
+        })
+        return dataForGraphics;
     }
 }
 
