@@ -73,7 +73,9 @@ export class StatisticsPage {
         const keysDate: Array<number> = [];
         const keysDateNew: Array<number> = [];
         const quantityLearnedWords: Map<number, number> = new Map();
+        let count: number = 0;
         for (let key in response) {
+            count += 1;
             const keyForParse: string = this.remakeKeyForDateParse(key);
             quantityLearnedWords.set(Date.parse(keyForParse), response[key])
             keysDate.push(Date.parse(keyForParse));
@@ -94,7 +96,10 @@ export class StatisticsPage {
             allTimeName.push(ISOString.slice(5, 10));
             quantityLearnedWords.has(item) ? allTimeValue.push(quantityLearnedWords.get(item)) : allTimeValue.push(0);
         })
-
+        if (count == 1) {
+            delete allTimeName[1];
+            delete  allTimeValue[1];
+        }
         return { allTimeName, allTimeValue };
     }
 
@@ -119,6 +124,7 @@ export class StatisticsPage {
         const { allTimeName, allTimeValue } = this.getStatsForGraphicsLearnedWords(response, toDay);
         let allTimeLearnedWordsValue: number[] = [];
         let allTimeLearnedWordsName: string[] = [];
+
         if (nameGraphics == 'Learned Words') {
             allTimeLearnedWordsValue = this.getKeyForGraphics(allTimeValue);
             allTimeLearnedWordsName = allTimeName;
@@ -126,7 +132,8 @@ export class StatisticsPage {
             allTimeLearnedWordsValue = allTimeValue;
             allTimeLearnedWordsName = allTimeName;
         }
-
+        console.log(allTimeLearnedWordsName);
+        console.log(allTimeLearnedWordsValue);
         let ctx = (document.getElementById(id) as HTMLCanvasElement).getContext('2d');
         let chart = new Chart(ctx, {
             // Тип графика
