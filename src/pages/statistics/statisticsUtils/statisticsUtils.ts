@@ -135,8 +135,6 @@ export class StatisticsPage {
             allTimeLearnedWordsValue = allTimeValue;
             allTimeLearnedWordsName = allTimeName;
         }
-        console.log(allTimeLearnedWordsName);
-        console.log(allTimeLearnedWordsValue);
         let ctx = (document.getElementById(id) as HTMLCanvasElement).getContext('2d');
         let chart = new Chart(ctx, {
             // Тип графика
