@@ -210,5 +210,13 @@ export class StatisticsPage {
         document.getElementById('newWordToDayAudio').innerHTML = newWordToDayAudio;
         document.getElementById('inRowSprint').innerHTML = inRowSprint;
     }
+
+    private getKeyForGraphics(response: UserStatisticResponse): Set<string> {
+        const dataForGraphics: Object = {};
+        const keyContainer: Set<string> = new Set();
+
+
+        return
+    }
 }
 
