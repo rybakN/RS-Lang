@@ -21,7 +21,7 @@ export class HandlerCombiner {
         this.btn.set(ListenBtn.btnName, new ListenBtn(this.toggleBtnName));
         this.btn.set(DifficultBtn.btnName, new DifficultBtn(this.toggleBtnName, this.updateUserStat, this.userWordBody));
         this.btn.set(EasyBtn.btnName, new EasyBtn(this.toggleBtnName, this.userWordBody));
-        this.btn.set(LearningBtn.btnName, new LearningBtn(this.toggleBtnName, this.userWordBody));
+        this.btn.set(LearningBtn.btnName, new LearningBtn(this.toggleBtnName,this.updateUserStat, this.userWordBody));
         this.btn.set(RestoreBtn.btnName, new RestoreBtn(this.toggleBtnName, this.updateUserStat, this.userWordBody));
         this.btn.set(StopListenBtn.btnName, new StopListenBtn(this.toggleBtnName));
     }
