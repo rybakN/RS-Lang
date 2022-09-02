@@ -9,8 +9,6 @@ import createFooter from '../../components/create-footer/create-footer'
 createSideBar('Textbook');
 createFooter("../pictures/rs_school_js.svg");
 createHeader('Textbook', false);
-localStorage.setItem('currentPage', '1');
-localStorage.setItem('currentGroup', '0');
 let  ENTEREXITBUTTON: Element;
 if(document.querySelector('.sign-in-or-log-in-button')){
   ENTEREXITBUTTON = document.querySelector('.sign-in-or-log-in-button')
