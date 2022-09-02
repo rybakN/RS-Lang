@@ -162,3 +162,4 @@ export interface inGameStats {
     correctToday?: number;
     incorrectToday?: number;
 }
+

@@ -171,7 +171,7 @@ const interval = setInterval(async () => {
             await sendWordStatistics(words,userWords);
             await sendGameStatistics();
         }
-        resultPopUp();
+        resultPopUp(parent);
         
     }
 }, 1000)
@@ -225,7 +225,7 @@ async function createWords(words:Word[], parent:HTMLElement, numberWord:number, 
         buttonsHolder.appendChild(wrong);
 }
 
-export async function resultPopUp() {
+export async function resultPopUp(parent:HTMLElement) {
     const backBlack = document.createElement('div');
     document.body.appendChild(backBlack);
     backBlack.classList.add('backBlack');
@@ -234,6 +234,11 @@ export async function resultPopUp() {
     popUp.classList.add('popUp');
     await createWrongWordsList();
     await createRightWordsList();
+    backBlack.addEventListener('click', () => {
+        backBlack.remove();
+        popUp.remove();
+        createLevelsChoose(parent);
+    })
     let result = `
         <div class = "wrongWords">
             <h3>Неправильно угадано: ${wrongCount} слов.</h3>

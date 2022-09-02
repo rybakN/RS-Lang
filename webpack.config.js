@@ -8,7 +8,8 @@ const baseConfig = {
     entry:{
       'index': path.resolve(__dirname, './src/main.ts'),
       'pages/sprint': path.resolve(__dirname, './src/pages/games/sprint.ts'),
-      'pages/textbook': path.resolve(__dirname, './src/pages/textbook/textbook.ts')
+      'pages/textbook': path.resolve(__dirname, './src/pages/textbook/textbook.ts'),
+      'pages/statistics': path.resolve(__dirname, './src/pages/statistics/statistics.ts'),
     },
     mode: 'development',
     module: {
@@ -67,6 +68,11 @@ const baseConfig = {
           filename: 'pages/sprint.html',
           chunks: ["pages/sprint"],
       }),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, './src/pages/statistics/statistics.html'),
+            filename: 'pages/statistics.html',
+            chunks:['pages/statistics']
+        }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
           filename: '[name].css',

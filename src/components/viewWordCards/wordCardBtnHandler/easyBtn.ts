@@ -1,29 +1,29 @@
 import { BtnHandler } from './typeBtnHandler';
 import { Api } from '../../../api/api';
 import { CreateUserWord } from '../../../api/typeApi';
-import { ToggleBtnName } from './toggleBtnName';
+import { ToggleBtnName } from './utilsWordCard/toggleBtnName';
+import { CreateUserWordBody } from './utilsWordCard/createUserWordBody';
+import { UpdateUserStatistic } from './utilsWordCard/updateUserStatistic';
+import { ParamCreateUserWordBody } from '../typeViewWordCards';
 
 export  class EasyBtn implements BtnHandler {
     static btnName = 'easy';
     toggleBtnName: ToggleBtnName;
-    constructor(toggleBtnName: ToggleBtnName) {
+    userWordBody: CreateUserWordBody;
+    constructor(toggleBtnName: ToggleBtnName, userWordBody: CreateUserWordBody) {
         this.toggleBtnName = toggleBtnName;
+        this.userWordBody = userWordBody;
     }
     async handle(wordId: string): Promise<void> {
+        const paramRequestBody: ParamCreateUserWordBody = {
+            difficulty: 'easy',
+            learning: false,
+        }
         const userId: string = localStorage.getItem('userId');
         const token: string = localStorage.getItem('userToken');
-        const requestBody: CreateUserWord = {
-            difficulty: 'easy',
-            optional: {
-                learning: false,
-            }
-        }
+        const { requestBody } = await this.userWordBody.createBody(userId, token, wordId, paramRequestBody);
+
         await Api.updateUserWord(userId, token, wordId, requestBody);
-        await Api.deleteUserWordById(userId, token, wordId);
         document.getElementById(`${wordId}`).remove();
-        // wordCard.remove();
-        // wordCard.classList.remove('bg-danger');
-        //
-        // this.toggleBtnName.toggleBtnName(wordCard, 'easy', 'difficult');
     }
 }
