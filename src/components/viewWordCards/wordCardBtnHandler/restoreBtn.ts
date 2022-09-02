@@ -32,6 +32,6 @@ export  class RestoreBtn implements BtnHandler {
 
         wordCard.parentElement.classList.remove('bg-success');
 
-        this.userStat.updateUserStatistic(userId, token).then();
+        this.userStat.updateUserStatistic(userId, token, -1).then();
     }
 }
