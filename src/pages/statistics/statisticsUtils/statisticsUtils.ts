@@ -67,7 +67,7 @@ export class StatisticsPage {
         return quantityLearnedWords.toString();
     }
 
-    private getStatsForGraphicsLearnedWords(response: Object, toDay: string): GetStatsForGraphicsLearnedWords {
+    private getStatsForGraphicsLearnedWords(response: Object, toDay: string, nameGraphics: string): GetStatsForGraphicsLearnedWords {
         const allTimeName: string[] = [];
         const allTimeValue: number[] = [];
         const keysDate: Array<number> = [];
@@ -96,9 +96,12 @@ export class StatisticsPage {
             allTimeName.push(ISOString.slice(5, 10));
             quantityLearnedWords.has(item) ? allTimeValue.push(quantityLearnedWords.get(item)) : allTimeValue.push(0);
         })
-        if (count == 1) {
+        if (count == 1 && nameGraphics == 'Learned Words') {
             delete allTimeName[1];
-            delete  allTimeValue[1];
+            allTimeValue[1] = -6;
+        } else {
+            delete allTimeName[1];
+            allTimeValue[1] = 0;
         }
         return { allTimeName, allTimeValue };
     }
@@ -121,7 +124,7 @@ export class StatisticsPage {
     }
 
     private drawGraphics(nameGraphics: string, id: string, response: Object, toDay: string): void {
-        const { allTimeName, allTimeValue } = this.getStatsForGraphicsLearnedWords(response, toDay);
+        const { allTimeName, allTimeValue } = this.getStatsForGraphicsLearnedWords(response, toDay, nameGraphics);
         let allTimeLearnedWordsValue: number[] = [];
         let allTimeLearnedWordsName: string[] = [];
 
