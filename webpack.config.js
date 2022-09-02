@@ -5,8 +5,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const baseConfig = {
-    entry: {
+    entry:{
       'index': path.resolve(__dirname, './src/main.ts'),
+      'pages/sprint': path.resolve(__dirname, './src/pages/games/sprint.ts'),
       'pages/textbook': path.resolve(__dirname, './src/pages/textbook/textbook.ts'),
       'pages/statistics': path.resolve(__dirname, './src/pages/statistics/statistics.ts'),
     },
@@ -29,6 +30,13 @@ const baseConfig = {
               },
             },
             {
+              test: /\.mp3$/,
+              loader: 'file-loader',
+              options: {
+                name: 'pages/audio/[name].[ext]',
+              },
+            },
+            {
               test: /\.ico$/i,
               loader: 'file-loader',
               options: {
@@ -42,7 +50,7 @@ const baseConfig = {
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -55,6 +63,11 @@ const baseConfig = {
           filename: 'pages/textbook.html',
           chunks:['pages/textbook']
         }),
+        new HtmlWebpackPlugin({
+          template: path.resolve(__dirname, './src/pages/games/sprint.html'),
+          filename: 'pages/sprint.html',
+          chunks: ["pages/sprint"],
+      }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/pages/statistics/statistics.html'),
             filename: 'pages/statistics.html',

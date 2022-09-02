@@ -38,6 +38,7 @@ export interface Word {
     textExampleTranslate: string
     textMeaningTranslate: string
     wordTranslate: string
+    statistic?: CorrectIncorrectAnswer 
 }
 
 export interface GetNewToken {
@@ -158,4 +159,7 @@ export interface inGameStats {
     date: string;
     maxInRow: number;
     newWords: number;
+    correctToday?: number;
+    incorrectToday?: number;
 }
+
