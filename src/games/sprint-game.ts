@@ -4,12 +4,10 @@ import '../pictures/audio.png'
 import { Word,Filter,AndCondition,UserWordFilter, CreateUserWordResponse, CreateUserWord, StatisticRequestBody } from "../api/typeApi";
 import '../audio/fail.mp3'
 import '../audio/success.mp3'
-import { statSync } from "fs";
 let rightCount = 0;
 let wrongCount = 0;
 let rightWords = new Set<string>();
 let wrongWords = new Set<string>();
-let thisGameWords;
 let newWords:number = 0;
 let learnedWords:number = 0;
 let maxInRow:number = 0;
@@ -17,13 +15,11 @@ let currentRow:number = 0;
 let userWords:CreateUserWordResponse[];
 const successAudio = new Audio('audio/success.mp3');
 const failAudio = new Audio('audio/fail.mp3')
-failAudio.preload="auto";
-successAudio.preload="auto";
-function getRandomNumber(max:number):number{
+export function getRandomNumber(max:number):number{
     let number = Math.round(Math.random() * (max - 1) + 1);
     return number
 }
-function sixtyFourty() {
+export function sixtyFourty() {
     let chance:boolean = 0.6 >= Math.random();
     return chance
 }
@@ -108,7 +104,6 @@ export function createLevelsChoose(parent:HTMLElement){
 
 export async function createSprintGame(group:number, page:number, parent:HTMLElement) {
     let words = await Api.getWords(group, page);
-    thisGameWords = words;
     let err = false;
     let endOfPage = false;
     if (localStorage.getItem('userToken')) {
