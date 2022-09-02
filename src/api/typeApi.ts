@@ -112,8 +112,8 @@ export interface StatisticRequestBody {
 export interface OptionStatistic {
     sprint: inGameStats
     audio: inGameStats
-    learnedWordsByDays: Map<string, number>
-    newWordsByDays: Map<string, number>
+    learnedWordsByDays: Object
+    newWordsByDays: Object
 }
 
 export interface UserSettingsResponse {
@@ -159,4 +159,6 @@ export interface inGameStats {
     date: string;
     maxInRow: number;
     newWords: number;
+    correctToday?: number;
+    incorrectToday?: number;
 }
