@@ -9,9 +9,11 @@ import { ParamCreateUserWordBody } from '../typeViewWordCards';
 export  class LearningBtn implements BtnHandler {
     static btnName = 'learned';
     toggleBtnName: ToggleBtnName;
+    userStat: UpdateUserStatistic;
     userWordBody: CreateUserWordBody;
-    constructor(toggleBtnName: ToggleBtnName, userWordBody: CreateUserWordBody) {
+    constructor(toggleBtnName: ToggleBtnName, updateUserStat: UpdateUserStatistic, userWordBody: CreateUserWordBody) {
         this.toggleBtnName = toggleBtnName;
+        this.userStat = updateUserStat;
         this.userWordBody = userWordBody;
     }
     async handle(wordId: string): Promise<void> {
@@ -56,7 +58,8 @@ export  class LearningBtn implements BtnHandler {
             if (item.dataset.name === 'easy') wordCard.remove();
         })
 
-        this.updateStatistic(userId, token).then();
+        // this.updateStatistic(userId, token).then();
+        this.userStat.updateUserStatistic(userId, token, 1).then();
 
     }
 
