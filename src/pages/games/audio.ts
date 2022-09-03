@@ -1,4 +1,4 @@
-import { createLevelsChoose, createSprintGame } from "../../games/sprint-game";
+import { createLevelsChoose, createAudioGame} from "../../games/audio-game";
 import { auth } from "../../components/auth"
 import { Api } from "../../api/api";
 import { registration, logOut } from '../../components/auth';
@@ -19,5 +19,5 @@ else{
   ENTEREXITBUTTON.addEventListener('click', logOut);
 }
 if (localStorage.getItem('currentPage')) {
-  createSprintGame(+localStorage.getItem('currentGroup'), +localStorage.getItem('currentPage'), document.querySelector('.gameHolder'))
+  createAudioGame(+localStorage.getItem('currentGroup'), +localStorage.getItem('currentPage'), document.querySelector('.gameHolder'))
 } else { createLevelsChoose(document.querySelector('.gameHolder')); }

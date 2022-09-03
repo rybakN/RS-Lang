@@ -42,6 +42,14 @@
     background-color: yellowgreen;
 }
 
+.bg-success-25 {
+    background-color: rgba(255, 0, 53,0.3);
+}
+
 .bg-danger {
     background-color: #f32614;
+}
+
+.displayNone {
+    display: none;
 }

@@ -30,7 +30,9 @@ export  class RestoreBtn implements BtnHandler {
         wordCard.classList.remove('bg-success');
         this.toggleBtnName.toggleBtnName(wordCard, 'restore', 'learned');
 
-        wordCard.parentElement.classList.remove('bg-success');
+        wordCard.parentElement.classList.remove('bg-success-25');
+
+        if (wordCard.classList.contains('learned')) wordCard.remove();
 
         this.userStat.updateUserStatistic(userId, token, -1).then();
     }

@@ -45,7 +45,9 @@ export  class DifficultBtn implements BtnHandler {
             if (item.dataset.name == 'difficult') item.disabled = true;
         })
 
-        wordCard.parentElement.classList.remove('bg-success');
+        wordCard.parentElement.classList.remove('bg-success-25');
+        if (wordCard.classList.contains('learned')) wordCard.remove();
+
         this.userStat.updateUserStatistic(userId, token, -1).then();
     }
 }

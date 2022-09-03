@@ -57,7 +57,7 @@ async function createRightWordsList(){
         const word:Word = await Api.getWord(value)
         rightWordsList+=`
         <div class="rightWord">
-            <img class="musicPlay" id="wrongMusic${numberList.toString()}" src="../pictures/audio.png">
+            <img class="musicPlay" id="rightMusic${numberList.toString()}" src="../pictures/audio.png">
             <p class ="rightWordEng">${word.word}</p>
             <p class ="rightWordRus">${word.wordTranslate}</p>
         </div>
@@ -140,11 +140,11 @@ export async function createSprintGame(group:number, page:number, parent:HTMLEle
     localStorage.removeItem('currentPage');
     localStorage.removeItem('currentGroup');
     if (sixtyFourty()) {
-        const number = getRandomNumber(20)-1;
+        const number = getRandomNumber(words.length)-1;
         createWords(words,parent,number,number);
     } else {
-        const number1 = getRandomNumber(20)-1;
-        const number2 = getRandomNumber(20)-1;
+        const number1 = getRandomNumber(words.length)-1;
+        const number2 = getRandomNumber(words.length)-1;
         createWords(words,parent,number1,number2);
     }
     createTimer(parent, words, userWords);
@@ -162,11 +162,12 @@ const interval = setInterval(async () => {
         parent.innerHTML = '';
         clock.remove();
         clearInterval(interval);
+        resultPopUp(parent);
         if (localStorage.getItem('userToken')){
             await sendWordStatistics(words,userWords);
             await sendGameStatistics();
         }
-        resultPopUp(parent);
+ 
         
     }
 }, 1000)
@@ -181,16 +182,6 @@ async function createWords(words:Word[], parent:HTMLElement, numberWord:number, 
         } else {
             parent.appendChild(word);
         }
-        word.addEventListener('click', () => {
-            word.remove();
-            wordTranslate.remove();
-            const number1 = getRandomNumber(20) - 1;
-            let number2;
-            if (sixtyFourty()) { number2 = number1 } else {
-                number2 = getRandomNumber(20) - 1;
-            }
-            createWords(words, parent, number1, number2);
-        })
         const wordTranslate = document.createElement('div');
         wordTranslate.classList.add('wordTranslate');
         wordTranslate.innerHTML = words[numberWordTranslate].wordTranslate;
@@ -256,6 +247,14 @@ export async function resultPopUp(parent:HTMLElement) {
         const audioButton = document.querySelector(`#wrongMusic${numberList.toString()}`);
         audioButton.addEventListener('click', () => audio.play())
     }
+    numberList = 0;
+    for (let value of rightWords){
+        numberList +=1;
+        const word:Word = await Api.getWord(value);
+        let audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${word.audio}`);
+        const audioButton = document.querySelector(`#rightMusic${numberList.toString()}`);
+        audioButton.addEventListener('click', () => audio.play())
+    }
   }
 
 async function wrongClick (
@@ -270,6 +269,8 @@ async function wrongClick (
     ) {
     if (numberWord === numberWordTranslate) {
         failAudio.pause();
+        failAudio.currentTime = 0;
+        successAudio.currentTime = 0;
         successAudio.pause();
         failAudio.play();
         wrongCount+=1;
@@ -287,6 +288,8 @@ async function wrongClick (
         }
     } else {
         failAudio.pause();
+        failAudio.currentTime = 0;
+        successAudio.currentTime = 0;
         successAudio.pause();
         successAudio.play();
         rightCount+=1;
@@ -311,10 +314,10 @@ async function wrongClick (
     right.remove();
     wrong.remove();
     
-    const number1 = getRandomNumber(20) - 1;
+    const number1 = getRandomNumber(words.length) - 1;
     let number2;
     if (sixtyFourty()) { number2 = number1 } else {
-        number2 = getRandomNumber(20)-1;
+        number2 = getRandomNumber(words.length)-1;
     }
     await createWords(words, parent,number1,number2);
 }
@@ -331,6 +334,8 @@ async function rightClick (
     if (numberWord !== numberWordTranslate) {
         failAudio.pause();
         successAudio.pause();
+        failAudio.currentTime = 0;
+        successAudio.currentTime = 0;
         failAudio.play();
         wrongCount += 1;
         currentRow = 0;
@@ -348,6 +353,8 @@ async function rightClick (
     } else {
         failAudio.pause();
         successAudio.pause();
+        failAudio.currentTime = 0;
+        successAudio.currentTime = 0;
         successAudio.play();
         rightCount += 1;
         currentRow += 1;
@@ -372,10 +379,10 @@ async function rightClick (
     wrong.remove();
     
     
-    const number1 = getRandomNumber(20)-1;
+    const number1 = getRandomNumber(words.length)-1;
     let number2;
     if (sixtyFourty()) { number2 = number1 } else {
-        number2 = getRandomNumber(20)-1;
+        number2 = getRandomNumber(words.length)-1;
     }
     await createWords(words, parent,number1,number2);
 }
@@ -384,6 +391,7 @@ async function sendWordStatistics(words:Word[],userWords:CreateUserWordResponse[
     for (let i = 0; i <words.length; i++){
 
         let correct;
+        let wasBefore = false;
         let incorrect;
         let row;
         let learning;
@@ -398,6 +406,7 @@ async function sendWordStatistics(words:Word[],userWords:CreateUserWordResponse[
             learning = false;
             for (let j = 0; j <userWords.length; j++) {
                 if (userWords[j].wordId == words[i].id) {
+                    wasBefore = true;
                     learning = userWords[j].optional.learning;
                     difficulty = userWords[j].difficulty;
                     isCreated = true;
@@ -435,6 +444,17 @@ async function sendWordStatistics(words:Word[],userWords:CreateUserWordResponse[
                     }   
                 }
             }
+            if (!wasBefore)
+                {
+                    if (difficulty=='hard' && row>=5) {
+                        learning = true;
+                            learnedWords += 1;
+                    }
+                    if (difficulty=='easy' && row>=3) {
+                        learning = true;
+                        learnedWords += 1;
+                    }
+                }
             userWord = {
                 difficulty: difficulty,
                 optional: {
@@ -463,8 +483,9 @@ async function sendWordStatistics(words:Word[],userWords:CreateUserWordResponse[
 async function sendGameStatistics(){
     let accuracy = rightCount / (rightCount + wrongCount) * 100;
     let today = `${new Date().getDate()} ${new Date().getMonth() + 1} ${new Date().getFullYear()}` 
+    let stats;
     try {
-        const stats = await Api.getUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'));
+        stats = await Api.getUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'));
         let todayAccuracy = accuracy;
         let todayRight = rightCount;
         let todayWrong = wrongCount;
@@ -507,8 +528,11 @@ async function sendGameStatistics(){
         }
         await Api.upsertUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'), thisGameStats).then();
     }
-    catch(err) {       
-        console.log(`error ${err}`);
+    catch(err) {  console.log('подгружаем статистику первый раз')     
+        
+        }
+        
+    if (!stats) {
         let newLearnedWordsByDays = {};
         newLearnedWordsByDays[today] = learnedWords;
         let newNewWordsByDays = {};
@@ -535,8 +559,9 @@ async function sendGameStatistics(){
                 learnedWordsByDays: newLearnedWordsByDays,
                 newWordsByDays: newNewWordsByDays,
             }
+
         }
-        await Api.upsertUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'), thisGameStats).then();
+        await Api.upsertUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'), thisGameStats);
     }
-    
 }
+
