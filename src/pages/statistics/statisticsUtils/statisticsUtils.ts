@@ -39,13 +39,13 @@ export class StatisticsPage {
 
         if (response.optional.sprint.date == toDay) {
             newWordToDaySprint = response.optional.sprint.newWords.toString();
-            accuracySprint = response.optional.sprint.accuracy.toString();
+            accuracySprint = Math.round(response.optional.sprint.accuracy).toString();
             inRowSprint = response.optional.sprint.maxInRow.toString();
 
         }
         if (response.optional.audio.date == toDay) {
             newWordToDayAudio = response.optional.audio.newWords.toString();
-            accuracyAudio = response.optional.audio.accuracy.toString();
+            accuracyAudio = Math.round(response.optional.audio.accuracy).toString();
             inRowAudio = response.optional.audio.maxInRow.toString();
         }
 
@@ -67,13 +67,15 @@ export class StatisticsPage {
         return quantityLearnedWords.toString();
     }
 
-    private getStatsForGraphicsLearnedWords(response: Object, toDay: string): GetStatsForGraphicsLearnedWords {
+    private getStatsForGraphicsLearnedWords(response: Object, toDay: string, nameGraphics: string): GetStatsForGraphicsLearnedWords {
         const allTimeName: string[] = [];
         const allTimeValue: number[] = [];
         const keysDate: Array<number> = [];
         const keysDateNew: Array<number> = [];
         const quantityLearnedWords: Map<number, number> = new Map();
+        let count: number = 0;
         for (let key in response) {
+            count += 1;
             const keyForParse: string = this.remakeKeyForDateParse(key);
             quantityLearnedWords.set(Date.parse(keyForParse), response[key])
             keysDate.push(Date.parse(keyForParse));
@@ -94,7 +96,13 @@ export class StatisticsPage {
             allTimeName.push(ISOString.slice(5, 10));
             quantityLearnedWords.has(item) ? allTimeValue.push(quantityLearnedWords.get(item)) : allTimeValue.push(0);
         })
-
+        if (count == 1 && nameGraphics == 'Learned Words') {
+            delete allTimeName[1];
+            allTimeValue[1] = -6;
+        } else if (count == 1) {
+            delete allTimeName[1];
+            allTimeValue[1] = 0;
+        }
         return { allTimeName, allTimeValue };
     }
 
@@ -116,9 +124,17 @@ export class StatisticsPage {
     }
 
     private drawGraphics(nameGraphics: string, id: string, response: Object, toDay: string): void {
-        const { allTimeName, allTimeValue } = this.getStatsForGraphicsLearnedWords(response, toDay);
-        let allTimeLearnedWordsValue: number[] = allTimeValue;
-        let allTimeLearnedWordsName: string[] = allTimeName;
+        const { allTimeName, allTimeValue } = this.getStatsForGraphicsLearnedWords(response, toDay, nameGraphics);
+        let allTimeLearnedWordsValue: number[] = [];
+        let allTimeLearnedWordsName: string[] = [];
+
+        if (nameGraphics == 'Learned Words') {
+            allTimeLearnedWordsValue = this.getKeyForGraphics(allTimeValue);
+            allTimeLearnedWordsName = allTimeName;
+        } else {
+            allTimeLearnedWordsValue = allTimeValue;
+            allTimeLearnedWordsName = allTimeName;
+        }
         let ctx = (document.getElementById(id) as HTMLCanvasElement).getContext('2d');
         let chart = new Chart(ctx, {
             // Тип графика
@@ -209,6 +225,17 @@ export class StatisticsPage {
         document.getElementById('accuracyAudio').innerHTML = accuracyAudio + '%';
         document.getElementById('newWordToDayAudio').innerHTML = newWordToDayAudio;
         document.getElementById('inRowSprint').innerHTML = inRowSprint;
+    }
+
+    private getKeyForGraphics(allTimeValue: number[]): number[] {
+        const dataForGraphics: number[] = [];
+
+        let initialValue = 0;
+        allTimeValue.map(i => {
+            initialValue += i;
+            dataForGraphics.push(initialValue);
+        })
+        return dataForGraphics;
     }
 }
 
