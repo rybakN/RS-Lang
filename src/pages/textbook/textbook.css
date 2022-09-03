@@ -17,6 +17,36 @@ p{
   font-family: 'Josefin Sans', sans-serif;
 }
 
+.pagination{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 95%;
+  box-shadow: rgb(0 0 0 / 100%) 0px 0px 10px;
+  background-color: yellow;
+  margin: 20px auto;
+  height: 50px;
+}
+
+.pagination > button {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 30px;
+  border-radius: 50px;
+  border: none;
+  background-color:blueviolet;
+  box-shadow: rgb(0 0 0 / 100%) 0px 0px 10px;
+}
+
+.pagination > .active{
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.pagination > .active:hover {
+  background-color: #a980cf;
+}
+
 #word-cards-container{
   box-shadow: rgb(0 0 0 / 100%) 0px 0px 10px;
   background-color: white;
