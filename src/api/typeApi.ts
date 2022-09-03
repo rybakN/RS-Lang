@@ -38,7 +38,7 @@ export interface Word {
     textExampleTranslate: string
     textMeaningTranslate: string
     wordTranslate: string
-    statistic?: CorrectIncorrectAnswer 
+    statistic?: CorrectIncorrectAnswer
 }
 
 export interface GetNewToken {
@@ -119,12 +119,16 @@ export interface OptionStatistic {
 export interface UserSettingsResponse {
     id: string
     wordsPerDay: number
-    optional?: any
+    optional?: UserSettingsOptional
 }
 
 export interface SettingsRequestBody {
     wordsPerDay: number
-    optional?: any
+    optional?: UserSettingsOptional
+}
+
+export interface UserSettingsOptional {
+    translate: string
 }
 
 export class UserWordFilter {

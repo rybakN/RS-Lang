@@ -1,6 +1,6 @@
 import './auth.css';
 import { Api } from "../api/api";
-import { CreateUserBody, SingInRequestBody, StatisticRequestBody } from '../api/typeApi';
+import { CreateUserBody, SettingsRequestBody, SingInRequestBody, StatisticRequestBody } from '../api/typeApi';
 export async function registration() {
   removePopUp();
   const backBlack = document.createElement('div');
@@ -72,6 +72,7 @@ export function logOut() {
   localStorage.removeItem('userToken');
   localStorage.removeItem('userRefreshToken');
   localStorage.removeItem('userEmail');
+  localStorage.clear();
   location.reload();
 }
 async function callRegistration() {
@@ -103,6 +104,7 @@ async function callRegistration() {
         alert('Registration completed successfully!');
         removePopUp();
         await createUserStatisticsObj(signInResp.userId, signInResp.token);
+        await createUserSettingsObj(signInResp.userId, signInResp.token);
         location.reload();
       }
   } catch (err) {
@@ -168,4 +170,14 @@ async function createUserStatisticsObj(userId: string, token: string): Promise<v
     }
   }
   await Api.upsertUserStatistic(userId, token, requestBody).then();
+}
+
+async function createUserSettingsObj(userId: string, token: string): Promise<void> {
+  const requestBody: SettingsRequestBody = {
+    wordsPerDay: 1,
+    optional: {
+      translate: 'true'
+    }
+  }
+  await Api.upsertUserSettings(userId, token, requestBody).then();
 }
