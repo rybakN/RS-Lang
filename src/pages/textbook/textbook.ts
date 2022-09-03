@@ -13,7 +13,7 @@ createSideBar('Textbook');
 createFooter("../../pictures/rs_school_js.svg");
 createHeader('Textbook', false);
 
-
+let GROUPSBUTTONS: NodeListOf<Element>;
 
 let  ENTEREXITBUTTON: Element;
 if(document.querySelector('.sign-in-or-log-in-button')){
@@ -24,12 +24,64 @@ else{
   document.querySelector('.groups').classList.add('login')
   document.querySelector('.groups').innerHTML += `
   <button class="circle-button">7</button>`;
-  document.querySelector('.circle-button:nth-of-type(7)').addEventListener('click', () => {
+  document.querySelector('main').innerHTML = `    <button class="learned-words">Learned Words</button>
+  ${document.querySelector('main').innerHTML}`;
+  GROUPSBUTTONS = document.querySelectorAll('.circle-button');
+  document.querySelector('.learned-words').addEventListener('click', () => {
+    if(!nextPageButton.hasAttribute('disabled')){
+      nextPageButton.classList.remove('active');
+      nextPageButton.removeEventListener('click', moveNextPage);
+      nextPageButton.setAttribute("disabled", "disabled");
+
+      lastPageButton.classList.remove('active');
+      lastPageButton.removeEventListener('click', moveNextPage);
+      lastPageButton.setAttribute("disabled", "disabled");
+    }
+    if(!firstPageButton.hasAttribute('disabled')){
+      firstPageButton.classList.remove('active');
+      firstPageButton.removeEventListener('click', moveNextPage);
+      firstPageButton.setAttribute("disabled", "disabled");
+
+      previousPageButton.classList.remove('active');
+      previousPageButton.removeEventListener('click', moveNextPage);
+      previousPageButton.setAttribute("disabled", "disabled");
+    }
+    GROUPSBUTTONS[group].classList.remove('active');
+    numberOfPage.innerHTML = '1';
+    document.querySelector('.learned-words').classList.add('active');
     page = 0;
-    group = 0;
+    group = 7;
     localStorage.setItem('page', '0');
     localStorage.setItem('group', '0');
-    viewWordCards('word-cards-container', group, page, FilterViewWordCard.difficult)
+    viewWordCards('word-cards-container', 0, page, FilterViewWordCard.learned)
+  })
+  document.querySelector('.circle-button:nth-of-type(7)').addEventListener('click', () => {
+    if(!nextPageButton.hasAttribute('disabled')){
+      nextPageButton.classList.remove('active');
+      nextPageButton.removeEventListener('click', moveNextPage);
+      nextPageButton.setAttribute("disabled", "disabled");
+
+      lastPageButton.classList.remove('active');
+      lastPageButton.removeEventListener('click', moveNextPage);
+      lastPageButton.setAttribute("disabled", "disabled");
+    }
+    if(!firstPageButton.hasAttribute('disabled')){
+      firstPageButton.classList.remove('active');
+      firstPageButton.removeEventListener('click', moveNextPage);
+      firstPageButton.setAttribute("disabled", "disabled");
+
+      previousPageButton.classList.remove('active');
+      previousPageButton.removeEventListener('click', moveNextPage);
+      previousPageButton.setAttribute("disabled", "disabled");
+    }
+    GROUPSBUTTONS[group].classList.remove('active');
+    numberOfPage.innerHTML = '1';
+    GROUPSBUTTONS[6].classList.add('active');
+    page = 0;
+    group = 6;
+    localStorage.setItem('page', '0');
+    localStorage.setItem('group', '6');
+    viewWordCards('word-cards-container', 0, page, FilterViewWordCard.difficult)
   })
   ENTEREXITBUTTON = document.querySelector('.log-out');
   ENTEREXITBUTTON.addEventListener('click', logOut);
@@ -59,15 +111,31 @@ else {
   viewWordCards('word-cards-container', group, page);
 }
 
-const GROUPSBUTTONS = document.querySelectorAll('.circle-button');
-
 GROUPSBUTTONS[group].classList.add('active')
 
 for(let i = 0; i < 6; i++){
   GROUPSBUTTONS[i].addEventListener('click', () => {
-    GROUPSBUTTONS[group].classList.remove('active');
+    if(nextPageButton.hasAttribute('disabled')){
+      nextPageButton.removeAttribute("disabled");
+      nextPageButton.classList.add('active');
+      nextPageButton.addEventListener('click', moveNextPage);
+      lastPageButton.removeAttribute("disabled");
+      lastPageButton.classList.add('active');
+      lastPageButton.addEventListener('click', moveLastPage);
+    }
+    if(!firstPageButton.hasAttribute('disabled')){
+      firstPageButton.classList.remove('active');
+      firstPageButton.removeEventListener('click', moveNextPage);
+      firstPageButton.setAttribute("disabled", "disabled");
+
+      previousPageButton.classList.remove('active');
+      previousPageButton.removeEventListener('click', moveNextPage);
+      previousPageButton.setAttribute("disabled", "disabled");
+    }
+    group == 7 ? document.querySelector('.learned-words').classList.remove('active') : GROUPSBUTTONS[group].classList.remove('active');
     group = i;
     page = 0;
+    numberOfPage.innerHTML = '1';
     localStorage.setItem('page', '0');
     localStorage.setItem('group', `${group}`);
     GROUPSBUTTONS[i].classList.add('active')
@@ -176,8 +244,13 @@ const moveLastPage = () => {
   numberOfPage.innerHTML = String(page + 1);
 }
 
-
-if(page == 0){
+if(group == 6 || group == 7){
+  firstPageButton.setAttribute("disabled", "disabled");
+  previousPageButton.setAttribute("disabled", "disabled");
+  nextPageButton.setAttribute("disabled", "disabled");
+  lastPageButton.setAttribute("disabled", "disabled");
+}
+else if(page == 0){
   firstPageButton.setAttribute("disabled", "disabled");
   previousPageButton.setAttribute("disabled", "disabled");
   nextPageButton.classList.add('active');

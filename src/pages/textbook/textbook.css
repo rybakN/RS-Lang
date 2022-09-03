@@ -17,6 +17,25 @@ p{
   font-family: 'Josefin Sans', sans-serif;
 }
 
+.learned-words {
+  margin-left: 2%;
+  background-color: #c778a9;
+  width: 160px;
+  height: 60px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.5s;
+  border: none;
+}
+
+.learned-words.active {
+  border: 5px solid red;
+}
+
+.learned-words:hover {
+  background-color: #b999ad;
+}
+
 .pagination{
   display: flex;
   justify-content: center;
