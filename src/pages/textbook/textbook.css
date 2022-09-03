@@ -17,7 +17,7 @@ p{
   font-family: 'Josefin Sans', sans-serif;
 }
 
-.word-cards-container{
+#word-cards-container{
   box-shadow: rgb(0 0 0 / 100%) 0px 0px 10px;
   background-color: white;
   min-height: 500px;
@@ -42,6 +42,11 @@ p{
 
 .groups:hover{
   height: 405px;
+}
+
+.groups.login:hover{
+  height: 475px;
+  bottom: 40px;
 }
 
 .groups span,
@@ -108,6 +113,14 @@ p{
 
 .circle-button:nth-of-type(6):hover{
   background-color: #c778a9;
+}
+
+.circle-button:nth-of-type(7){
+  background-color: #22cec5;
+}
+
+.circle-button:nth-of-type(7):hover{
+  background-color: #88dfda;
 }
 
 .circle-button.active{
