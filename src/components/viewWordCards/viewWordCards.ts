@@ -38,8 +38,9 @@ async function getWordCardsHTML(groupNum: number, pageNum: number, filter?: stri
             }
 
         } else {
+            const filterForApi: Filter = getFilter('noFilter');
             const token = localStorage.getItem('userToken');
-            const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage);
+            const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage, filterForApi, groupNum);
             response[0].paginatedResults.forEach((item: UserWord) => {
                 containerHTML += templateCardAuth(item, translateOption);
                 id.push(item._id);

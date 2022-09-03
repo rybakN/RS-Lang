@@ -96,7 +96,6 @@ async function addTranslateOptionBtn(currentPage: string) {
 
         if ((e.target as HTMLElement).dataset.name == 'checkbox') {
             let translateValue: string = stageTranslateWord == 'false' ? 'true' : 'false';
-            console.log(stageTranslateWord);
 
             if (localStorage.getItem('userId') != null) {
                 const requestBody: SettingsRequestBody = {
