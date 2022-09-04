@@ -130,11 +130,11 @@ async function addTranslateOptionBtn(currentPage: string) {
                     const pageNum: number = Number(localStorage.getItem('page'));
                     const groupNum = Number(localStorage.getItem('group'));
                     if (document.getElementById('word-cards-container').children[0].classList.contains('difficult')) {
-                        viewWordCards('word-cards-container', 0, 0, FilterViewWordCard.difficult).then();
+                        await viewWordCards('word-cards-container', 0, 0, FilterViewWordCard.difficult).then();
                     } else if (document.getElementById('word-cards-container').children[0].classList.contains('learned')) {
                         viewWordCards('word-cards-container', 0, 0, FilterViewWordCard.learned).then();
                     } else {
-                        viewWordCards('word-cards-container', groupNum, pageNum).then();
+                        await viewWordCards('word-cards-container', groupNum, pageNum).then();
                     }
                 } else {
                     localStorage.setItem('translateWord', translateValue);
@@ -145,7 +145,7 @@ async function addTranslateOptionBtn(currentPage: string) {
                     localStorage.setItem('translateWord', translateValue);
                     const pageNum: number = Number(localStorage.getItem('page'));
                     const groupNum = Number(localStorage.getItem('group'));
-                    viewWordCards('word-cards-container', groupNum, pageNum).then();
+                    await viewWordCards('word-cards-container', groupNum, pageNum).then();
                 } else {
                     localStorage.setItem('translateWord', translateValue);
                 }

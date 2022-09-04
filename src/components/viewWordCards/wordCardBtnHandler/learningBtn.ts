@@ -5,6 +5,7 @@ import { ToggleBtnName } from './utilsWordCard/toggleBtnName';
 import { CreateUserWordBody } from './utilsWordCard/createUserWordBody';
 import { UpdateUserStatistic } from './utilsWordCard/updateUserStatistic';
 import { ParamCreateUserWordBody } from '../typeViewWordCards';
+import { addStyleLearnedPage } from '../viewWordCards';
 
 export  class LearningBtn implements BtnHandler {
     static btnName = 'learned';
@@ -51,25 +52,13 @@ export  class LearningBtn implements BtnHandler {
             if (item.dataset.name === 'restore') learnedWordsCounter += 1;
         })
         if (learnedWordsCounter >= wordCard.parentElement.children.length) {
-            wordCard.parentElement.classList.add('bg-success');
-            wordCard.parentElement.classList.add('bg-opacity-25');
+            addStyleLearnedPage();
         }
         wordCard.querySelectorAll('button').forEach((item: HTMLButtonElement) => {
             if (item.dataset.name === 'easy') wordCard.remove();
         })
 
-        // this.updateStatistic(userId, token).then();
         this.userStat.updateUserStatistic(userId, token, 1).then();
 
     }
-
-    private async updateStatistic(userId: string, token: string): Promise<void> {
-        const response: UserStatisticResponse = await Api.getUserStatistic(userId, token);
-        const requestBodyStatistic: StatisticRequestBody = {
-            learnedWords: response.learnedWords + 1,
-            optional: response.optional,
-        }
-        Api.upsertUserStatistic(userId, token, requestBodyStatistic).then();
-    }
-
 }
