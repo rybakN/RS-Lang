@@ -66,6 +66,8 @@ ${document.querySelector('main').innerHTML}`
     group = 7;
     localStorage.setItem('page', '0');
     localStorage.setItem('group', '0');
+    localStorage.setItem('currentPage', '0');
+    localStorage.setItem('currentGroup', '0');
     viewWordCards('word-cards-container', 0, page, FilterViewWordCard.learned)
   })
   document.querySelector('.circle-button:nth-of-type(7)').addEventListener('click', () => {
@@ -94,6 +96,8 @@ ${document.querySelector('main').innerHTML}`
     group = 6;
     localStorage.setItem('page', '0');
     localStorage.setItem('group', '6');
+    localStorage.setItem('currentPage', '0');
+    localStorage.setItem('currentGroup', '6');
     viewWordCards('word-cards-container', 0, page, FilterViewWordCard.difficult)
   })
   ENTEREXITBUTTON = document.querySelector('.log-out');
@@ -103,6 +107,8 @@ ${document.querySelector('main').innerHTML}`
 if(!localStorage.getItem('page')){
   localStorage.setItem('page', '0');
   localStorage.setItem('group', '0');
+  localStorage.setItem('currentPage', '0');
+  localStorage.setItem('currentGroup', '0');
   localStorage.setItem('difficultView', 'false');
 }
 
@@ -113,6 +119,8 @@ if(localStorage.getItem('difficultView') === 'true' && document.querySelector('.
   viewWordCards('word-cards-container', 0, 0);
   localStorage.setItem('page', '0');
   localStorage.setItem('group', '0');
+  localStorage.setItem('currentPage', '0');
+  localStorage.setItem('currentGroup', '0');
   localStorage.setItem('difficultView', 'false');
   page = 0;
   group = 0;
@@ -151,6 +159,8 @@ for(let i = 0; i < 6; i++){
     numberOfPage.innerHTML = '1';
     localStorage.setItem('page', '0');
     localStorage.setItem('group', `${group}`);
+    localStorage.setItem('currentPage', '0');
+    localStorage.setItem('currentGroup', `${group}`);
     GROUPSBUTTONS[i].classList.add('active')
     viewWordCards('word-cards-container', i, 0)
   })
@@ -183,6 +193,7 @@ const moveFirstPage = () => {
   previousPageButton.removeEventListener('click', moveNextPage);
   previousPageButton.setAttribute("disabled", "disabled");
   localStorage.setItem('page', `${page}`);
+  localStorage.setItem('currentPage', `${page}`);
   viewWordCards('word-cards-container', group, 0);
   numberOfPage.innerHTML = String(page + 1);
 }
@@ -207,6 +218,7 @@ const movePreviousPage = () => {
     previousPageButton.setAttribute("disabled", "disabled");
   }
   localStorage.setItem('page', `${page}`);
+  localStorage.setItem('currentPage', `${page}`);
   viewWordCards('word-cards-container', group, page);
   numberOfPage.innerHTML = String(page + 1);
 }
@@ -231,6 +243,7 @@ const moveNextPage = () => {
     lastPageButton.setAttribute("disabled", "disabled");
   }
   localStorage.setItem('page', `${page}`);
+  localStorage.setItem('currentPage', `${page}`);
   viewWordCards('word-cards-container', group, page);
   numberOfPage.innerHTML = String(page + 1);
 }
@@ -253,6 +266,7 @@ const moveLastPage = () => {
   lastPageButton.removeEventListener('click', moveNextPage);
   lastPageButton.setAttribute("disabled", "disabled");
   localStorage.setItem('page', `${page}`);
+  localStorage.setItem('currentPage', `${page}`);
   viewWordCards('word-cards-container', group, 29);
   numberOfPage.innerHTML = String(page + 1);
 }
