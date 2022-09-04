@@ -20,6 +20,7 @@ p{
 main > p,
 .authorization > p,
 .sections-buttons-and-title > p,
+.review-video > p,
 .team > p,
 .authorization p{
   text-align: center;
@@ -80,6 +81,11 @@ input::placeholder{
 
 .section-button h2{
   font-family: 'Kanit', sans-serif;
+}
+
+.review-video > iframe {
+  display: block;
+  margin: 0 auto;
 }
 
 .team{
