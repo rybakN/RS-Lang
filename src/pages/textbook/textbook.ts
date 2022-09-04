@@ -18,14 +18,23 @@ createHeader('Textbook', false);
 let GROUPSBUTTONS: NodeListOf<Element>;
 
 let  ENTEREXITBUTTON: Element;
+
+let GAMELINKS: NodeListOf<Element>;
 if(document.querySelector('.sign-in-or-log-in-button')){
   ENTEREXITBUTTON = document.querySelector('.sign-in-or-log-in-button')
   ENTEREXITBUTTON.addEventListener('click', registration);
   document.querySelector('main').innerHTML = `<div class="games-links">
-  <a href="./sprint.html"><button><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
-  <a href="./audio.html"><button><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
+  <button><img src="../pictures/sprint.png">Play to Sprint Game</button>
+  <button><img src="../pictures/audio.jpg">Play to Audio Game</button>
   </div>
 ${document.querySelector('main').innerHTML}`;
+  GAMELINKS = document.querySelectorAll('.games-links > button')
+  GAMELINKS[0].addEventListener('click', () => {
+    window.location.href = window.location.origin + '/pages/sprint.html'
+  });
+  GAMELINKS[1].addEventListener('click', () => {
+    window.location.href = window.location.origin + '/pages/audio.html'
+  });
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
 }
 else{
@@ -35,10 +44,17 @@ else{
   document.querySelector('main').innerHTML = `    <button class="learned-words">Learned Words</button>
   ${document.querySelector('main').innerHTML}`;
   document.querySelector('main').innerHTML = `<div class="games-links">
-  <a href="./sprint.html"><button><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
-  <a href="./audio.html"><button><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
+  <button><img src="../pictures/sprint.png">Play to Sprint Game</button>
+  <button><img src="../pictures/audio.jpg">Play to Audio Game</button>
   </div>
-${document.querySelector('main').innerHTML}`
+${document.querySelector('main').innerHTML}`;
+  GAMELINKS = document.querySelectorAll('.games-links > button')
+  GAMELINKS[0].addEventListener('click', () => {
+    window.location.href = window.location.origin + '/pages/sprint.html'
+  });
+  GAMELINKS[1].addEventListener('click', () => {
+    window.location.href = window.location.origin + '/pages/audio.html'
+  });
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
   document.querySelector('.learned-words').addEventListener('click', () => {
     if(!nextPageButton.hasAttribute('disabled')){
