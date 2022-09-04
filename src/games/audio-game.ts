@@ -137,7 +137,9 @@ async function createWords(words:Word[], parent:HTMLElement){
         }
         audio = new Audio(baseLink+rightWord.audio);
         audio.play();
+        let incorrectWords:number[] =[];
         for (let i = 1; i <= 4; i++) {
+            
             const wordContainer = document.querySelector(`#word${i}`);
             if (i === idRight) {
                 console.log('правильный ответ:' +idRight);
@@ -153,7 +155,13 @@ async function createWords(words:Word[], parent:HTMLElement){
                     rightClick(words, parent, rightWord);
                 }, { once:true })
             } else {
-                let wrongNumber = getRandomNumber(wordsOfGame.length) - 1;
+                let wrongNumber:number;
+                do {
+                    wrongNumber = getRandomNumber(wordsOfGame.length) - 1;
+                    console.log(wordsOfGame[wrongNumber].wordTranslate);
+                } while (incorrectWords.includes(wrongNumber) || wordsOfGame[wrongNumber] === rightWord)
+                incorrectWords.push(wrongNumber);
+
                 wordContainer.innerHTML = wordsOfGame[wrongNumber].wordTranslate;
                 wordContainer.addEventListener('click', () =>{
                     wrongClick(words, parent, rightWord);
