@@ -8,6 +8,7 @@ const baseConfig = {
     entry:{
       'index': path.resolve(__dirname, './src/main.ts'),
       'pages/sprint': path.resolve(__dirname, './src/pages/games/sprint.ts'),
+      'pages/audio': path.resolve(__dirname, './src/pages/games/audio.ts'),
       'pages/textbook': path.resolve(__dirname, './src/pages/textbook/textbook.ts'),
       'pages/statistics': path.resolve(__dirname, './src/pages/statistics/statistics.ts'),
     },
@@ -45,12 +46,15 @@ const baseConfig = {
             }
         ],
     },
+    performance : {
+      hints : false
+    }, 
     resolve: {
         extensions: ['.ts', '.js'],
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../dist'),
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -67,7 +71,12 @@ const baseConfig = {
           template: path.resolve(__dirname, './src/pages/games/sprint.html'),
           filename: 'pages/sprint.html',
           chunks: ["pages/sprint"],
-      }),
+        }),
+        new HtmlWebpackPlugin({
+          template: path.resolve(__dirname, './src/pages/games/audio.html'),
+          filename: 'pages/audio.html',
+          chunks: ["pages/audio"],
+        }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/pages/statistics/statistics.html'),
             filename: 'pages/statistics.html',
