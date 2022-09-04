@@ -46,12 +46,12 @@ const regPopUpHTML = `
       <label for="InputPassword">Password</label>
       <input type="password" class="form-control" id="InputPassword" placeholder="Password">
     </div>
-    <div class="authButton" id="registrationButton">Log in</div>
+    <div class="authButton" id="registrationButton">Register</div>
   </form>
-  <p id="toAuth" class="authLink">Sign in your account</p>
+  <p id="toAuth" class="authLink">Log in your account</p>
 `
 const authPopUpHTML = `
-  <h2>Sign in your account</h2>
+  <h2>Log in your account</h2>
   <form>
     <div class="form-group">
       <label for="InputEmail">Email address</label>
@@ -61,7 +61,7 @@ const authPopUpHTML = `
       <label for="InputPassword">Password</label>
       <input type="password" class="form-control" id="InputPassword" placeholder="Password">
     </div>
-    <div class="authButton" id="authButton">Sign in</div>
+    <div class="authButton" id="authButton">Log in</div>
   </form>
   <p id="toReg" class="authLink">Registration</p>
 `

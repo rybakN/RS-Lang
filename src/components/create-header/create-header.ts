@@ -16,7 +16,7 @@ export default function createHeader(title: string, isTitle: boolean): void {
     <p>Name: ${localStorage.getItem('userName')}</p>
     <p>Email: ${localStorage.getItem('userEmail')}</p>
     </div>
-    ` : '<button class="sign-in-or-log-in-button">Sign in / Log in</button>'}
+    ` : '<button class="sign-in-or-log-in-button">Log in / Registration</button>'}
   </header>${document.body.innerHTML}`;
   document.querySelector('.gamburger-menu').addEventListener('click', () => {
     document.querySelector('aside').classList.toggle('active');
