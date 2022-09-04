@@ -17,7 +17,85 @@ p{
   font-family: 'Josefin Sans', sans-serif;
 }
 
-.word-cards-container{
+.games-links {
+  display: flex;
+}
+
+.games-links button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  width: 310px;
+  justify-content: center;
+  margin: 10px;
+  border: none;
+  overflow: hidden;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 20px;
+  border-radius: 50px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.games-links button:hover{
+  background-color: grey;
+}
+
+a{
+  text-decoration: none;
+}
+
+.learned-words {
+  margin-left: 2%;
+  background-color: #c778a9;
+  width: 160px;
+  height: 60px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.5s;
+  border: none;
+}
+
+.learned-words.active {
+  border: 5px solid red;
+}
+
+.learned-words:hover {
+  background-color: #b999ad;
+}
+
+.pagination{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 95%;
+  box-shadow: rgb(0 0 0 / 100%) 0px 0px 10px;
+  background-color: yellow;
+  margin: 20px auto;
+  height: 50px;
+}
+
+.pagination > button {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 30px;
+  border-radius: 50px;
+  border: none;
+  background-color:blueviolet;
+  box-shadow: rgb(0 0 0 / 100%) 0px 0px 10px;
+}
+
+.pagination > .active{
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.pagination > .active:hover {
+  background-color: #a980cf;
+}
+
+#word-cards-container{
   box-shadow: rgb(0 0 0 / 100%) 0px 0px 10px;
   background-color: white;
   min-height: 500px;
@@ -42,6 +120,11 @@ p{
 
 .groups:hover{
   height: 405px;
+}
+
+.groups.login:hover{
+  height: 475px;
+  bottom: 40px;
 }
 
 .groups span,
@@ -108,6 +191,14 @@ p{
 
 .circle-button:nth-of-type(6):hover{
   background-color: #c778a9;
+}
+
+.circle-button:nth-of-type(7){
+  background-color: #22cec5;
+}
+
+.circle-button:nth-of-type(7):hover{
+  background-color: #88dfda;
 }
 
 .circle-button.active{

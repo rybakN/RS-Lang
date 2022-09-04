@@ -99,7 +99,7 @@ export class StatisticsPage {
         if (count == 1 && nameGraphics == 'Learned Words') {
             delete allTimeName[1];
             allTimeValue[1] = -6;
-        } else {
+        } else if (count == 1) {
             delete allTimeName[1];
             allTimeValue[1] = 0;
         }
