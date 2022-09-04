@@ -53,6 +53,7 @@ input::placeholder{
 
 .sections-buttons{
   display: flex;
+  justify-content: center;
   margin: 0 auto;
   width: 708px;
   gap: 20px;
