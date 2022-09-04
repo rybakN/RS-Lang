@@ -39,7 +39,7 @@ const gameHolder = `
             <div class="word" id="word3"></div>
             <div class="word" id="word4"></div>
         </div>
-        <div class="Surrender"></div>
+        <div class="Surrender">Не знаю</div>
     </div>
 </div>
 
@@ -122,11 +122,16 @@ export async function createAudioGame(group:number, page:number, parent:HTMLElem
     localStorage.removeItem('currentGroup');
     parent.innerHTML = gameHolder;
     await createWords(words, parent);
+
 }
 
 async function createWords(words:Word[], parent:HTMLElement){
     if (words.length !== 0){
         parent.innerHTML = parent.innerHTML;
+        const surrender = document.querySelector('.Surrender')
+        surrender.addEventListener('click', async () => {
+            await createWords(words, parent);
+        }, {once:true});
         const score = document.querySelector('.score');
         score.innerHTML=`${wordsOfGame.length - words.length + 1}/${wordsOfGame.length}`
         let number = getRandomNumber(words.length) - 1;
@@ -142,6 +147,7 @@ async function createWords(words:Word[], parent:HTMLElement){
             
             const wordContainer = document.querySelector(`#word${i}`);
             if (i === idRight) {
+                
                 console.log('правильный ответ:' +idRight);
                 wordContainer.innerHTML = rightWord.wordTranslate
                 const sound = document.querySelector('.soundButton');
@@ -170,8 +176,12 @@ async function createWords(words:Word[], parent:HTMLElement){
         }
     } else {
         parent.innerHTML=''
-        await resultPopUp(parent);
         createLevelsChoose(parent);
+        await resultPopUp(parent);
+        if (localStorage.getItem('userToken')){
+            await sendWordStatistics(userWords);
+            await sendGameStatistics();
+        }
         rightCount = 0;
         wrongCount = 0;
         rightWords = [];
@@ -182,10 +192,7 @@ async function createWords(words:Word[], parent:HTMLElement){
         learnedWords = 0;
         maxInRow = 0;
         currentRow = 0;
-        if (localStorage.getItem('userToken')){
-        await sendWordStatistics(userWords);
-        await sendGameStatistics();
-        }
+        
     }
 }
 function rightClick(words:Word[], parent:HTMLElement, rightWord:Word){

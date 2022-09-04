@@ -406,7 +406,7 @@ function getFilter(filter: string): Filter {
     }
 }
 
-function difficultFilter(): Filter {
+export function difficultFilter(): Filter {
     const userWord = new UserWordFilter();
     userWord['userWord.difficulty'] = 'hard';
     const orCondition = new OrCondition([userWord]);

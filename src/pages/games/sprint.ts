@@ -4,10 +4,8 @@ import { Api } from "../../api/api";
 import { registration, logOut } from '../../components/auth';
 import createHeader from '../../components/create-header/create-header';
 import createSideBar from '../../components/create-sidebar/create-sidebar';
-import createFooter from '../../components/create-footer/create-footer'
 
 createSideBar('Sprint');
-createFooter("../pictures/rs_school_js.svg");
 createHeader('Sprint', false);
 let  ENTEREXITBUTTON: Element;
 if(document.querySelector('.sign-in-or-log-in-button')){
