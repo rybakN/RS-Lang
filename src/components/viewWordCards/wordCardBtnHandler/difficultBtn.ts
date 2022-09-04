@@ -5,6 +5,7 @@ import { ToggleBtnName } from './utilsWordCard/toggleBtnName';
 import { UpdateUserStatistic } from './utilsWordCard/updateUserStatistic';
 import { ParamCreateUserWordBody } from '../typeViewWordCards';
 import { CreateUserWordBody } from './utilsWordCard/createUserWordBody';
+import { removeStyleLearnedPage } from '../viewWordCards';
 
 export  class DifficultBtn implements BtnHandler {
     static btnName = 'difficult';
@@ -45,7 +46,7 @@ export  class DifficultBtn implements BtnHandler {
             if (item.dataset.name == 'difficult') item.disabled = true;
         })
 
-        wordCard.parentElement.classList.remove('bg-success-25');
+        removeStyleLearnedPage();
         if (wordCard.classList.contains('learned')) wordCard.remove();
 
         this.userStat.updateUserStatistic(userId, token, -1).then();
