@@ -124,8 +124,9 @@ export async function createAudioGame(group:number, page:number, parent:HTMLElem
     createWords(words, parent);
 }
 
-function createWords(words:Word[], parent:HTMLElement){
+async function createWords(words:Word[], parent:HTMLElement){
     if (words.length !== 0){
+        parent.innerHTML = parent.innerHTML;
         const score = document.querySelector('.score');
         score.innerHTML=`${wordsOfGame.length-words.length}/${wordsOfGame.length}`
         let number = getRandomNumber(words.length) - 1;
@@ -137,7 +138,6 @@ function createWords(words:Word[], parent:HTMLElement){
         audio = new Audio(baseLink+rightWord.audio);
         audio.play();
         for (let i = 1; i <= 4; i++) {
-            console.log(`правильный выбор ${idRight} сейчас - ${i}`)
             const wordContainer = document.querySelector(`#word${i}`);
             if (i === idRight) {
                 wordContainer.innerHTML = rightWord.wordTranslate
@@ -153,8 +153,17 @@ function createWords(words:Word[], parent:HTMLElement){
                 }, { once:true })
             } else {
                 let wrongNumber = getRandomNumber(wordsOfGame.length) - 1;
-                wordContainer.innerHTML = wordsOfGame[wrongNumber].wordTranslate
+                wordContainer.innerHTML = wordsOfGame[wrongNumber].wordTranslate;
+                wordContainer.addEventListener('click', () =>{
+                    wrongClick(words, parent, rightWord);
+                })
             }
+        }
+    } else {
+        await resultPopUp(parent);
+        if (localStorage.getItem('userToken')){
+        await sendWordStatistics(userWords);
+        await sendGameStatistics();
         }
     }
 }
@@ -178,23 +187,21 @@ function rightClick(words:Word[], parent:HTMLElement, rightWord:Word){
     createWords(words, parent);
 
 }
-function wrongClick(words:Word[], parent:HTMLElement, wrongWord:Word){
-    rightCount+=1;
+function wrongClick(words:Word[], parent:HTMLElement, rightWord:Word){
+    console.log('неправильно');
+    wrongCount+=1;
     failAudio.pause();
     successAudio.pause();
     failAudio.currentTime = 0;
     successAudio.currentTime = 0;
     failAudio.play();
-    currentRow += 1;
-        if (currentRow > maxInRow) {
-            maxInRow = currentRow;
-        }
-    wrongWord.statistic = {
+    currentRow = 0;
+    rightWord.statistic = {
         correct:0,
         incorrect:1,
         row:0
     }
-    wrongWords.push(wrongWord);
+    rightWords.push(rightWord);
     createWords(words, parent);
 
 }
@@ -270,8 +277,8 @@ async function createRightWordsList(){
     }
 }
 
-async function sendWordStatistics(words:Word[],userWords:CreateUserWordResponse[]) {
-    for (let i = 0; i <words.length; i++){
+async function sendWordStatistics(userWords:CreateUserWordResponse[]) {
+    for (let i = 0; i <rightWords.length; i++){
 
         let correct;
         let incorrect;
@@ -280,21 +287,21 @@ async function sendWordStatistics(words:Word[],userWords:CreateUserWordResponse[
         let userWord:CreateUserWord
         let difficulty;
         let isCreated = false;
-        if (words[i].statistic) {
-            correct = words[i].statistic.correct;
-            incorrect = words[i].statistic.incorrect;
-            row =  words[i].statistic.row;
+        if (rightWords[i].statistic) {
+            correct = rightWords[i].statistic.correct;
+            incorrect = rightWords[i].statistic.incorrect;
+            row =  rightWords[i].statistic.row;
             difficulty ='easy';
             learning = false;
             for (let j = 0; j <userWords.length; j++) {
-                if (userWords[j].wordId == words[i].id) {
+                if (userWords[j].wordId == rightWords[i].id) {
                     learning = userWords[j].optional.learning;
                     difficulty = userWords[j].difficulty;
                     isCreated = true;
                     if (userWords[j].optional.statistic) {
                         correct += userWords[j].optional.statistic.correct;
                         incorrect += userWords[j].optional.statistic.incorrect;
-                        if (words[i].statistic.row === 0) {
+                        if (rightWords[i].statistic.row === 0) {
                             row = 0;
                             learning = false;
                         } else { 
@@ -325,6 +332,7 @@ async function sendWordStatistics(words:Word[],userWords:CreateUserWordResponse[
                     }   
                 }
             }
+            console.log('создаем слово');
             userWord = {
                 difficulty: difficulty,
                 optional: {
@@ -338,17 +346,18 @@ async function sendWordStatistics(words:Word[],userWords:CreateUserWordResponse[
             }
             if (isCreated){
                 try {
-                await Api.updateUserWord(localStorage.getItem('userId'),localStorage.getItem('userToken'), words[i].id, userWord); }
+                await Api.updateUserWord(localStorage.getItem('userId'),localStorage.getItem('userToken'), rightWords[i].id, userWord); }
                 catch { console.log('ой'); }
             } else {
                 newWords += 1;
                 try {
-                await Api.createUserWord(localStorage.getItem('userId'),localStorage.getItem('userToken'), words[i].id, userWord);
+                await Api.createUserWord(localStorage.getItem('userId'),localStorage.getItem('userToken'), rightWords[i].id, userWord);
                 }
                 catch (err) { console.log('ой-ой', err); }
             }
         }     
     }
+    
 }
 async function sendGameStatistics(){
     let accuracy = rightCount / (rightCount + wrongCount) * 100;
@@ -382,7 +391,7 @@ async function sendGameStatistics(){
         let thisGameStats:StatisticRequestBody = {
             learnedWords:learnedWords,
             optional: {
-               sprint: {
+               audio: {
                 accuracy: todayAccuracy,
                 correctToday: todayRight,
                 incorrectToday: todayWrong,
@@ -390,7 +399,7 @@ async function sendGameStatistics(){
                 newWords: todayNewWords,
                 maxInRow: todayMaxInRow,
                },
-               audio: stats.optional.audio,
+               sprint: stats.optional.sprint,
                learnedWordsByDays: LWBD,
                newWordsByDays: NWBD,
             }
@@ -406,7 +415,7 @@ async function sendGameStatistics(){
         let thisGameStats:StatisticRequestBody = {
             learnedWords:learnedWords,
             optional: {
-                sprint: {
+                audio: {
                     accuracy: accuracy,
                     date: today,
                     maxInRow:maxInRow,
@@ -414,7 +423,7 @@ async function sendGameStatistics(){
                     correctToday: rightCount,
                     incorrectToday: wrongCount, 
                 },
-                audio: {
+                sprint: {
                     accuracy: 0,
                     date: today,
                     maxInRow:0,
