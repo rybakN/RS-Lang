@@ -25,7 +25,8 @@ if(document.querySelector('.sign-in-or-log-in-button')){
   <a href="./sprint.html"><button><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
   <a href="./audio.html"><button><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
   </div>
-${document.querySelector('main').innerHTML}`
+${document.querySelector('main').innerHTML}`;
+  GROUPSBUTTONS = document.querySelectorAll('.circle-button');
 }
 else{
   document.querySelector('.groups').classList.add('login')
