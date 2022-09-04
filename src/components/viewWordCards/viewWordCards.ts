@@ -1,12 +1,24 @@
 import { Api } from '../../api/api';
-import { Filter, GetUserAggregateWordResponse, OrCondition, UserWord, UserWordFilter, Word } from '../../api/typeApi';
+import {
+    CreateUserWordResponse,
+    Filter,
+    GetUserAggregateWordResponse,
+    OrCondition,
+    UserWord,
+    UserWordFilter,
+    Word,
+} from '../../api/typeApi';
 import { FilterViewWordCard, getCardsHTML } from './typeViewWordCards';
 import { HandlerCombiner } from './wordCardBtnHandler/handlerCombiner';
 import './viewWordCards.css';
 
 export async function viewWordCards(containerId: string, groupNum: number, pageNum: number, filter?: FilterViewWordCard): Promise<void> {
+    removeStyleLearnedPage();
+    (document.querySelector('.pagination') as HTMLElement).style.pointerEvents = 'none';
+    document.getElementById(containerId).innerHTML = `<div class="loader__wrapper"><div class="loader" style="--b: 5px;--c:yellowgreen;width:100px;--n:10;--g:20deg"></div></div>`;
     const { id, containerHTML } = await getWordCardsHTML(groupNum, pageNum, filter);
     document.getElementById(containerId).innerHTML = containerHTML;
+    (document.querySelector('.pagination') as HTMLElement).style.pointerEvents = 'auto';
     paintBgContainerAllCards(containerId);
     addWordCardListener(id);
 }
@@ -38,12 +50,13 @@ async function getWordCardsHTML(groupNum: number, pageNum: number, filter?: stri
             }
 
         } else {
-            const filterForApi: Filter = getFilter('noFilter');
             const token = localStorage.getItem('userToken');
-            const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage, filterForApi, groupNum);
-            response[0].paginatedResults.forEach((item: UserWord) => {
-                containerHTML += templateCardAuth(item, translateOption);
-                id.push(item._id);
+            const response: Word[] = await Api.getWords(groupNum, pageNum);
+            const responseGetUserAggregateWord: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, 0, 3600);
+            response.forEach((item: Word) => {
+                const word: UserWord = responseGetUserAggregateWord[0].paginatedResults.find(word => word._id === item.id);
+                containerHTML += templateCardAuth(word, translateOption);
+                id.push(item.id);
             })
         }
     } else {
@@ -428,9 +441,23 @@ function paintBgContainerAllCards(containerId: string): void {
             if (containerWordCards.children[i].classList.contains('bg-success')) learnedWordCounter += 1;
         }
         if (learnedWordCounter === containerWordCards.children.length) {
-            containerWordCards.classList.add('bg-success-25');
+            addStyleLearnedPage();
         }
     }
 
 
+}
+
+export function addStyleLearnedPage(): void {
+    (document.getElementById('word-cards-container') as HTMLElement).style.background = 'yellowgreen';
+    document.querySelector('.pagination').classList.add('bg-success-25');
+    document.querySelector('.games-links').children[0].setAttribute('disabled', 'disabled');
+    document.querySelector('.games-links').children[1].setAttribute('disabled', 'disabled');
+}
+
+export function removeStyleLearnedPage(): void {
+    (document.getElementById('word-cards-container') as HTMLElement).style.background = '';
+    document.querySelector('.pagination').classList.remove('bg-success-25');
+    document.querySelector('.games-links').children[0].removeAttribute('disabled');
+    document.querySelector('.games-links').children[1].removeAttribute('disabled');
 }
