@@ -107,13 +107,15 @@ ${document.querySelector('main').innerHTML}`
 if(!localStorage.getItem('page')){
   localStorage.setItem('page', '0');
   localStorage.setItem('group', '0');
-  localStorage.setItem('currentPage', '0');
-  localStorage.setItem('currentGroup', '0');
-  localStorage.setItem('difficultView', 'false');
 }
 
 let page = Number(localStorage.getItem('page'));
 let group = Number(localStorage.getItem('group'));
+
+if(!localStorage.getItem('currentPage')){
+  localStorage.setItem('currentPage', `${page}`);
+  localStorage.setItem('currentGroup', `${group}`);
+}
 
 if(localStorage.getItem('difficultView') === 'true' && document.querySelector('.sign-in-or-log-in-button')){
   viewWordCards('word-cards-container', 0, 0);
