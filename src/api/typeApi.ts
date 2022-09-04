@@ -38,6 +38,7 @@ export interface Word {
     textExampleTranslate: string
     textMeaningTranslate: string
     wordTranslate: string
+    statistic?: CorrectIncorrectAnswer
 }
 
 export interface GetNewToken {
@@ -109,19 +110,25 @@ export interface StatisticRequestBody {
 }
 
 export interface OptionStatistic {
-    games: string
-    learnedWordsByDays: string
+    sprint: inGameStats
+    audio: inGameStats
+    learnedWordsByDays: Object
+    newWordsByDays: Object
 }
 
 export interface UserSettingsResponse {
     id: string
     wordsPerDay: number
-    optional?: any
+    optional?: UserSettingsOptional
 }
 
 export interface SettingsRequestBody {
     wordsPerDay: number
-    optional?: any
+    optional?: UserSettingsOptional
+}
+
+export interface UserSettingsOptional {
+    translate: string
 }
 
 export class UserWordFilter {
@@ -150,3 +157,13 @@ export class Filter {
         this.condition = condition;
     }
 }
+
+export interface inGameStats {
+    accuracy: number;
+    date: string;
+    maxInRow: number;
+    newWords: number;
+    correctToday?: number;
+    incorrectToday?: number;
+}
+

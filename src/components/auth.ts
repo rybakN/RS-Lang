@@ -1,6 +1,6 @@
 import './auth.css';
 import { Api } from "../api/api";
-import { CreateUserBody, SingInRequestBody } from "../api/typeApi";
+import { CreateUserBody, SettingsRequestBody, SingInRequestBody, StatisticRequestBody } from '../api/typeApi';
 export async function registration() {
   removePopUp();
   const backBlack = document.createElement('div');
@@ -72,6 +72,7 @@ export function logOut() {
   localStorage.removeItem('userToken');
   localStorage.removeItem('userRefreshToken');
   localStorage.removeItem('userEmail');
+  localStorage.clear();
   location.reload();
 }
 async function callRegistration() {
@@ -87,7 +88,7 @@ async function callRegistration() {
     password: pass,
   }
   try {let response = await Api.createUser(body);
-    if (!response.name) { 
+    if (!response.name) {
       alert('Registration failed');
     } else {
         const signInBody:SingInRequestBody = {
@@ -102,13 +103,14 @@ async function callRegistration() {
         localStorage.setItem('userRefreshToken',signInResp.refreshToken);
         alert('Registration completed successfully!');
         removePopUp();
+        await createUserStatisticsObj(signInResp.userId, signInResp.token);
+        await createUserSettingsObj(signInResp.userId, signInResp.token);
         location.reload();
       }
-    console.log(response);
-  } catch (err) { 
-    alert('There is already a user with such data') 
-  };  
-  
+  } catch (err) {
+    alert('There is already a user with such data')
+  };
+
 }
 async function callAuth():Promise<void> {
   const emailInput:HTMLInputElement = document.querySelector('#InputEmail');
@@ -139,3 +141,43 @@ function removePopUp() {
   }
 }
 
+async function createUserStatisticsObj(userId: string, token: string): Promise<void> {
+  const date: Date =  new Date();
+  const toDay: string =  `${date.getDate()} ${date.getMonth() + 1} ${date.getFullYear()}`;
+  const toDayObj = {};
+  toDayObj[toDay] = 0;
+  const requestBody: StatisticRequestBody = {
+    learnedWords: 0,
+    optional: {
+      sprint: {
+        accuracy: 0,
+        newWords: 0,
+        maxInRow: 0,
+        date: '',
+        correctToday: 0,
+        incorrectToday: 0
+      },
+      audio: {
+        accuracy: 0,
+        newWords: 0,
+        maxInRow: 0,
+        date: '',
+        correctToday: 0,
+        incorrectToday: 0
+      },
+      learnedWordsByDays: toDayObj,
+      newWordsByDays: toDayObj,
+    }
+  }
+  await Api.upsertUserStatistic(userId, token, requestBody).then();
+}
+
+async function createUserSettingsObj(userId: string, token: string): Promise<void> {
+  const requestBody: SettingsRequestBody = {
+    wordsPerDay: 1,
+    optional: {
+      translate: 'true'
+    }
+  }
+  await Api.upsertUserSettings(userId, token, requestBody).then();
+}

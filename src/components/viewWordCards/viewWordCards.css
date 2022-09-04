@@ -1,0 +1,55 @@
+.container {
+    border: solid yellowgreen;
+    margin: 0.4rem;
+}
+
+.row {
+    display: flex;
+    padding: 0.5rem;
+}
+
+.col-3 {
+    display: flex;
+    justify-content: center;
+    width: 36%;
+    overflow: hidden;
+    margin-right: 0.5rem;
+}
+
+.col-8 {
+    width: 64%;
+}
+
+.col {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.btn {
+    font-family: 'Josefin Sans', sans-serif;
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+    background-color: violet;
+    border: 1px solid #694569;
+    border-radius: 5px;
+    outline: none;
+}
+
+.btn:hover {
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.bg-success {
+    background-color: yellowgreen;
+}
+
+.bg-success-25 {
+    background-color: rgba(255, 0, 53,0.3);
+}
+
+.bg-danger {
+    background-color: #f32614;
+}
+
+.displayNone {
+    display: none;
+}
