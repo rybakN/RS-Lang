@@ -21,6 +21,11 @@ let  ENTEREXITBUTTON: Element;
 if(document.querySelector('.sign-in-or-log-in-button')){
   ENTEREXITBUTTON = document.querySelector('.sign-in-or-log-in-button')
   ENTEREXITBUTTON.addEventListener('click', registration);
+  document.querySelector('main').innerHTML = `<div class="games-links">
+  <a href="./sprint.html"><button><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
+  <a href="./audio.html"><button><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
+  </div>
+${document.querySelector('main').innerHTML}`
 }
 else{
   document.querySelector('.groups').classList.add('login')
