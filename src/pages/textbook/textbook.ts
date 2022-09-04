@@ -1,6 +1,8 @@
 import './textbook.css';
 import '../../pictures/header-background.png';
 import '../../pictures/favicon.png';
+import '../../pictures/sprint.png';
+import '../../pictures/audio.jpg';
 import { registration, logOut } from '../../components/auth';
 import createHeader from '../../components/create-header/create-header';
 import createSideBar from '../../components/create-sidebar/create-sidebar';
@@ -26,6 +28,11 @@ else{
   <button class="circle-button">7</button>`;
   document.querySelector('main').innerHTML = `    <button class="learned-words">Learned Words</button>
   ${document.querySelector('main').innerHTML}`;
+  document.querySelector('main').innerHTML = `<div class="games-links">
+  <a href="./sprint.html"><button><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
+  <a href="./audio.html"><button><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
+  </div>
+${document.querySelector('main').innerHTML}`
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
   document.querySelector('.learned-words').addEventListener('click', () => {
     if(!nextPageButton.hasAttribute('disabled')){
@@ -74,7 +81,7 @@ else{
       previousPageButton.removeEventListener('click', moveNextPage);
       previousPageButton.setAttribute("disabled", "disabled");
     }
-    GROUPSBUTTONS[group].classList.remove('active');
+    group == 7 ? document.querySelector('.learned-words').classList.remove('active') : GROUPSBUTTONS[group].classList.remove('active');
     numberOfPage.innerHTML = '1';
     GROUPSBUTTONS[6].classList.add('active');
     page = 0;
