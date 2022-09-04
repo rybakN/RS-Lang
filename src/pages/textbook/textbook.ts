@@ -22,10 +22,20 @@ if(document.querySelector('.sign-in-or-log-in-button')){
   ENTEREXITBUTTON = document.querySelector('.sign-in-or-log-in-button')
   ENTEREXITBUTTON.addEventListener('click', registration);
   document.querySelector('main').innerHTML = `<div class="games-links">
-  <a href="./sprint.html"><button><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
-  <a href="./audio.html"><button><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
+  <a href="./sprint.html"><button id="sprintGameButton"><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
+  <a href="./audio.html"><button id="audioGameButton"><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
   </div>
 ${document.querySelector('main').innerHTML}`;
+  const sprintGameButton = document.querySelector('#sprintGameButton');
+  sprintGameButton.addEventListener('click', () => {
+      localStorage.setItem('currentPage',localStorage.getItem('page'));
+      localStorage.setItem('currentGroup',localStorage.getItem('group'));
+    })
+  const audioGameButton = document.querySelector('#audioGameButton');
+  audioGameButton.addEventListener('click', () => {
+      localStorage.setItem('currentPage',localStorage.getItem('page'));
+      localStorage.setItem('currentGroup',localStorage.getItem('group'));
+    })
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
 }
 else{
@@ -35,10 +45,20 @@ else{
   document.querySelector('main').innerHTML = `    <button class="learned-words">Learned Words</button>
   ${document.querySelector('main').innerHTML}`;
   document.querySelector('main').innerHTML = `<div class="games-links">
-  <a href="./sprint.html"><button><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
-  <a href="./audio.html"><button><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
+  <a href="./sprint.html"><button id="sprintGameButton"><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
+  <a href="./audio.html"><button id="audioGameButton"><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
   </div>
 ${document.querySelector('main').innerHTML}`
+  const sprintGameButton = document.querySelector('#sprintGameButton');
+  sprintGameButton.addEventListener('click', () => {
+      localStorage.setItem('currentPage',localStorage.getItem('page'));
+      localStorage.setItem('currentGroup',localStorage.getItem('group'));
+    })
+  const audioGameButton = document.querySelector('#audioGameButton');
+  audioGameButton.addEventListener('click', () => {
+      localStorage.setItem('currentPage',localStorage.getItem('page'));
+      localStorage.setItem('currentGroup',localStorage.getItem('group'));
+    })
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
   document.querySelector('.learned-words').addEventListener('click', () => {
     if(!nextPageButton.hasAttribute('disabled')){
@@ -66,8 +86,6 @@ ${document.querySelector('main').innerHTML}`
     group = 7;
     localStorage.setItem('page', '0');
     localStorage.setItem('group', '0');
-    localStorage.setItem('currentPage', '0');
-    localStorage.setItem('currentGroup', '0');
     viewWordCards('word-cards-container', 0, page, FilterViewWordCard.learned)
   })
   document.querySelector('.circle-button:nth-of-type(7)').addEventListener('click', () => {
@@ -96,8 +114,6 @@ ${document.querySelector('main').innerHTML}`
     group = 6;
     localStorage.setItem('page', '0');
     localStorage.setItem('group', '6');
-    localStorage.setItem('currentPage', '0');
-    localStorage.setItem('currentGroup', '6');
     viewWordCards('word-cards-container', 0, page, FilterViewWordCard.difficult)
   })
   ENTEREXITBUTTON = document.querySelector('.log-out');
@@ -112,17 +128,11 @@ if(!localStorage.getItem('page')){
 let page = Number(localStorage.getItem('page'));
 let group = Number(localStorage.getItem('group'));
 
-if(!localStorage.getItem('currentPage')){
-  localStorage.setItem('currentPage', `${page}`);
-  localStorage.setItem('currentGroup', `${group}`);
-}
 
 if(localStorage.getItem('difficultView') === 'true' && document.querySelector('.sign-in-or-log-in-button')){
   viewWordCards('word-cards-container', 0, 0);
   localStorage.setItem('page', '0');
   localStorage.setItem('group', '0');
-  localStorage.setItem('currentPage', '0');
-  localStorage.setItem('currentGroup', '0');
   localStorage.setItem('difficultView', 'false');
   page = 0;
   group = 0;
@@ -161,8 +171,6 @@ for(let i = 0; i < 6; i++){
     numberOfPage.innerHTML = '1';
     localStorage.setItem('page', '0');
     localStorage.setItem('group', `${group}`);
-    localStorage.setItem('currentPage', '0');
-    localStorage.setItem('currentGroup', `${group}`);
     GROUPSBUTTONS[i].classList.add('active')
     viewWordCards('word-cards-container', i, 0)
   })
@@ -195,7 +203,6 @@ const moveFirstPage = () => {
   previousPageButton.removeEventListener('click', moveNextPage);
   previousPageButton.setAttribute("disabled", "disabled");
   localStorage.setItem('page', `${page}`);
-  localStorage.setItem('currentPage', `${page}`);
   viewWordCards('word-cards-container', group, 0);
   numberOfPage.innerHTML = String(page + 1);
 }
@@ -220,7 +227,6 @@ const movePreviousPage = () => {
     previousPageButton.setAttribute("disabled", "disabled");
   }
   localStorage.setItem('page', `${page}`);
-  localStorage.setItem('currentPage', `${page}`);
   viewWordCards('word-cards-container', group, page);
   numberOfPage.innerHTML = String(page + 1);
 }
@@ -245,7 +251,6 @@ const moveNextPage = () => {
     lastPageButton.setAttribute("disabled", "disabled");
   }
   localStorage.setItem('page', `${page}`);
-  localStorage.setItem('currentPage', `${page}`);
   viewWordCards('word-cards-container', group, page);
   numberOfPage.innerHTML = String(page + 1);
 }
@@ -268,7 +273,6 @@ const moveLastPage = () => {
   lastPageButton.removeEventListener('click', moveNextPage);
   lastPageButton.setAttribute("disabled", "disabled");
   localStorage.setItem('page', `${page}`);
-  localStorage.setItem('currentPage', `${page}`);
   viewWordCards('word-cards-container', group, 29);
   numberOfPage.innerHTML = String(page + 1);
 }

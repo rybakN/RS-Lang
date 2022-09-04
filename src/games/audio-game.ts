@@ -84,7 +84,7 @@ export function createLevelsChoose(parent:HTMLElement){
 }
 export async function createAudioGame(group:number, page:number, parent:HTMLElement){
     let words = await Api.getWords(group, page);
-    console.log(words);
+
     let err = false;
     let endOfPage = false;
     if (localStorage.getItem('userToken')) {
@@ -92,7 +92,6 @@ export async function createAudioGame(group:number, page:number, parent:HTMLElem
         if (localStorage.getItem('currentPage')){
             for (let userWord of userWords){
                 if (userWord.optional.learning) {
-                    console.log(userWord);
                     for (let j:number = 0; j<words.length; j+=1) {
                         if (words[j].id === userWord.wordId) {
                             words.splice(j,1);
@@ -102,7 +101,6 @@ export async function createAudioGame(group:number, page:number, parent:HTMLElem
             }
         }
     }
-    console.log(words);
     if (words.length < 20) {
         let n = 1;
         let words2:Word[] = words
@@ -128,8 +126,6 @@ export async function createAudioGame(group:number, page:number, parent:HTMLElem
 
 async function createWords(words:Word[], parent:HTMLElement){
     if (words.length !== 0){
-        console.log(words);
-        console.log(wordsOfGame);
         parent.innerHTML = parent.innerHTML;
         const score = document.querySelector('.score');
         score.innerHTML=`${wordsOfGame.length-words.length}/${wordsOfGame.length}`
@@ -341,7 +337,6 @@ async function sendWordStatistics(userWords:CreateUserWordResponse[]) {
                     }   
                 }
             }
-            console.log('создаем слово');
             userWord = {
                 difficulty: difficulty,
                 optional: {

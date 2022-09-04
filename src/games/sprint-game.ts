@@ -139,15 +139,17 @@ export async function createSprintGame(group:number, page:number, parent:HTMLEle
     }
     localStorage.removeItem('currentPage');
     localStorage.removeItem('currentGroup');
-    if (sixtyFourty()) {
-        const number = getRandomNumber(words.length)-1;
-        createWords(words,parent,number,number);
-    } else {
-        const number1 = getRandomNumber(words.length)-1;
-        const number2 = getRandomNumber(words.length)-1;
-        createWords(words,parent,number1,number2);
-    }
-    createTimer(parent, words, userWords);
+    if (words[0]!=undefined){
+        if (sixtyFourty()) {
+            const number = getRandomNumber(words.length)-1;
+            createWords(words,parent,number,number);
+        } else {
+            const number1 = getRandomNumber(words.length)-1;
+            const number2 = getRandomNumber(words.length)-1;
+            createWords(words,parent,number1,number2);
+        }
+        createTimer(parent, words, userWords);
+    } else { resultPopUp(parent); }
 }
 async function createTimer(parent:HTMLElement, words:Word[],userWords:CreateUserWordResponse[]) {
 const clock = document.createElement('div');
