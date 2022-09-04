@@ -112,7 +112,7 @@ export async function createSprintGame(group:number, page:number, parent:HTMLEle
             for (let userWord of userWords){
                 if (userWord.optional.learning) {
                     for (let j:number = 0; j<words.length; j+=1) {
-                        if (words[j].id = userWord.wordId) {
+                        if (words[j].id === userWord.wordId) {
                             words.splice(j,1);
                         }
                     }
@@ -191,13 +191,19 @@ async function createWords(words:Word[], parent:HTMLElement, numberWord:number, 
         const right = document.createElement('div');
         right.classList.add('right');
         right.innerHTML = 'Right →';
-        right.addEventListener('click', () => rightClick(words, numberWord, numberWordTranslate, word, wordTranslate, right, wrong, parent) )
+        right.addEventListener('click', () => {
+            document.removeEventListener('keydown', keyboard);
+            rightClick(words, numberWord, numberWordTranslate, word, wordTranslate, right, wrong, parent) 
+        })
         const wrong = document.createElement('div');
         wrong.classList.add('wrong');
         wrong.innerHTML = '← Wrong';
-        wrong.addEventListener('click', () => wrongClick(words, numberWord, numberWordTranslate, word, wordTranslate, right, wrong, parent))
-        
-        document.addEventListener('keydown', function keyboard(event) {
+        wrong.addEventListener('click', () => {
+            document.removeEventListener('keydown', keyboard);
+            wrongClick(words, numberWord, numberWordTranslate, word, wordTranslate, right, wrong, parent)    
+        })
+        document.addEventListener('keydown', keyboard, {once:true})
+        function keyboard(event:KeyboardEvent) {
             const keyCode = event.keyCode;
             if (keyCode==39) {
                 rightClick(words, numberWord, numberWordTranslate, word, wordTranslate, right, wrong, parent);
@@ -206,7 +212,7 @@ async function createWords(words:Word[], parent:HTMLElement, numberWord:number, 
             if (keyCode==37) {
                 wrongClick(words, numberWord, numberWordTranslate, word, wordTranslate, right, wrong, parent)
             }
-        },{once:true})
+        }
         buttonsHolder.appendChild(right);
         buttonsHolder.appendChild(wrong);
 }

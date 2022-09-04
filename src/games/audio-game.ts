@@ -84,7 +84,7 @@ export function createLevelsChoose(parent:HTMLElement){
 }
 export async function createAudioGame(group:number, page:number, parent:HTMLElement){
     let words = await Api.getWords(group, page);
-    wordsOfGame = [...words];
+    console.log(words);
     let err = false;
     let endOfPage = false;
     if (localStorage.getItem('userToken')) {
@@ -92,8 +92,9 @@ export async function createAudioGame(group:number, page:number, parent:HTMLElem
         if (localStorage.getItem('currentPage')){
             for (let userWord of userWords){
                 if (userWord.optional.learning) {
+                    console.log(userWord);
                     for (let j:number = 0; j<words.length; j+=1) {
-                        if (words[j].id = userWord.wordId) {
+                        if (words[j].id === userWord.wordId) {
                             words.splice(j,1);
                         }
                     }
@@ -101,15 +102,15 @@ export async function createAudioGame(group:number, page:number, parent:HTMLElem
             }
         }
     }
-
+    console.log(words);
     if (words.length < 20) {
         let n = 1;
         let words2:Word[] = words
         do {
-            let k = 0;
+            let k = 1;
             words2 = await Api.getWords(group, page-n);
             while (words.length < 20 && !endOfPage) {
-                if (words2.length >= k) { 
+                if (words2.length > k) { 
                     words.push(words2[k]);
                 k += 1;
                 } else { endOfPage = true }
@@ -117,7 +118,8 @@ export async function createAudioGame(group:number, page:number, parent:HTMLElem
             }
             n+=1;
         } while (words.length < 20 && page-n >= 0);
-    }
+    }if (words){wordsOfGame = [...words];} else {wordsOfGame =[]}
+    
     localStorage.removeItem('currentPage');
     localStorage.removeItem('currentGroup');
     parent.innerHTML = gameHolder;
@@ -126,6 +128,8 @@ export async function createAudioGame(group:number, page:number, parent:HTMLElem
 
 async function createWords(words:Word[], parent:HTMLElement){
     if (words.length !== 0){
+        console.log(words);
+        console.log(wordsOfGame);
         parent.innerHTML = parent.innerHTML;
         const score = document.querySelector('.score');
         score.innerHTML=`${wordsOfGame.length-words.length}/${wordsOfGame.length}`
@@ -140,6 +144,7 @@ async function createWords(words:Word[], parent:HTMLElement){
         for (let i = 1; i <= 4; i++) {
             const wordContainer = document.querySelector(`#word${i}`);
             if (i === idRight) {
+                console.log('правильный ответ:' +idRight);
                 wordContainer.innerHTML = rightWord.wordTranslate
                 const sound = document.querySelector('.soundButton');
                 sound.addEventListener('click', () => {
@@ -248,16 +253,18 @@ let wrongWordsList='';
 
 async function createWrongWordsList(){
     let numberList = 0;
-    for (let value of wrongWords){
-        numberList+=1;
-        const word:Word = await Api.getWord(value.id)
-        wrongWordsList+=`
-        <div class="wrongWord">
-            <img class="musicPlay" id="wrongMusic${numberList.toString()}" src="../pictures/audio.png">
-            <p class ="wrongWordEng">${word.word}</p>
-            <p class ="wrongWordRus">${word.wordTranslate}</p>
-        </div>
-        `
+    for (let value of rightWords){
+        if (value.statistic.incorrect === 1){
+            numberList+=1;
+            const word:Word = await Api.getWord(value.id)
+            wrongWordsList+=`
+            <div class="wrongWord">
+                <img class="musicPlay" id="wrongMusic${numberList.toString()}" src="../pictures/audio.png">
+                <p class ="wrongWordEng">${word.word}</p>
+                <p class ="wrongWordRus">${word.wordTranslate}</p>
+            </div>
+            `
+        }
     }
 }
 let rightWordsList='';
@@ -265,15 +272,17 @@ let rightWordsList='';
 async function createRightWordsList(){
     let numberList = 0;
     for (let value of rightWords){
-        numberList+=1;
-        const word:Word = await Api.getWord(value.id)
-        rightWordsList+=`
-        <div class="rightWord">
-            <img class="musicPlay" id="wrongMusic${numberList.toString()}" src="../pictures/audio.png">
-            <p class ="rightWordEng">${word.word}</p>
-            <p class ="rightWordRus">${word.wordTranslate}</p>
-        </div>
-        `
+        if (value.statistic.correct === 1){
+            numberList+=1;
+            const word:Word = await Api.getWord(value.id)
+            rightWordsList+=`
+            <div class="rightWord">
+                <img class="musicPlay" id="wrongMusic${numberList.toString()}" src="../pictures/audio.png">
+                <p class ="rightWordEng">${word.word}</p>
+                <p class ="rightWordRus">${word.wordTranslate}</p>
+            </div>
+            `
+        }
     }
 }
 
@@ -362,8 +371,9 @@ async function sendWordStatistics(userWords:CreateUserWordResponse[]) {
 async function sendGameStatistics(){
     let accuracy = rightCount / (rightCount + wrongCount) * 100;
     let today = `${new Date().getDate()} ${new Date().getMonth() + 1} ${new Date().getFullYear()}` 
+    let stats;
     try {
-        const stats = await Api.getUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'));
+        stats = await Api.getUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'));
         let todayAccuracy = accuracy;
         let todayRight = rightCount;
         let todayWrong = wrongCount;
@@ -391,7 +401,7 @@ async function sendGameStatistics(){
         let thisGameStats:StatisticRequestBody = {
             learnedWords:learnedWords,
             optional: {
-               audio: {
+               sprint: {
                 accuracy: todayAccuracy,
                 correctToday: todayRight,
                 incorrectToday: todayWrong,
@@ -399,15 +409,18 @@ async function sendGameStatistics(){
                 newWords: todayNewWords,
                 maxInRow: todayMaxInRow,
                },
-               sprint: stats.optional.sprint,
+               audio: stats.optional.audio,
                learnedWordsByDays: LWBD,
                newWordsByDays: NWBD,
             }
         }
         await Api.upsertUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'), thisGameStats).then();
     }
-    catch(err) {       
-        console.log(`error ${err}`);
+    catch(err) {  console.log('подгружаем статистику первый раз')     
+        
+        }
+        
+    if (!stats) {
         let newLearnedWordsByDays = {};
         newLearnedWordsByDays[today] = learnedWords;
         let newNewWordsByDays = {};
@@ -415,7 +428,7 @@ async function sendGameStatistics(){
         let thisGameStats:StatisticRequestBody = {
             learnedWords:learnedWords,
             optional: {
-                audio: {
+                sprint: {
                     accuracy: accuracy,
                     date: today,
                     maxInRow:maxInRow,
@@ -423,7 +436,7 @@ async function sendGameStatistics(){
                     correctToday: rightCount,
                     incorrectToday: wrongCount, 
                 },
-                sprint: {
+                audio: {
                     accuracy: 0,
                     date: today,
                     maxInRow:0,
@@ -434,8 +447,8 @@ async function sendGameStatistics(){
                 learnedWordsByDays: newLearnedWordsByDays,
                 newWordsByDays: newNewWordsByDays,
             }
+
         }
-        await Api.upsertUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'), thisGameStats).then();
+        await Api.upsertUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'), thisGameStats);
     }
-    
 }

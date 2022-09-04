@@ -4,7 +4,7 @@ import { Api } from '../../api/api';
 import { SettingsRequestBody, UserSettingsResponse } from '../../api/typeApi';
 import { FilterViewWordCard } from '../viewWordCards/typeViewWordCards';
 
-export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint' | 'Statistics'){
+export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint' | 'Statistics' | 'Audio'){
   if(currentPage == 'Main') {
   document.body.innerHTML = `<aside>
   <nav>
@@ -13,6 +13,7 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint
       <li class="active"><a href="">Main</a></li>
       <li><a href="./pages/textbook.html">Textbook</a></li>
       <li><a href="./pages/sprint.html">Sprint</a></li>
+      <li><a href="./pages/audio.html">Audio</a></li>
       <li><a href="./pages/statistics.html">Statistics</a></li>
     </ul>
   </nav>
@@ -25,6 +26,7 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint
         <li><a href="../index.html">Main</a></li>
         <li class="active"><a href="./textbook.html">Textbook</a></li>
         <li><a href="./sprint.html">Sprint</a></li>
+        <li><a href="./audio.html">Audio</a></li>
         <li><a href="./statistics.html">Statistics</a></li>
       </ul>
     </nav>
@@ -37,6 +39,20 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint
         <li><a href="../index.html">Main</a></li>
         <li><a href="./textbook.html">Textbook</a></li>
         <li class="active"><a href="./sprint.html">Sprint</a></li>
+        <li><a href="./audio.html">Audio</a></li>
+        <li><a href="./statistics.html">Statistics</a></li>
+      </ul>
+    </nav>
+  </aside>${document.body.innerHTML}`
+  } else if(currentPage == 'Audio') {
+    document.body.innerHTML = `<aside>
+    <nav>
+      <p>Menu</p>
+      <ul>
+        <li><a href="../index.html">Main</a></li>
+        <li><a href="./textbook.html">Textbook</a></li>
+        <li><a href="./sprint.html">Sprint</a></li>
+        <li class="active"><a href="./audio.html">Audio</a></li>
         <li><a href="./statistics.html">Statistics</a></li>
       </ul>
     </nav>
@@ -49,6 +65,7 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint
         <li><a href="../index.html">Main</a></li>
         <li><a href="./textbook.html">Textbook</a></li>
         <li><a href="./sprint.html">Sprint</a></li>
+        <li><a href="./audio.html">Audio</a></li>
         <li class="active"><a href="./statistics.html">Statistics</a></li>
       </ul>
     </nav>
