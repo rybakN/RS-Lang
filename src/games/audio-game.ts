@@ -405,6 +405,19 @@ async function sendGameStatistics(){
         let todayMaxInRow = maxInRow;
         let LWBD = stats.optional.learnedWordsByDays;
         let NWBD = stats.optional.newWordsByDays;
+
+        if (today == stats.optional.audio.date||today == stats.optional.sprint.date) {
+            let learnedToday = LWBD[today] + learnedWords;
+            LWBD[today] = learnedToday;
+            let newToday = NWBD[today] + newWords;
+            NWBD[today] = newToday; 
+        } else {
+            LWBD[today] = learnedWords;
+            NWBD[today] = newWords;
+            
+        }
+        
+        
         if (today == stats.optional.audio.date) {
             todayAccuracy = (stats.optional.audio.correctToday+rightCount) / (stats.optional.audio.correctToday+rightCount+stats.optional.audio.incorrectToday+wrongCount) * 100
             todayRight += stats.optional.audio.correctToday;
@@ -413,15 +426,9 @@ async function sendGameStatistics(){
             if (todayMaxInRow < stats.optional.audio.maxInRow) {
                 todayMaxInRow = stats.optional.audio.maxInRow
             };
-             let learnedToday = LWBD[today] + learnedWords;
-             LWBD[today] = learnedToday;
-             let newToday = NWBD[today] + newWords;
-             NWBD[today] = newToday; 
-        } else {
-            LWBD[today] = learnedWords;
-            NWBD[today] = newWords;
-            
-        }
+
+             
+        } 
         let thisGameStats:StatisticRequestBody = {
             learnedWords:learnedWords,
             optional: {
@@ -444,37 +451,7 @@ async function sendGameStatistics(){
         
         }
         
-    if (!stats) {
-        let newLearnedWordsByDays = {};
-        newLearnedWordsByDays[today] = learnedWords;
-        let newNewWordsByDays = {};
-        newNewWordsByDays[today] = newWords;
-        let thisGameStats:StatisticRequestBody = {
-            learnedWords:learnedWords,
-            optional: {
-                audio: {
-                    accuracy: accuracy,
-                    date: today,
-                    maxInRow:maxInRow,
-                    newWords:newWords,   
-                    correctToday: rightCount,
-                    incorrectToday: wrongCount, 
-                },
-                sprint: {
-                    accuracy: 0,
-                    date: today,
-                    maxInRow:0,
-                    newWords:0,  
-                    correctToday: 0,
-                    incorrectToday: 0, 
-                },
-                learnedWordsByDays: newLearnedWordsByDays,
-                newWordsByDays: newNewWordsByDays,
-            }
 
-        }
-        await Api.upsertUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'), thisGameStats);
-    }
     rightCount = 0;
     wrongCount = 0;
     rightWords = [];

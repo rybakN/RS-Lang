@@ -501,6 +501,17 @@ async function sendGameStatistics(){
         let todayMaxInRow = maxInRow;
         let LWBD = stats.optional.learnedWordsByDays;
         let NWBD = stats.optional.newWordsByDays;
+
+        if (today == stats.optional.audio.date||today == stats.optional.sprint.date) {
+            let learnedToday = LWBD[today] + learnedWords;
+            LWBD[today] = learnedToday;
+            let newToday = NWBD[today] + newWords;
+            NWBD[today] = newToday; 
+        } else {
+            LWBD[today] = learnedWords;
+            NWBD[today] = newWords;
+            
+        }
         if (today == stats.optional.sprint.date) {
             todayAccuracy = (stats.optional.sprint.correctToday+rightCount) / (stats.optional.sprint.correctToday+rightCount+stats.optional.sprint.incorrectToday+wrongCount) * 100
             todayRight += stats.optional.sprint.correctToday;
@@ -509,15 +520,8 @@ async function sendGameStatistics(){
             if (todayMaxInRow < stats.optional.sprint.maxInRow) {
                 todayMaxInRow = stats.optional.sprint.maxInRow
             };
-             let learnedToday = LWBD[today] + learnedWords;
-             LWBD[today] = learnedToday;
-             let newToday = NWBD[today] + newWords;
-             NWBD[today] = newToday; 
-        } else {
-            LWBD[today] = learnedWords;
-            NWBD[today] = newWords;
+        } 
             
-        }
         let thisGameStats:StatisticRequestBody = {
             learnedWords:learnedWords,
             optional: {
@@ -539,37 +543,5 @@ async function sendGameStatistics(){
     catch(err) {  console.log('подгружаем статистику первый раз')     
         
         }
-        
-    if (!stats) {
-        let newLearnedWordsByDays = {};
-        newLearnedWordsByDays[today] = learnedWords;
-        let newNewWordsByDays = {};
-        newNewWordsByDays[today] = newWords;
-        let thisGameStats:StatisticRequestBody = {
-            learnedWords:learnedWords,
-            optional: {
-                sprint: {
-                    accuracy: accuracy,
-                    date: today,
-                    maxInRow:maxInRow,
-                    newWords:newWords,   
-                    correctToday: rightCount,
-                    incorrectToday: wrongCount, 
-                },
-                audio: {
-                    accuracy: 0,
-                    date: today,
-                    maxInRow:0,
-                    newWords:0,  
-                    correctToday: 0,
-                    incorrectToday: 0, 
-                },
-                learnedWordsByDays: newLearnedWordsByDays,
-                newWordsByDays: newNewWordsByDays,
-            }
-
-        }
-        await Api.upsertUserStatistic(localStorage.getItem('userId'),localStorage.getItem('userToken'), thisGameStats);
-    }
 }
 
