@@ -153,8 +153,6 @@ async function createWords(words:Word[], parent:HTMLElement){
             
             const wordContainer = document.querySelector(`#word${i}`);
             if (i === idRight) {
-                
-                console.log('правильный ответ:' +idRight);
                 wordContainer.innerHTML = rightWord.wordTranslate
                 const sound = document.querySelector('.soundButton');
                 sound.addEventListener('click', () => {
@@ -170,7 +168,6 @@ async function createWords(words:Word[], parent:HTMLElement){
                 let wrongNumber:number;
                 do {
                     wrongNumber = getRandomNumber(wordsOfGame.length) - 1;
-                    console.log(wordsOfGame[wrongNumber].wordTranslate);
                 } while (incorrectWords.includes(wrongNumber) || wordsOfGame[wrongNumber] === rightWord)
                 incorrectWords.push(wrongNumber);
 
@@ -211,7 +208,6 @@ function rightClick(words:Word[], parent:HTMLElement, rightWord:Word){
 
 }
 function wrongClick(words:Word[], parent:HTMLElement, rightWord:Word){
-    console.log('неправильно');
     wrongCount+=1;
     failAudio.pause();
     successAudio.pause();
@@ -233,9 +229,7 @@ let wrongWordsList='';
 
 async function createWrongWordsList(){
     let numberList = 0;
-    console.log('start');
     for (let value of rightWords){
-        console.log(value.statistic.incorrect);
         if (value.statistic.incorrect === 1){
             numberList+=1;
             const word:Word = await Api.getWord(value.id)
