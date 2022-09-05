@@ -1,10 +1,10 @@
 import './create-sidebar.css';
-import { viewWordCards } from '../viewWordCards/viewWordCards';
+import { getNewToken, viewWordCards } from '../viewWordCards/viewWordCards';
 import { Api } from '../../api/api';
 import { SettingsRequestBody, UserSettingsResponse } from '../../api/typeApi';
 import { FilterViewWordCard } from '../viewWordCards/typeViewWordCards';
 
-export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint' | 'Statistics' | 'Audio'){
+export default async function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint' | 'Statistics' | 'Audio'){
   if(currentPage == 'Main') {
   document.body.innerHTML = `<aside>
   <nav>
@@ -71,11 +71,12 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint
     </nav>
   </aside>${document.body.innerHTML}`
   }
-  addTranslateOptionBtn(currentPage); // Функция включения/выключения перевода слов в карточках слов.
+  await addTranslateOptionBtn(currentPage).then(); // Функция включения/выключения перевода слов в карточках слов.
 }
 
 // Функция включения/выключения перевода слов в карточках слов.
 async function addTranslateOptionBtn(currentPage: string) {
+    if (currentPage != 'Textbook') await getNewToken().then();
     let translateWord: string = 'true';
     let checked: string = 'checked';
 
