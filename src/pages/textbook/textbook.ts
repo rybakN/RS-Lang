@@ -12,7 +12,7 @@ import { FilterViewWordCard } from '../../components/viewWordCards/typeViewWordC
 import '../../components/viewWordCards/viewWordCards.css'
 
 createSideBar('Textbook');
-createFooter("../../pictures/rs_school_js.svg");
+createFooter("../pictures/rs_school_js.svg");
 createHeader('Textbook', false);
 
 let GROUPSBUTTONS: NodeListOf<Element>;
