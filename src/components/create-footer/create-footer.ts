@@ -9,6 +9,6 @@ export default function createFooter(pathForPictures: string): void{
       <a href="https://github.com/tihohohodka">tihohohodka</a>
       <a href="https://github.com/alekprogrammer">alekprogrammer</a>
     </div>
-    <img src="${pathForPictures}">
+    <a href="https://rs.school/js/"><img src="${pathForPictures}"></a>
   </footer>`
 }
