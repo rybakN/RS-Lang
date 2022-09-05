@@ -12,7 +12,7 @@ import { FilterViewWordCard } from '../../components/viewWordCards/typeViewWordC
 import '../../components/viewWordCards/viewWordCards.css'
 
 createSideBar('Textbook');
-createFooter("../../pictures/rs_school_js.svg");
+createFooter("../pictures/rs_school_js.svg");
 createHeader('Textbook', false);
 
 let GROUPSBUTTONS: NodeListOf<Element>;
@@ -32,13 +32,13 @@ ${document.querySelector('main').innerHTML}`;
   sprintGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
-      window.location.href = window.location.origin + '/pages/sprint.html'
+      window.location.href = window.location.origin + '/RS-Lang/pages/sprint.html'
     })
   const audioGameButton = document.querySelector('#audioGameButton');
   audioGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
-      window.location.href = window.location.origin + '/pages/audio.html'
+      window.location.href = window.location.origin + '/RS-Lang/pages/audio.html'
     });
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
 }
@@ -57,13 +57,13 @@ ${document.querySelector('main').innerHTML}`
   sprintGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
-      window.location.href = window.location.origin + '/pages/sprint.html'
+      window.location.href = window.location.origin + '/RS-Lang/pages/sprint.html'
     })
   const audioGameButton = document.querySelector('#audioGameButton');
   audioGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
-      window.location.href = window.location.origin + '/pages/audio.html'
+      window.location.href = window.location.origin + '/RS-Lang/pages/audio.html'
     })
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
   document.querySelector('.learned-words').addEventListener('click', () => {
