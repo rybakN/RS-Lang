@@ -26,3 +26,8 @@ export interface CreateUserWordBodyResponse {
     response: UserWord[]
     requestBody: CreateUserWord
 }
+
+export interface GetNewTokenResponse {
+    userId: string
+    token: string
+}
