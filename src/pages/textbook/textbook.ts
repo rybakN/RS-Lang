@@ -32,13 +32,13 @@ ${document.querySelector('main').innerHTML}`;
   sprintGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
-      window.location.href = window.location.origin + '/pages/sprint.html'
+      window.location.href = window.location.origin + '/dist/pages/sprint.html'
     })
   const audioGameButton = document.querySelector('#audioGameButton');
   audioGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
-      window.location.href = window.location.origin + '/pages/audio.html'
+      window.location.href = window.location.origin + '/dist/pages/audio.html'
     });
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
 }
@@ -57,13 +57,13 @@ ${document.querySelector('main').innerHTML}`
   sprintGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
-      window.location.href = window.location.origin + '/pages/sprint.html'
+      window.location.href = window.location.origin + '/dist/pages/sprint.html'
     })
   const audioGameButton = document.querySelector('#audioGameButton');
   audioGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
-      window.location.href = window.location.origin + '/pages/audio.html'
+      window.location.href = window.location.origin + '/dist/pages/audio.html'
     })
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
   document.querySelector('.learned-words').addEventListener('click', () => {
