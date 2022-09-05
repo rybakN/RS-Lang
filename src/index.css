@@ -89,16 +89,21 @@ input::placeholder{
 }
 
 .team{
-  width: 708px;
+  width: 900px;
   margin: 0 auto;
+}
+
+.members{
+  display: flex;
+  justify-content: space-between;
 }
 
 .member{
   background-color: #ffff00;
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
-  width: 400px;
+  width: 280px;
   padding-bottom: 20px;
-  margin: 0 auto 20px auto;
+  margin-bottom: 20px;
 }
 
 .name-member,
@@ -110,6 +115,13 @@ input::placeholder{
 
 .role{
   color: #001aff;
+}
+
+.image-member-wrapper{
+  margin: 0 auto;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
 }
 
 .member img{
