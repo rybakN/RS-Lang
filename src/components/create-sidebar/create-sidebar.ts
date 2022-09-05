@@ -14,7 +14,7 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint
       <li><a href="./pages/textbook.html">Textbook</a></li>
       <li><a href="./pages/sprint.html">Sprint</a></li>
       <li><a href="./pages/audio.html">Audio</a></li>
-      <li><a href="./pages/statistics.html">Statistics</a></li>
+      ${localStorage.getItem('userId') ? '<li><a href="./pages/statistics.html">Statistics</a></li>' : ''}
     </ul>
   </nav>
 </aside>${document.body.innerHTML}`
@@ -27,7 +27,7 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint
         <li class="active"><a href="./textbook.html">Textbook</a></li>
         <li><a href="./sprint.html">Sprint</a></li>
         <li><a href="./audio.html">Audio</a></li>
-        <li><a href="./statistics.html">Statistics</a></li>
+        ${localStorage.getItem('userId') ? '<li><a href="./statistics.html">Statistics</a></li>' : ''}
       </ul>
     </nav>
   </aside>${document.body.innerHTML}`
@@ -40,7 +40,7 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint
         <li><a href="./textbook.html">Textbook</a></li>
         <li class="active"><a href="./sprint.html">Sprint</a></li>
         <li><a href="./audio.html">Audio</a></li>
-        <li><a href="./statistics.html">Statistics</a></li>
+        ${localStorage.getItem('userId') ? '<li><a href="./statistics.html">Statistics</a></li>' : ''}
       </ul>
     </nav>
   </aside>${document.body.innerHTML}`
@@ -53,7 +53,7 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint
         <li><a href="./textbook.html">Textbook</a></li>
         <li><a href="./sprint.html">Sprint</a></li>
         <li class="active"><a href="./audio.html">Audio</a></li>
-        <li><a href="./statistics.html">Statistics</a></li>
+        ${localStorage.getItem('userId') ? '<li><a href="./statistics.html">Statistics</a></li>' : ''}
       </ul>
     </nav>
   </aside>${document.body.innerHTML}`
@@ -66,7 +66,7 @@ export default function createSideBar(currentPage: 'Main' | 'Textbook' | 'Sprint
         <li><a href="./textbook.html">Textbook</a></li>
         <li><a href="./sprint.html">Sprint</a></li>
         <li><a href="./audio.html">Audio</a></li>
-        <li class="active"><a href="./statistics.html">Statistics</a></li>
+        ${localStorage.getItem('userId') ? '<li class="active"><a href="./statistics.html">Statistics</a></li>' : ''}
       </ul>
     </nav>
   </aside>${document.body.innerHTML}`
@@ -130,11 +130,11 @@ async function addTranslateOptionBtn(currentPage: string) {
                     const pageNum: number = Number(localStorage.getItem('page'));
                     const groupNum = Number(localStorage.getItem('group'));
                     if (document.getElementById('word-cards-container').children[0].classList.contains('difficult')) {
-                        viewWordCards('word-cards-container', 0, 0, FilterViewWordCard.difficult).then();
+                        await viewWordCards('word-cards-container', 0, 0, FilterViewWordCard.difficult).then();
                     } else if (document.getElementById('word-cards-container').children[0].classList.contains('learned')) {
                         viewWordCards('word-cards-container', 0, 0, FilterViewWordCard.learned).then();
                     } else {
-                        viewWordCards('word-cards-container', groupNum, pageNum).then();
+                        await viewWordCards('word-cards-container', groupNum, pageNum).then();
                     }
                 } else {
                     localStorage.setItem('translateWord', translateValue);
@@ -145,7 +145,7 @@ async function addTranslateOptionBtn(currentPage: string) {
                     localStorage.setItem('translateWord', translateValue);
                     const pageNum: number = Number(localStorage.getItem('page'));
                     const groupNum = Number(localStorage.getItem('group'));
-                    viewWordCards('word-cards-container', groupNum, pageNum).then();
+                    await viewWordCards('word-cards-container', groupNum, pageNum).then();
                 } else {
                     localStorage.setItem('translateWord', translateValue);
                 }

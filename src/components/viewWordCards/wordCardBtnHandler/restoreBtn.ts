@@ -5,6 +5,7 @@ import { ToggleBtnName } from './utilsWordCard/toggleBtnName';
 import { UpdateUserStatistic } from './utilsWordCard/updateUserStatistic';
 import { CreateUserWordBody } from './utilsWordCard/createUserWordBody';
 import { ParamCreateUserWordBody } from '../typeViewWordCards';
+import { removeStyleLearnedPage } from '../viewWordCards';
 
 export  class RestoreBtn implements BtnHandler {
     static btnName = 'restore';
@@ -30,7 +31,7 @@ export  class RestoreBtn implements BtnHandler {
         wordCard.classList.remove('bg-success');
         this.toggleBtnName.toggleBtnName(wordCard, 'restore', 'learned');
 
-        wordCard.parentElement.classList.remove('bg-success-25');
+        removeStyleLearnedPage();
 
         if (wordCard.classList.contains('learned')) wordCard.remove();
 

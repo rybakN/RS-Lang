@@ -18,24 +18,28 @@ createHeader('Textbook', false);
 let GROUPSBUTTONS: NodeListOf<Element>;
 
 let  ENTEREXITBUTTON: Element;
+
+let GAMELINKS: NodeListOf<Element>;
 if(document.querySelector('.sign-in-or-log-in-button')){
   ENTEREXITBUTTON = document.querySelector('.sign-in-or-log-in-button')
   ENTEREXITBUTTON.addEventListener('click', registration);
   document.querySelector('main').innerHTML = `<div class="games-links">
-  <a href="./sprint.html"><button id="sprintGameButton"><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
-  <a href="./audio.html"><button id="audioGameButton"><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
+  <button id="sprintGameButton"><img src="../pictures/sprint.png">Play to Sprint Game</button>
+  <button id="audioGameButton"><img src="../pictures/audio.jpg">Play to Audio Game</button>
   </div>
 ${document.querySelector('main').innerHTML}`;
   const sprintGameButton = document.querySelector('#sprintGameButton');
   sprintGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
+      window.location.href = window.location.origin + '/pages/sprint.html'
     })
   const audioGameButton = document.querySelector('#audioGameButton');
   audioGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
-    })
+      window.location.href = window.location.origin + '/pages/audio.html'
+    });
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
 }
 else{
@@ -45,19 +49,21 @@ else{
   document.querySelector('main').innerHTML = `    <button class="learned-words">Learned Words</button>
   ${document.querySelector('main').innerHTML}`;
   document.querySelector('main').innerHTML = `<div class="games-links">
-  <a href="./sprint.html"><button id="sprintGameButton"><img src="../pictures/sprint.png">Play to Sprint Game</button></a>
-  <a href="./audio.html"><button id="audioGameButton"><img src="../pictures/audio.jpg">Play to Audio Game</button></a>
+  <button id="sprintGameButton"><img src="../pictures/sprint.png">Play to Sprint Game</button>
+  <button id="audioGameButton"><img src="../pictures/audio.jpg">Play to Audio Game</button>
   </div>
 ${document.querySelector('main').innerHTML}`
   const sprintGameButton = document.querySelector('#sprintGameButton');
   sprintGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
+      window.location.href = window.location.origin + '/pages/sprint.html'
     })
   const audioGameButton = document.querySelector('#audioGameButton');
   audioGameButton.addEventListener('click', () => {
       localStorage.setItem('currentPage',localStorage.getItem('page'));
       localStorage.setItem('currentGroup',localStorage.getItem('group'));
+      window.location.href = window.location.origin + '/pages/audio.html'
     })
   GROUPSBUTTONS = document.querySelectorAll('.circle-button');
   document.querySelector('.learned-words').addEventListener('click', () => {

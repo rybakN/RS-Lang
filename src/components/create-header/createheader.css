@@ -67,12 +67,19 @@ header span{
 .log-out{
   border: none;
   background-color: violet;
-  width: 290px;
   height: 70px;
   font-size: 35px;
   font-family: 'Josefin Sans', sans-serif;
   transition: 0.5s;
   cursor: pointer;
+}
+
+.log-out{
+  width: 290px;
+}
+
+.sign-in-or-log-in-button{
+  width: 360px;
 }
 
 .sign-in-or-log-in-button:hover{
