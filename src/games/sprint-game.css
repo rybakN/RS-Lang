@@ -8,6 +8,10 @@ body{
     font-family: 'Kanit', sans-serif;
     font-size: 70px;
   }
+
+  .user-information > p{
+    font-family: 'Josefin Sans', sans-serif;
+  }
   
 .difficultLevel {
     display: flex;
