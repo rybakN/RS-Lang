@@ -1,14 +1,14 @@
 import { Api } from '../../api/api';
 import {
     CreateUserWordResponse,
-    Filter,
+    Filter, GetNewToken,
     GetUserAggregateWordResponse,
     OrCondition,
     UserWord,
     UserWordFilter,
     Word,
 } from '../../api/typeApi';
-import { FilterViewWordCard, getCardsHTML } from './typeViewWordCards';
+import { FilterViewWordCard, getCardsHTML, GetNewTokenResponse } from './typeViewWordCards';
 import { HandlerCombiner } from './wordCardBtnHandler/handlerCombiner';
 import './viewWordCards.css';
 
@@ -27,7 +27,7 @@ async function getWordCardsHTML(groupNum: number, pageNum: number, filter?: stri
     let containerHTML: string = '';
     let wordsPerPage = 20;
     const id: string[] = [];
-    const userId: string = localStorage.getItem('userId');
+    const { userId, token } = await getNewToken();
     const translateOption: string = localStorage.getItem('translateWord');
 
     if (filter == FilterViewWordCard.difficult || filter == FilterViewWordCard.learned) wordsPerPage = 3600;
@@ -35,7 +35,6 @@ async function getWordCardsHTML(groupNum: number, pageNum: number, filter?: stri
     if (userId != null) {
         if (wordsPerPage === 3600) {
             const filterForApi: Filter = getFilter(filter);
-            const token = localStorage.getItem('userToken');
             const response: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, pageNum, wordsPerPage, filterForApi);
             if (filter == FilterViewWordCard.difficult) {
                 response[0].paginatedResults.forEach((item: UserWord) => {
@@ -50,12 +49,11 @@ async function getWordCardsHTML(groupNum: number, pageNum: number, filter?: stri
             }
 
         } else {
-            const token = localStorage.getItem('userToken');
             const response: Word[] = await Api.getWords(groupNum, pageNum);
-            const responseGetUserAggregateWord: GetUserAggregateWordResponse = await Api.getUserAggregateWord(userId, token, 0, 3600);
+            const responseUserWords: CreateUserWordResponse[] = await Api.getUserWords(userId, token);
             response.forEach((item: Word) => {
-                const word: UserWord = responseGetUserAggregateWord[0].paginatedResults.find(word => word._id === item.id);
-                containerHTML += templateCardAuth(word, translateOption);
+                const userWord: CreateUserWordResponse = responseUserWords.find(word => word.wordId === item.id);
+                containerHTML += templateCardAuth(item, translateOption, userWord);
                 id.push(item.id);
             })
         }
@@ -70,22 +68,22 @@ async function getWordCardsHTML(groupNum: number, pageNum: number, filter?: stri
     return { id, containerHTML };
 }
 
-function templateCardAuth(item: UserWord, translateOption: string): string {
+function templateCardAuth(item: Word, translateOption: string, userWord: CreateUserWordResponse): string {
     let displayNone: string = translateOption == 'false' ? 'displayNone' : '';
     let bgCard = '';
     let difficultBtn = '';
     let learningBtn = 'Learned';
-    if (item.userWord != undefined && item.userWord.difficulty === 'hard') {
+    if (userWord != undefined && userWord.difficulty === 'hard') {
         bgCard = 'bg-danger';
         difficultBtn = 'disabled="disabled"';
-    } else if (item.userWord != undefined && item.userWord.optional.learning === true) {
+    } else if (userWord != undefined && userWord.optional.learning === true) {
         bgCard = 'bg-success';
         learningBtn = 'Restore';
     }
 
-    if (item.userWord != undefined) {
-        if (item.userWord.optional.statistic.incorrect != 0 || item.userWord.optional.statistic.correct != 0) {
-            return `<div class="container p-2 mt-2 border border-danger wordCard ${bgCard} rounded-4 border-3" id="${item._id}">
+    if (userWord != undefined) {
+        if (userWord.optional.statistic.incorrect != 0 || userWord.optional.statistic.correct != 0) {
+            return `<div class="container p-2 mt-2 border border-danger wordCard ${bgCard} rounded-4 border-3" id="${item.id}">
         <div class="row">
             <div class="col-3 overflow-hidden d-flex justify-content-center m-auto">
                 <img class="m-auto" src="https://rs-lang-team-116.herokuapp.com/${item.image}">
@@ -96,11 +94,11 @@ function templateCardAuth(item: UserWord, translateOption: string): string {
                         <b>${item.word} </b><span>${item.transcription}</span><span class="${displayNone}"> - ${item.wordTranslate}</span>
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item._id}" data-audio="${item.audio}" data-meaning="${item.audioMeaning}" data-example="${item.audioExample}">Listen</button>
+                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item.id}" data-audio="${item.audio}" data-meaning="${item.audioMeaning}" data-example="${item.audioExample}">Listen</button>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col"><b>Correct: ${item.userWord.optional.statistic.correct} | Incorrect: ${item.userWord.optional.statistic.incorrect}</b></div>
+                    <div class="col"><b>Correct: ${userWord.optional.statistic.correct} | Incorrect: ${userWord.optional.statistic.incorrect}</b></div>
                 </div>
                 <div class="row">
                     <div class="col">${item.textMeaning}</div>
@@ -116,15 +114,15 @@ function templateCardAuth(item: UserWord, translateOption: string): string {
                 </div>
                 <div class="row">
                     <div class="d-grid gap-2 d-md-block">
-                        <button class="btn btn-primary" type="button" ${difficultBtn} data-name="difficult" data-wordid="${item._id}">Difficult</button>
-                        <button class="btn btn-primary" type="button" data-name="${learningBtn.toLowerCase()}" data-wordid="${item._id}">${learningBtn}</button>
+                        <button class="btn btn-primary" type="button" ${difficultBtn} data-name="difficult" data-wordid="${item.id}">Difficult</button>
+                        <button class="btn btn-primary" type="button" data-name="${learningBtn.toLowerCase()}" data-wordid="${item.id}">${learningBtn}</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>`;
         } else {
-            return `<div class="container p-2 mt-2 border border-danger wordCard ${bgCard} rounded-4 border-3" id="${item._id}">
+            return `<div class="container p-2 mt-2 border border-danger wordCard ${bgCard} rounded-4 border-3" id="${item.id}">
         <div class="row">
             <div class="col-3 overflow-hidden d-flex justify-content-center m-auto">
                 <img class="m-auto" src="https://rs-lang-team-116.herokuapp.com/${item.image}">
@@ -135,7 +133,7 @@ function templateCardAuth(item: UserWord, translateOption: string): string {
                         <b>${item.word} </b><span>${item.transcription}</span><span class="${displayNone}"> - ${item.wordTranslate}</span>
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item._id}" data-audio="${item.audio}" data-meaning="${item.audioMeaning}" data-example="${item.audioExample}">Listen</button>
+                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item.id}" data-audio="${item.audio}" data-meaning="${item.audioMeaning}" data-example="${item.audioExample}">Listen</button>
                     </div>
                 </div>
                 <div class="row">
@@ -152,8 +150,8 @@ function templateCardAuth(item: UserWord, translateOption: string): string {
                 </div>
                 <div class="row">
                     <div class="d-grid gap-2 d-md-block">
-                        <button class="btn btn-primary" type="button" ${difficultBtn} data-name="difficult" data-wordid="${item._id}">Difficult</button>
-                        <button class="btn btn-primary" type="button" data-name="${learningBtn.toLowerCase()}" data-wordid="${item._id}">${learningBtn}</button>
+                        <button class="btn btn-primary" type="button" ${difficultBtn} data-name="difficult" data-wordid="${item.id}">Difficult</button>
+                        <button class="btn btn-primary" type="button" data-name="${learningBtn.toLowerCase()}" data-wordid="${item.id}">${learningBtn}</button>
                     </div>
                 </div>
             </div>
@@ -161,7 +159,7 @@ function templateCardAuth(item: UserWord, translateOption: string): string {
     </div>`;
         }
     } else {
-        return `<div class="container p-2 mt-2 border border-danger wordCard ${bgCard} rounded-4 border-3" id="${item._id}">
+        return `<div class="container p-2 mt-2 border border-danger wordCard ${bgCard} rounded-4 border-3" id="${item.id}">
         <div class="row">
             <div class="col-3 overflow-hidden d-flex justify-content-center m-auto">
                 <img class="m-auto" src="https://rs-lang-team-116.herokuapp.com/${item.image}">
@@ -172,7 +170,7 @@ function templateCardAuth(item: UserWord, translateOption: string): string {
                         <b>${item.word} </b><span>${item.transcription}</span><span class="${displayNone}"> - ${item.wordTranslate}</span>
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item._id}" data-audio="${item.audio}" data-meaning="${item.audioMeaning}" data-example="${item.audioExample}">Listen</button>
+                        <button class="btn btn-primary" type="button" data-name="listen" data-wordid="${item.id}" data-audio="${item.audio}" data-meaning="${item.audioMeaning}" data-example="${item.audioExample}">Listen</button>
                     </div>
                 </div>
                 <div class="row">
@@ -189,8 +187,8 @@ function templateCardAuth(item: UserWord, translateOption: string): string {
                 </div>
                 <div class="row">
                     <div class="d-grid gap-2 d-md-block">
-                        <button class="btn btn-primary" type="button" ${difficultBtn} data-name="difficult" data-wordid="${item._id}">Difficult</button>
-                        <button class="btn btn-primary" type="button" data-name="${learningBtn.toLowerCase()}" data-wordid="${item._id}">${learningBtn}</button>
+                        <button class="btn btn-primary" type="button" ${difficultBtn} data-name="difficult" data-wordid="${item.id}">Difficult</button>
+                        <button class="btn btn-primary" type="button" data-name="${learningBtn.toLowerCase()}" data-wordid="${item.id}">${learningBtn}</button>
                     </div>
                 </div>
             </div>
@@ -460,4 +458,22 @@ export function removeStyleLearnedPage(): void {
     document.querySelector('.pagination').classList.remove('bg-success-25');
     document.querySelector('.games-links').children[0].removeAttribute('disabled');
     document.querySelector('.games-links').children[1].removeAttribute('disabled');
+}
+
+export async function getNewToken(): Promise<GetNewTokenResponse> {
+    let userId: string = localStorage.getItem('userId');
+    let token: string = localStorage.getItem('userToken');
+    if (userId != null) {
+        try {
+            await Api.getUser(userId, token).then();
+        } catch (err) {
+            const refreshToken: string = localStorage.getItem('userRefreshToken');
+            const refreshTokenResponse: GetNewToken = await Api.getNewUserToken(userId, refreshToken);
+            localStorage.setItem('userRefreshToken', refreshTokenResponse.refreshToken);
+            console.log('Токен установлен');
+            localStorage.setItem('userToken', refreshTokenResponse.token);
+            token = refreshTokenResponse.token;
+        }
+    }
+    return { userId, token };
 }
