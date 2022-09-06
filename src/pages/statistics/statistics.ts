@@ -8,7 +8,7 @@ import createFooter from '../../components/create-footer/create-footer';
 import { StatisticsPage } from './statisticsUtils/statisticsUtils';
 
 createSideBar('Statistics');
-createFooter("../../pictures/rs_school_js.svg");
+createFooter("../pictures/rs_school_js.svg");
 createHeader('Statistics', false);
 const statistics: StatisticsPage = new StatisticsPage();
 
