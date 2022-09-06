@@ -232,12 +232,11 @@ async function createWrongWordsList(){
     for (let value of rightWords){
         if (value.statistic.incorrect === 1){
             numberList+=1;
-            const word:Word = await Api.getWord(value.id)
             wrongWordsList+=`
             <div class="wrongWord">
                 <img class="musicPlay" id="wrongMusic${numberList.toString()}" src="../pictures/audio.png">
-                <p class ="wrongWordEng">${word.word}</p>
-                <p class ="wrongWordRus">${word.wordTranslate}</p>
+                <p class ="wrongWordEng">${value.word}</p>
+                <p class ="wrongWordRus">${value.wordTranslate}</p>
             </div>
             `
         }
@@ -250,12 +249,11 @@ async function createRightWordsList(){
     for (let value of rightWords){
         if (value.statistic.correct === 1){
             numberList+=1;
-            const word:Word = await Api.getWord(value.id)
             rightWordsList+=`
             <div class="rightWord">
                 <img class="musicPlay" id="rightMusic${numberList.toString()}" src="../pictures/audio.png">
-                <p class ="rightWordEng">${word.word}</p>
-                <p class ="rightWordRus">${word.wordTranslate}</p>
+                <p class ="rightWordEng">${value.word}</p>
+                <p class ="rightWordRus">${value.wordTranslate}</p>
             </div>
             `
         }
@@ -292,8 +290,7 @@ export async function resultPopUp(parent:HTMLElement) {
     for (let value of rightWords){
         if (value.statistic.incorrect === 1){
         numberList +=1;
-        const word:Word = await Api.getWord(value.id);
-        let audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${word.audio}`);
+        let audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${value.audio}`);
         const audioButton = document.querySelector(`#wrongMusic${numberList.toString()}`);
         audioButton.addEventListener('click', () => audio.play())
         }
@@ -302,8 +299,7 @@ export async function resultPopUp(parent:HTMLElement) {
     for (let value of rightWords){
         if (value.statistic.correct === 1){
         numberList +=1;
-        const word:Word = await Api.getWord(value.id);
-        let audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${word.audio}`);
+        let audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${value.audio}`);
         const audioButton = document.querySelector(`#rightMusic${numberList.toString()}`);
         audioButton.addEventListener('click', () => audio.play())
         }

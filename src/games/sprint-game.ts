@@ -6,8 +6,8 @@ import '../audio/fail.mp3'
 import '../audio/success.mp3'
 let rightCount = 0;
 let wrongCount = 0;
-let rightWords = new Set<string>();
-let wrongWords = new Set<string>();
+let rightWords = new Set<Word>();
+let wrongWords = new Set<Word>();
 let newWords:number = 0;
 let learnedWords:number = 0;
 let maxInRow:number = 0;
@@ -39,12 +39,11 @@ async function createWrongWordsList(){
     let numberList = 0;
     for (let value of wrongWords){
         numberList+=1;
-        const word:Word = await Api.getWord(value)
         wrongWordsList+=`
         <div class="wrongWord">
             <img class="musicPlay" id="wrongMusic${numberList.toString()}" src="../pictures/audio.png">
-            <p class ="wrongWordEng">${word.word}</p>
-            <p class ="wrongWordRus">${word.wordTranslate}</p>
+            <p class ="wrongWordEng">${value.word}</p>
+            <p class ="wrongWordRus">${value.wordTranslate}</p>
         </div>
         `
     }
@@ -54,12 +53,11 @@ async function createRightWordsList(){
     let numberList = 0;
     for (let value of rightWords){
         numberList+=1;
-        const word:Word = await Api.getWord(value)
         rightWordsList+=`
         <div class="rightWord">
             <img class="musicPlay" id="rightMusic${numberList.toString()}" src="../pictures/audio.png">
-            <p class ="rightWordEng">${word.word}</p>
-            <p class ="rightWordRus">${word.wordTranslate}</p>
+            <p class ="rightWordEng">${value.word}</p>
+            <p class ="rightWordRus">${value.wordTranslate}</p>
         </div>
         `
     }
@@ -250,16 +248,14 @@ export async function resultPopUp(parent:HTMLElement) {
     tryAgain.addEventListener('click', () => location.reload())
     for (let value of wrongWords){
         numberList +=1;
-        const word:Word = await Api.getWord(value);
-        let audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${word.audio}`);
+        let audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${value.audio}`);
         const audioButton = document.querySelector(`#wrongMusic${numberList.toString()}`);
         audioButton.addEventListener('click', () => audio.play())
     }
     numberList = 0;
     for (let value of rightWords){
         numberList +=1;
-        const word:Word = await Api.getWord(value);
-        let audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${word.audio}`);
+        let audio = new Audio(`https://rs-lang-team-116.herokuapp.com/${value.audio}`);
         const audioButton = document.querySelector(`#rightMusic${numberList.toString()}`);
         audioButton.addEventListener('click', () => audio.play())
     }
@@ -283,7 +279,7 @@ async function wrongClick (
         failAudio.play();
         wrongCount+=1;
         currentRow = 0;
-        wrongWords.add(words[numberWord].id);
+        wrongWords.add(words[numberWord]);
         if(words[numberWord].statistic) {
             words[numberWord].statistic.incorrect += 1;
             words[numberWord].statistic.row = 0;
@@ -305,7 +301,7 @@ async function wrongClick (
         if (currentRow > maxInRow) {
             maxInRow = currentRow;
         }
-        rightWords.add(words[numberWord].id);
+        rightWords.add(words[numberWord]);
         if(words[numberWord].statistic) {
             words[numberWord].statistic.correct += 1;
             words[numberWord].statistic.row += 1;
@@ -347,7 +343,7 @@ async function rightClick (
         failAudio.play();
         wrongCount += 1;
         currentRow = 0;
-        wrongWords.add(words[numberWord].id);
+        wrongWords.add(words[numberWord]);
         if(words[numberWord].statistic) {
             words[numberWord].statistic.incorrect += 1;
             words[numberWord].statistic.row = 0;
@@ -369,7 +365,7 @@ async function rightClick (
         if (currentRow > maxInRow) {
             maxInRow = currentRow;
         }
-        rightWords.add(words[numberWord].id);
+        rightWords.add(words[numberWord]);
         if(words[numberWord].statistic) {
             words[numberWord].statistic.correct += 1;
             words[numberWord].statistic.row += 1;
