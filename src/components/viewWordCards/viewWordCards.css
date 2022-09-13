@@ -1,0 +1,88 @@
+.container {
+    border: solid yellowgreen;
+    margin: 0.4rem;
+}
+
+.row {
+    display: flex;
+    padding: 0.5rem;
+}
+
+.col-3 {
+    display: flex;
+    justify-content: center;
+    width: 36%;
+    overflow: hidden;
+    margin-right: 0.5rem;
+}
+
+.col-8 {
+    width: 64%;
+}
+
+.col {
+    font-family: 'Raleway', sans-serif;
+}
+
+.btn {
+    font-family: 'Josefin Sans', sans-serif;
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+    background-color: violet;
+    border: 1px solid #694569;
+    border-radius: 5px;
+    outline: none;
+}
+
+.btn:hover {
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.bg-success {
+    background-color: yellowgreen;
+}
+
+.bg-success-25 {
+    background-color: rgba(154, 205, 50,0.9);
+}
+
+.bg-danger {
+    background-color: #f32614;
+}
+
+.displayNone {
+    display: none;
+}
+
+.loader__wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.loader {
+    --b: 10px;  /* border thickness */
+    --n: 15;    /* number of dashes*/
+    --g: 10deg; /* gap  between dashes*/
+    --c: red;   /* the color */
+
+    width:100px; /* size */
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin: 2rem;
+    padding: 1px; /* get rid of bad outlines */
+    background: conic-gradient(#0000,var(--c)) content-box;
+    --_m: /* we use +/-1deg between colors to avoid jagged edges */
+            repeating-conic-gradient(#0000 0deg,
+            #000 1deg calc(360deg/var(--n) - var(--g) - 1deg),
+            #0000     calc(360deg/var(--n) - var(--g)) calc(360deg/var(--n))),
+            radial-gradient(farthest-side,#0000 calc(98% - var(--b)),#000 calc(100% - var(--b)));
+    -webkit-mask: var(--_m);
+    mask: var(--_m);
+    -webkit-mask-composite: destination-in;
+    mask-composite: intersect;
+    animation: load 1s infinite steps(var(--n));
+}
+@keyframes load {to{transform: rotate(1turn)}}
+
+

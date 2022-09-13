@@ -1,0 +1,54 @@
+.word {
+  width:200px;
+  background-color: darkcyan;
+  color:aliceblue;
+  transition:200ms;
+  cursor: pointer;
+  text-align: center;
+}
+.word:hover {
+  transition:200ms;
+  transform:translate(0px, -10px);
+}
+
+.word:active {
+  transition:200ms;
+  transform:scale(1.1, 1.1);
+}
+.wordsContainer{
+  display: flex;
+  gap: 5px;
+}
+.soundButton {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  transition:200ms;
+}
+.soundButton:hover {
+  transition:200ms;
+  transform:scale(1.1, 1.1);
+}
+.soundButton:active {
+  transition:50ms;
+  transform:scale(1.2, 1.2);
+
+}
+.game{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:25px;
+}
+.score{
+  font-size: 32px;
+  font-family: 'Kanit', sans-serif;
+}
+.Surrender{
+  width:200px;
+  background-color:brown;
+  color:aliceblue;
+  transition:200ms;
+  cursor: pointer;
+  text-align: center;
+}

@@ -1,0 +1,151 @@
+body{
+  margin: 0 auto;
+  max-width: 1440px;
+  background-color: #9acd32;
+}
+
+h1 {
+  font-family: 'Kanit', sans-serif;
+  font-size: 70px;
+}
+
+main{
+  padding: 20px;
+}
+
+p{
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+main > p,
+.authorization > p,
+.sections-buttons-and-title > p,
+.review-video > p,
+.team > p,
+.authorization p{
+  text-align: center;
+  font-size: 40px;
+}
+
+.authorization p{
+  margin: 20px 0;
+}
+
+.authorization{
+  padding: 20px;
+  display: flex;
+  margin: 0 auto;
+  width: 355px;
+  flex-direction: column;
+  border: 2px dashed;
+}
+
+.authorization input{
+  font-size: 30px;
+  font-family: 'Josefin Sans', sans-serif;
+  color: yellowgreen;
+  margin-bottom: 40px;
+}
+
+input::placeholder{
+  font-family: 'Josefin Sans', sans-serif;
+  color: gray;
+}
+
+.sections-buttons{
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 708px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.section-button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 2px dashed;
+  width: 300px;
+}
+
+.section-button img{
+  width: 100px;
+}
+
+.description-section,
+.description-member{
+  font-size: 20px;
+}
+
+.section-button h2{
+  font-family: 'Kanit', sans-serif;
+}
+
+.review-video > iframe {
+  display: block;
+  margin: 0 auto;
+}
+
+.team{
+  width: 900px;
+  margin: 0 auto;
+}
+
+.members{
+  display: flex;
+  justify-content: space-between;
+}
+
+.member{
+  background-color: #ffff00;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+  width: 280px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.name-member,
+.role,
+.gitlink,
+.description-member{
+  margin: 20px
+}
+
+.role{
+  color: #001aff;
+}
+
+.image-member-wrapper{
+  margin: 0 auto;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.member img{
+  width: 200px;
+}
+
+.name-member{
+  font-family: 'Kanit', sans-serif;
+  font-size: 25px;
+}
+
+.gitlink a > img{
+  transition: 0.3s;
+}
+
+.gitlink a:hover > img{
+  filter: invert(82%) sepia(20%) saturate(1500%) hue-rotate(28deg) brightness(94%) contrast(83%);
+}
+
+.gitlink img{
+  width: 70px;
+}
+
+.member li{
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 20px;
+}

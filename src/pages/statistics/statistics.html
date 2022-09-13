@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@0;1&family=Kanit&display=swap" rel="stylesheet">
+  <title>RS-Lang: Statistics</title>
+  <link rel="icon" type="image/x-icon" href="../pictures/favicon.png">
+</head>
+<body>
+  <main>
+    <h2 class="today">To Day</h2>
+
+    <div class="stats-container">
+      <div class="card">
+        <h2>Words were learned</h2>
+        <span class="count countLearned" id="wordLearnedToDay">0</span>
+      </div>
+      <div class="card">
+        <h2>New Words</h2>
+        <span class="count countLearned" id="newWordToDay">0</span>
+      </div>
+      <div class="card">
+        <h2>Accuracy</h2>
+        <span class="count countLearned" id="accuracy">0%</span>
+      </div>
+    </div>
+
+    <div class="stats-container">
+      <div class="card">
+        <h2>Sprint</h2>
+        <div class="game-stats">
+          <div>
+            <span class="game-stats__item" id="newWordToDaySprint">0</span>
+            <span class="game-stats__item"> new words</span>
+          </div>
+          <div>
+            <span class="game-stats__item" id="accuracySprint">0</span>
+            <span class="game-stats__item"> accuracy</span>
+          </div>
+          <div>
+            <span class="game-stats__item" id="inRowSprint">0</span>
+            <span class="game-stats__item"> in a row</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Audio challenge</h2>
+        <div class="game-stats">
+          <div>
+            <span class="game-stats__item" id="newWordToDayAudio">0</span>
+            <span class="game-stats__item"> new words</span>
+          </div>
+          <div>
+            <span class="game-stats__item" id="accuracyAudio">0</span>
+            <span class="game-stats__item"> accuracy</span>
+          </div>
+          <div>
+            <span class="game-stats__item" id="inRowAudio">0</span>
+            <span class="game-stats__item"> in a row</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <h2 class="today">All Time</h2>
+    <div class="graphics">
+      <canvas id="learned-words"></canvas>
+      <canvas id="new-words"></canvas>
+    </div>
+  </main>
+
+</body>
+
+</html>

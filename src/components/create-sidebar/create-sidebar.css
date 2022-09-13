@@ -1,0 +1,134 @@
+aside{
+  position: fixed;
+  right: -300px;
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  background-color:blueviolet;
+  z-index: 1;
+  transition: 0.3s;
+}
+
+aside.active{
+  right: 0;
+}
+
+aside p{
+  margin: 0;
+  color: white;
+  text-align: center;
+  font-family: 'Kanit', sans-serif;
+  font-size: 40px;
+  margin-bottom: 40px;
+}
+
+aside ul{
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+aside li{
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+aside li.active{
+  text-decoration: underline;
+}
+
+aside ::marker{
+  color: white;
+  font-size: 36px;
+}
+
+aside li > a{
+  font-size: 30px;
+  text-decoration: none;
+  transition: 0.3s;
+  color: white;
+}
+
+aside li > a:hover{
+  color: black;
+}
+
+aside li.active > a:hover{
+  color: white;
+}
+
+.translate {
+  display: flex;
+  justify-content: left;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 30px;
+  text-decoration: none;
+  transition: 0.3s;
+  color: white;
+  margin-top: 4rem;
+  padding: 0 1rem;
+}
+
+.translate__name {
+  margin-right: 1rem;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  margin-top: 0.2rem;
+  width: 40px;
+  height: 24px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(10px);
+  -ms-transform: translateX(10px);
+  transform: translateX(15px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
